@@ -1,5 +1,12 @@
-# prepare the laetx & R environment
-source(".Rprofile")
+library(knitr)
 
-# compile the knitr/latex source code to pdf output
-source("R/compile_word.R")
+project_dir <- getwd()
+
+setwd("knitr")
+
+knit2pdf(input="keystats_onepager.Rnw", 
+         compiler = 'xelatex', 
+         quiet=TRUE, 
+         clean = TRUE)
+
+setwd(project_dir)

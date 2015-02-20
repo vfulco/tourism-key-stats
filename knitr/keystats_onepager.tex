@@ -51,71 +51,20 @@
 \usepackage{alltt}
 \usepackage{float}
 
-\title{Title for word}
+% this line specify the directory which host the figures
+\graphicspath{{../figures/}}
 
-%The document begins here
+\title{Title for word}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+
 \begin{document}
 
-\maketitle
+hello
 
-\newpage
-\ClearShipoutPicture
-
-\tableofcontents
-
-\section{Section 1}
-Your text goes here
-
-\section{Section 2}
-Your text goes here
-
-\cite{Hu.1997}
-
-\paragraph{para}
-Text
-
-\section{Another Section}
-
-With text!
-\section{Tables and figures}
-
-\subsection{Table}
-
-\input{../tables/table1}
-
-\subsection{Figure}
-\begin{figure}[H]
-\caption{Number of venues by delegate capacity and region (2014 Q1)}
-\label{fig:001} 
-\centering 
-  \includegraphics[scale=0.68]{../figures/figure1.pdf}
-\end{figure}
-
-\section{Knitr}
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{set.seed}\hlstd{(}\hlnum{1213}\hlstd{)}  \hlcom{# for reproducibility}
-\hlstd{x} \hlkwb{=} \hlkwd{cumsum}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{))}
-\hlkwd{mean}\hlstd{(x)}  \hlcom{# mean of x}
-\end{alltt}
-\begin{verbatim}
-## [1] -1.94
-\end{verbatim}
-\begin{alltt}
-\hlkwd{plot}\hlstd{(x,} \hlkwc{type} \hlstd{=} \hlstr{"l"}\hlstd{)}  \hlcom{# Brownian motion}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/my-label} 
-
-\end{knitrout}
+goodbye
 
 
 
-\bibliographystyle{plain}
-\bibliography{word_bib}
 
-%This marks the end of the document
 \end{document}

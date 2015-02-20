@@ -1,0 +1,20 @@
+% The first thing is to tell LaTeX that this is a document in the MBIE word format
+\documentclass{mbie-word}
+\usepackage{float}
+
+% this line specify the directory which host the figures
+\graphicspath{{../figures/}}
+
+\title{Title for word}
+
+
+\begin{document}
+
+hello
+
+goodbye
+
+
+
+
+\end{document}
