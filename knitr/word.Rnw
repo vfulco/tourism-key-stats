@@ -1,0 +1,62 @@
+% The first thing is to tell LaTeX that this is a document in the MBIE word format
+\documentclass{mbie-word}
+\usepackage{float}
+
+% this line specify the directory which host the figures
+\graphicspath{{../figures/}}
+
+\title{Title for word}
+
+%The document begins here
+\begin{document}
+
+\maketitle
+
+\newpage
+\ClearShipoutPicture
+
+\tableofcontents
+
+\section{Section 1}
+Your text goes here
+
+\section{Section 2}
+Your text goes here
+
+\cite{Hu.1997}
+
+\paragraph{para}
+Text
+
+\section{Another Section}
+
+With text!
+\section{Tables and figures}
+
+\subsection{Table}
+
+\input{../tables/table1}
+
+\subsection{Figure}
+\begin{figure}[H]
+\caption{Number of venues by delegate capacity and region (2014 Q1)}
+\label{fig:001} 
+\centering 
+  \includegraphics[scale=0.68]{figure1.pdf}
+\end{figure}
+
+\section{Knitr}
+
+<<my-label, eval=TRUE, dev='png'>>=
+set.seed(1213)  # for reproducibility
+x = cumsum(rnorm(100))
+mean(x)  # mean of x
+plot(x, type = 'l')  # Brownian motion
+@
+
+
+\bibliographystyle{plain}
+\bibliography{word_bib}
+
+%This marks the end of the document
+\end{document}

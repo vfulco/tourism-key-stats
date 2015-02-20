@@ -1,0 +1,8 @@
+*.png
+*.pdf
+.Rhistory
+.Rdata
+.Rproj.user
+[Tt]humbs.db
+*[Tt]humbs.db
+*.html
