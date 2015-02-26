@@ -1,10 +1,59 @@
 
 % The first thing is to tell LaTeX that this is a document in the MBIE word format
 
-% \documentclass{beamer}
+% \documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 \documentclass{mbie-word}
-% \usepackage{float}
+\usepackage{float}
 
 % 
 %   \usepackage[english]{babel}
@@ -17,17 +66,6 @@
 %   \usetheme{Sharelatex}
 
  \usepackage[orientation=portrait,size=a4,scale=1]
- 
- \usepackage{geometry}
- \geometry{
- a4paper,
-%  total={210mm,297mm},
- left=15mm,
- right=15mm,
- top=40mm,
- bottom=15mm,
- }
- 
 %  \usepackage[orientation=portrait,size=a4,scale=1]{beamer}
 
 %   \title[Beamer Poster]{ShareLaTeX example of the beamerposter class}
@@ -44,109 +82,50 @@
 % 
 % \begin{figure}[ht]
 
-\begin{minipage}{0.45\textwidth}
+% \begin{minipage}{0.45\textwidth}
+% 
+% \begin{flushleft}
 
-\begin{flushleft}
+{\large Key Tourism Statistics}\\
+{\small Febuary 2015}\
 
-% {\large Key Tourism Statistics}\\
-% {\small Febuary 2015}\
+% \textsc{\Small Key Tourism Statistics}\\
+% \textsc{\tiny Febuary 2015}\
+% \end{flushleft}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% \begin{flushright} 
+% \includegraphics[width=1\textwidth]{"MBIE-logo-01.png"}
 
-\textsc{\Small Key Tourism Statistics}\\
-\textsc{\tiny Febuary 2015}\
-\end{flushleft}
-\end{minipage}
-\begin{minipage}{0.45\textwidth}
-\begin{flushright} 
-% \includegraphics[width=1\textwidth]{\Sexpr{"MBIE-logo-01.png"}}
-\includegraphics[width=0.45\textwidth]{"MBIE-logo-01.png"}~\\
-\end{flushright}
-\end{minipage}
+\includegraphics[width=1\textwidth]{"MBIE-logo-01.png"}
+
+
+% \includegraphics[width=0.5clean = TRUE)
+% \textwidth]{"MBIE-logo-01.png"}~\\
+% \end{flushright}
+% \end{minipage}
 % \end{figure}
 
 % ------------------------
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 
 \begin{document}
 % \SweaveOpts{concordance=TRUE}
 
-\begin{minipage}{0.49\textwidth}
-\begin{flushleft}
+% \begin{minipage}{0.49\textwidth}
+% \begin{flushleft}
 
 {\colorbox{blue}{\textcolor{white}{\scriptsize Annual International Arrivals}}}\par
 {\tiny Key International Markets Summary}
 %        \setlength{\parskip}{1em}
 %---------------------------Data Query Result 
-<<echo=FALSE, message = FALSE, results = 'hide'>>=
-              .libPaths(c("P:/R/libraries/current", "Z:/R/libraries/current", .libPaths()))
-               library(utils)
-               library(Defaults)
-               library(mbie)
-               library(mbiedata)
-#                setDefaults(q, save="no")
-#                useDefaults(q)
-#                Sys.setenv(PDFLATEX="pdfLaTex")
-#                setInternet2(TRUE) 
-#                Sys.setenv(R_GSCMD = '"C:/Program Files (x86)/gs/gs8.54/bin/gswin32c.exe"')
-#                Sys.setenv(SDMX_CONF = "P:/R/configuration.properties")
-              
-              library(lubridate)
-              library(Defaults)
-              library(utils)
-              library(xtable)
-              library(data.table)
-              library(RODBC)
-              library(reshape)
-              library(mbie)
-              library(mbiedata)
-              library(mbieDBmisc)
-              
-               # ================================== Reporting Period Parameters ==================================
-              
-              Report_start_date <- as.Date("2013-12-01")
-              Report_end_date <- as.Date("2014-11-30")
-              
-              TRED_Conn <- odbcConnect("TRED_Prod")
-              @
 
- <<IVA_Summary, echo=FALSE, results = 'hide'>>= 
-# ================================== International Visitor Arrival Analysis ==================================
-# --------- Key International Markets ---------
-              
-iv_pc <- ImportTS(TRED_Conn, "Visitor arrivals by EVERY country of residence and purpose (Monthly)")
-iv_pc_tot_1 <- subset(iv_pc, !(ClassificationValue %in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "TOTAL ALL COUNTRIES OF RESIDENCE")) & 
-                        ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & 
-                        TimePeriod > Report_start_date & TimePeriod < Report_end_date + days(1))
-              
-iv_pc_tot_sum_1 <- aggregate(Value ~ ClassificationValue, data=iv_pc_tot_1, FUN= "sum")
-iv_tot_1 <- sum(iv_pc_tot_sum_1$Value)
-iv_pc_tot_sum_1 <- data.table(iv_pc_tot_sum_1[order(iv_pc_tot_sum_1$Value, decreasing = TRUE),])[1:6]
 
-iv_pc_tot_0 <- subset(iv_pc, !(ClassificationValue %in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "TOTAL ALL COUNTRIES OF RESIDENCE", "NOT STATED")) & 
-                                      ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & TimePeriod > Report_start_date - years(1) &
-                                      TimePeriod < Report_end_date - years(1) + days(1))
-              
-iv_pc_tot_sum_0 <- aggregate(Value ~ ClassificationValue, data=iv_pc_tot_0, FUN= "sum")
-iv_pc_tot_sum <- merge(iv_pc_tot_sum_1, iv_pc_tot_sum_0, by = "ClassificationValue")
-iv_pc_tot_sum <- iv_pc_tot_sum[order(iv_pc_tot_sum$Value.x, decreasing = TRUE), ]
 
-iv_pc_tot_sum[ClassificationValue=="China, People's Republic of", ClassificationValue := "China"]
-iv_pc_tot_sum[ClassificationValue=="United States of America", ClassificationValue := "USA"]
-iv_pc_tot_sum[ClassificationValue=="United Kingdom", ClassificationValue := "UK"]
-              
-iv_pc_tot_sum <- iv_pc_tot_sum[, list ("Key International Markets" = iv_pc_tot_sum$ClassificationValue, 
-                                       "Market Share" = percent(round(iv_pc_tot_sum$Value.x/iv_tot_1, digits =2)), 
-                                       "No_of_Visit" =format(round(iv_pc_tot_sum$Value.x/1000, 0)*1000, big.mark = ","), 
-                                       "Growth(pa)" = percent(round((iv_pc_tot_sum$Value.x-iv_pc_tot_sum$Value.y)/iv_pc_tot_sum$Value.y, digits=2)))]
 
-# IVA_Sum_tbl <- xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, latex.environments = "")
-# # align(IVA_Sum_tbl) <- "|l{0.5cm}|l{3cm}|r{1cm}||r{1.5cm}|r{1.5cm}|"
-# # align(IVA_Sum_tbl) <- "llrrr"
-# tbl1 <- print(IVA_Sum_tbl, size = "tiny", scalebox='0.3', include.rownames=FALSE)
-tbl1 <- xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, latex.environments = "")
-@ 
+
 % latex.environments = "left"              
-\begin{table}
-tbl1
-\end{table}
+
 
 % <<IVA_Sum_tbl, echo=FALSE, fig.width=3, fig.height=0.6, out.width='3\\linewidth', results='asis'>>=
 %
@@ -156,31 +135,34 @@ tbl1
 % print(IVA_Sum_tbl,  include.rownames=FALSE, scalebox='0.3')
 % @
 
-% # <<IVA_Sum_tbl, echo=FALSE, fig.width=3, fig.height=0.6, out.width='3\\linewidth', results='asis'>>=
-% # IVA_Sum_tbl <- xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, latex.environments = "")
-% # # align(IVA_Sum_tbl) <- "|l{0.5cm}|l{3cm}|r{1cm}||r{1.5cm}|r{1.5cm}|"
-% # # align(IVA_Sum_tbl) <- "llrrr"
-% # print(IVA_Sum_tbl,  include.rownames=FALSE, scalebox='0.3')
-% % @
-\end{flushleft}
-\end{minipage}
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Mon Feb 23 10:38:42 2015
+\begin{table}[ht]
+\centering
+\begin{tabular}{llll}
+  \hline
+Key International Markets & Market Share & No\_of\_Visit & Growth(pa) \\ 
+  \hline
+Australia & 43\% & 1,246,000 & 3\% \\ 
+  China & 9\% &   258,000 & 11\% \\ 
+  USA & 8\% &   219,000 & 11\% \\ 
+  UK & 7\% &   194,000 & 2\% \\ 
+  Japan & 3\% &    80,000 & 7\% \\ 
+  Germany & 3\% &    77,000 & 13\% \\ 
+   \hline
+\end{tabular}
+\end{table}
 
-\begin{minipage}{0.49\textwidth}
-\begin{flushright} 
+
+% \end{flushleft}
+% \end{minipage}
+% 
+% \begin{minipage}{0.49\textwidth}
+% \begin{flushright} 
 {\colorbox{blue}{\textcolor{white}{\scriptsize International Visitor Expenditure}}}\par
 
-<<IVS_exp, echo=FALSE, results = 'hide'>>= 
-# ================================== International Visitor Expenditure ==================================
 
-# --------- calculate the total expenditure ---------
 
-qry_exp_tot <- "SELECT '$'+convert(varchar(50),round((sum(TotalSpendInNZ*SpendSmoothingFactor*PopulationWeight)/1000000000), 2)) as total_sp,
-'$'+convert(varchar(50),round((sum(TotalSpendInNZ*SpendSmoothingFactor*PopulationWeight)/sum(PopulationWeight)), 0)) as avg_sp 
-FROM production.vw_IVSSurveyMainHeader WHERE Qtr in ( '2013 4','2014 1','2014 2','2014 3')"
-
-IVS_exp <- sqlQuery(TRED_Conn, qry_exp_tot)
-
-@
 % <<IVS_exp_result, echo=FALSE, fig.width=3, fig.height=0.6, out.width='3\\linewidth', results='asis'>>=          
 % print(xtable(IVS_exp, caption=NULL, digits = 0, label=NULL), include.rownames=FALSE, scalebox='0.5')
 % @
@@ -188,13 +170,22 @@ IVS_exp <- sqlQuery(TRED_Conn, qry_exp_tot)
 
 
 @
-<<IVS_exp_result, echo=FALSE, fig.width=3, fig.height=0.6, out.width='3\\linewidth', results='asis'>>= 
-IVS_exp_tbl <- xtable(IVS_exp, hline.after=c(1), caption= NULL, digits = 0,label=NULL, latex.environments = "")
-# align(IVS_exp_tbl) <- "|l{0.5cm}|l{3cm}|r{1.5cm}|"
-print(IVS_exp_tbl,  include.rownames=FALSE, scalebox='0.3')
-@
-\end{flushright}
-\end{minipage}
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Mon Feb 23 10:38:42 2015
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+  \hline
+total\_sp & avg\_sp \\ 
+  \hline
+\$7.24 & \$2878 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+% \end{flushright}
+% \end{minipage}
 
 
 %%%%%%%%%%%%%%%% == try here above
@@ -376,7 +367,7 @@ print(IVS_exp_tbl,  include.rownames=FALSE, scalebox='0.3')
 % @
 % 
 % % {\tiny Tourism Exports\\}
-% % {\Tiny International tourist expenditure accounted for $\Sexpr{EC_GDP_sum_rpt$'Direct tourism value added'}$ billion \\
+% % {\Tiny International tourist expenditure accounted for $EC_GDP_sum_rpt$'Direct tourism value added'$ billion \\
 % % or ??? of New Zealand's total export earnings.}
 % % %\scriptsize
 % % 

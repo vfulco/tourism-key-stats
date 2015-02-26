@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{caption}
+\title{Side-by-side xtables}
+\author{}
+\date{}
+
+library(knitr)
+
+
+\begin{document}
+\maketitle
+First some R code to create some data.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{myData} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{19}\hlstd{,} \hlnum{89}\hlstd{,} \hlnum{23}\hlstd{,} \hlnum{23}\hlstd{,} \hlnum{74}\hlstd{,} \hlnum{44}\hlstd{,} \hlnum{16}\hlstd{,} \hlnum{39}\hlstd{,} \hlnum{67}\hlstd{),} \hlkwc{ncol} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{byrow} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{colnames}\hlstd{(myData)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"B"}\hlstd{,} \hlstr{"C"}\hlstd{)}
+\hlkwd{rownames}\hlstd{(myData)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"1"}\hlstd{,} \hlstr{"2"}\hlstd{,} \hlstr{"3"}\hlstd{)}
+\hlstd{myData2} \hlkwb{<-} \hlstd{myData} \hlopt{*} \hlnum{2}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+Now we place the data in two side-by-side tables:
+
+\begin{table}[htb]
+\begin{minipage}{.45\textwidth}
+\centering
+
+
+
+
