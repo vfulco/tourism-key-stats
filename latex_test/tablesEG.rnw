@@ -1,0 +1,117 @@
+\documentclass{mbie-article}
+\usepackage{float}
+
+<<echo=FALSE, results='hide'>>=
+.libPaths("P:/R/libraries/current")
+library(xtable)   
+library(ggplot2)   
+@
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+%  total={210mm,297mm},
+ left=15mm,
+ right=15mm,
+ top=40mm,
+ bottom=15mm,
+ }
+ 
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+% \usepackage{floating}
+
+\begin{document}
+
+<<exportPlot, echo=FALSE, results='hide'>>=
+pdf("test_plot.pdf")
+   print(ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point())
+dev.off()
+@
+
+\section*{A Test of nested tables}
+
+\begin{tabular}[t]{|p{8.5cm} | p{8.5cm} |}
+  \textbf{Heading} & \textbf{Another heading} \\
+%   \midrule
+  \includegraphics[width=5cm]{test_plot.pdf} &
+  \includegraphics[width=5cm]{test_plot.pdf} \\
+  
+%   \midrule
+ & \\
+<<results='asis', echo=FALSE>>=
+print(xtable(cars[1:10,]), floating =FALSE)
+@  
+  
+  &
+     \begin{tabular}[t]{ll}
+       \hline
+       Heading2 & Value \\
+  \hline
+       bla & blub \\
+       bla & blub \\
+       bla & blub \\
+       bla & blub \\
+       bla & blub \\
+       bla & blub \\
+        bla & blub \\
+       bla & blub \\
+       bla & blub \\
+     \end{tabular} \\
+%   \midrule
+ & \\
+ 
+  \begin{tabular}[t]{ll}
+    Heading3 & value \\
+    \midrule
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+  \end{tabular} &
+  
+  \begin{tabular}[t]{ll}
+    Heading4 & value \\
+    \midrule
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+  \end{tabular} \\
+
+%    \midrule
+ & \\
+  \begin{tabular}[t]{ll}
+    Heading5 & value \\
+    \midrule
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+  \end{tabular} &
+  
+\multirow{2}{*}{  
+  \begin{tabular}[t]{ll}
+    Heading6 & value \\
+    \midrule
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+  \end{tabular}
+  } \\
+
+  \begin{tabular}[t]{ll}
+    Heading7 & value \\
+    \midrule
+    bla & blub \\
+    bla & blub \\
+    bla & blub \\
+  \end{tabular} & \\
+  
+\end{tabular}
+ 
+
+\end{document}

@@ -1,0 +1,428 @@
+\documentclass{mbie-article}
+\usepackage{multicol}
+% \usepackage{geometry}[a4paper,hmargin=2.54cm,vmargin=2.54cm]
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+%  total={210mm,297mm},
+ left=15mm,
+ right=15mm,
+ top=40mm,
+ bottom=15mm,
+ }
+
+% \usepackage[table]{xcolor}
+
+% \usepackage{multicol}
+
+
+% \usepackage{geometry}
+%  \geometry{
+%  a4paper,
+%  total={210mm,297mm},
+%  left=20mm,
+%  right=20mm,
+%  top=20mm,
+%  bottom=20mm,
+%  }
+
+% \rowcolor{lightgray} \multicolumn{3}{|c|}{Country List} \\
+
+
+
+
+
+\begin{document}
+
+% {\HUGE\bf Key Tourism Statistics}
+
+%       %        \setlength{\parskip}{1em}
+%       %---------------------------Data Query Result 
+      <<echo=FALSE, message = FALSE, results = 'hide'>>=
+                    .libPaths(c("P:/R/libraries/current", "Z:/R/libraries/current", .libPaths()))
+#                      library(utils)
+#                      library(Defaults)
+#                      library(mbie)
+#                      library(mbiedata)
+#                      setDefaults(q, save="no")
+#                      useDefaults(q)
+#                      Sys.setenv(PDFLATEX="pdfLaTex")
+#                      setInternet2(TRUE) 
+#                      Sys.setenv(R_GSCMD = '"C:/Program Files (x86)/gs/gs8.54/bin/gswin32c.exe"')
+#                      Sys.setenv(SDMX_CONF = "P:/R/configuration.properties")
+                    
+                    library(lubridate)
+                    library(Defaults)
+                    library(utils)
+                    library(xtable)
+                    library(data.table)
+                    library(RODBC)
+                    library(reshape)
+                    library(mbie)
+                    library(mbiedata)
+                    library(mbieDBmisc)
+
+                     # ================================== Reporting Period Parameters ==================================
+                    
+                    Report_start_date <- as.Date("2013-12-01")
+                    Report_end_date <- as.Date("2014-11-30")
+                    
+                    TRED_Conn <- odbcConnect("TRED_Prod")
+                    @
+      
+       <<IVA_Summary, echo=FALSE, results = 'hide'>>= 
+      # ================================== International Visitor Arrival Analysis ==================================
+      # --------- Key International Markets ---------
+                    
+      iv_pc <- ImportTS(TRED_Conn, "Visitor arrivals by EVERY country of residence and purpose (Monthly)")
+      iv_pc_tot_1 <- subset(iv_pc, !(ClassificationValue %in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "TOTAL ALL COUNTRIES OF RESIDENCE")) & 
+                              ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & 
+                              TimePeriod > Report_start_date & TimePeriod < Report_end_date + days(1))
+                    
+      iv_pc_tot_sum_1 <- aggregate(Value ~ ClassificationValue, data=iv_pc_tot_1, FUN= "sum")
+      iv_tot_1 <- sum(iv_pc_tot_sum_1$Value)
+      iv_pc_tot_sum_1 <- data.table(iv_pc_tot_sum_1[order(iv_pc_tot_sum_1$Value, decreasing = TRUE),])[1:6]
+      
+      iv_pc_tot_0 <- subset(iv_pc, !(ClassificationValue %in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "TOTAL ALL COUNTRIES OF RESIDENCE", "NOT STATED")) & 
+                                            ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & TimePeriod > Report_start_date - years(1) &
+                                            TimePeriod < Report_end_date - years(1) + days(1))
+                    
+      iv_pc_tot_sum_0 <- aggregate(Value ~ ClassificationValue, data=iv_pc_tot_0, FUN= "sum")
+      iv_pc_tot_sum <- merge(iv_pc_tot_sum_1, iv_pc_tot_sum_0, by = "ClassificationValue")
+      iv_pc_tot_sum <- iv_pc_tot_sum[order(iv_pc_tot_sum$Value.x, decreasing = TRUE), ]
+      
+      iv_pc_tot_sum[ClassificationValue=="China, People's Republic of", ClassificationValue := "China"]
+      iv_pc_tot_sum[ClassificationValue=="United States of America", ClassificationValue := "USA"]
+      iv_pc_tot_sum[ClassificationValue=="United Kingdom", ClassificationValue := "UK"]
+                    
+      iv_pc_tot_sum <- iv_pc_tot_sum[, list ("Key International Markets" = iv_pc_tot_sum$ClassificationValue, 
+                                             "Market Share" = percent(round(iv_pc_tot_sum$Value.x/iv_tot_1, digits =2)), 
+                                             "No_of_Visit" =format(round(iv_pc_tot_sum$Value.x/1000, 0)*1000, big.mark = ","), 
+                                             "Growth(pa)" = percent(round((iv_pc_tot_sum$Value.x-iv_pc_tot_sum$Value.y)/iv_pc_tot_sum$Value.y, digits=2)))]
+
+#       IVA_Sum_tbl_1 <- xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, floating=FALSE, latex.environments = "")
+# 
+#       IVA_Sum_tbl_1 <- print(IVA_Sum_tbl_1, include.rownames=FALSE)
+
+   
+    @ 
+
+% The following is the first block
+
+% \begin{multicols}{2}
+% 
+% 
+%       \begin{tabular}{l{7cm} & r{1.8cm}}
+%       International Visitor Arrivals  & Year ended Nov 2014 \\ \\ 
+%       \end{tabular}
+% 
+%       {\small Key International Markets Summary}
+     
+      
+%       %fig.width=3, fig.height=0.6, out.width='3\\linewidth',  
+      <<IVA_Sum_tbl, echo=FALSE,  results= "tex">>=
+#       IVA_Sum_tbl <- xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, floating=FALSE, latex.environments = "")
+#       align(IVA_Sum_tbl) <- "|l{0.5cm}|l{3.5cm}|r{1.5cm}||r{1.5cm}|r{1.5cm}|"
+#       align(IVA_Sum_tbl) <- "llrrr"
+      print(xtable(iv_pc_tot_sum, hline.after=c(1), caption= NULL, digits = 0,label=NULL, floating=FALSE, latex.environments = ""),  size = "tiny", include.rownames=FALSE,  scalebox='0.3')
+      @
+
+
+%        \begin{tabular}{l{7cm} & r{2cm}}
+%        International Visitor Arrivals  & Growth(pa) \\ \\ 
+%        \end{tabular}
+%  
+% %        {\small Key International Markets Summary}
+% 
+% 
+% % \begin{tabular}{l{2.5cm}l{1.5cm}l{1.5cm}l{1.5cm}}
+% \begin{tabular}{l{1.5cm}l{1cm}l{1cm}l{1cm}}
+%   \hline
+% % \textsc{\tiny Key International Markets} & Market Share & No of Visit & Growth(pa) \\ 
+%  Key International Markets & "" & No of Visit & Growth(pa) \\ 
+%   \hline
+% Australia & 43\% & 1,246,000 & 3\% \\ 
+%   China & 9\% &   258,000 & 11\% \\ 
+%   USA & 8\% &   219,000 & 11\% \\ 
+%   UK & 7\% &   194,000 & 2\% \\ 
+%   Japan & 3\% &    80,000 & 7\% \\ 
+%   Germany & 3\% &    77,000 & 13\% \\ 
+%    \hline
+% \end{tabular}
+
+
+%  \tiny
+%  \scalebox{0.3}{
+%  \begin{tabular}{llll}
+%    \hline
+%  Key International Markets & Market Share & No\_of\_Visit & Growth(pa) \\ 
+%    \hline
+%  Australia & 43\% & 1,246,000 & 3\% \\ 
+%    China & 9\% &   258,000 & 11\% \\ 
+%    USA & 8\% &   219,000 & 11\% \\ 
+%    UK & 7\% &   194,000 & 2\% \\ 
+%    Japan & 3\% &    80,000 & 7\% \\ 
+%    Germany & 3\% &    77,000 & 13\% \\ 
+%     \hline
+%  \end{tabular}
+%  }
+ 
+ 
+% %  \scalebox{0.3}{
+%  \begin{tabular}{llll}
+%    \hline
+%  \tiny Key International Markets & Market Share & No Visit & Growth(pa) \\ 
+%    \hline
+% \tiny  Australia & 43\% & 1,246,000 & 3\% \\ 
+% \tiny   China & 9\% &   258,000 & 11\% \\ 
+% \tiny   USA & 8\% &   219,000 & 11\% \\ 
+% \tiny   UK & 7\% &   194,000 & 2\% \\ 
+% \tiny   Japan & 3\% &    80,000 & 7\% \\ 
+% \tiny   Germany & 3\% &    77,000 & 13\% \\ 
+%     \hline
+%  \end{tabular}
+% %  }
+
+
+
+% 
+% 
+% 
+% \begin{multicols}{2}
+% 
+% 
+% \begin{tabular}{ |l|l|l| }
+%       \hline
+%       \multicolumn{3}{ |c| }{Team sheet} \\
+%       \hline
+%       Goalkeeper & GK & Paul Robinson \\ \hline
+%       \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%        & DC & Michael Duburry \\
+%        & DC & Dominic Matteo \\
+%        & RB & Didier Domi \\ \hline
+%       \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%        & MC & Eirik Bakke \\
+%        & MC & Jody Morris \\ \hline
+%       Forward & FW & Jamie McMaster \\ \hline
+%       \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+%        & ST & Mark Viduka \\
+%       \hline
+%       \end{tabular}
+%       
+% % \begin{tabular}{ |l|l|l| }
+% %       \hline
+% %       \multicolumn{3}{ |c| }{Team sheet} \\
+% %       \hline
+% %       Goalkeeper & GK & Paul Robinson \\ \hline
+% %       \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+% %        & DC & Michael Duburry \\
+% %        & DC & Dominic Matteo \\
+% %        & RB & Didier Domi \\ \hline
+% %       \multirow{3}{*}{Midfielders} & MC & David Batty \\
+% %        & MC & Eirik Bakke \\
+% %        & MC & Jody Morris \\ \hline
+% %       Forward & FW & Jamie McMaster \\ \hline
+% %       \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+% %        & ST & Mark Viduka \\
+% %       \hline
+% %       \end{tabular}
+% 
+% \columnbreak
+% 
+%       \begin{tabular}{ |l|l|l| }
+%       \hline
+%       \multicolumn{3}{ |c| }{Team sheet} \\
+%       \hline
+%       Goalkeeper & GK & Paul Robinson \\ \hline
+%       \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%        & DC & Michael Duburry \\
+%        & DC & Dominic Matteo \\
+%        & RB & Didier Domi \\ \hline
+%       \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%        & MC & Eirik Bakke \\
+%        & MC & Jody Morris \\ \hline
+%       Forward & FW & Jamie McMaster \\ \hline
+%       \hline
+%       \end{tabular}
+% 
+% \end{multicols}
+% 
+% 
+% \begin{multicols}{2}
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+%  & ST & Mark Viduka \\
+% \hline
+% \end{tabular}
+% 
+% \columnbreak
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \hline
+% \end{tabular}
+% 
+% \end{multicols}
+% 
+% 
+% \begin{multicols}{2}
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \end{tabular}
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \end{tabular}
+% 
+% \columnbreak
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+%  & ST & Mark Viduka \\
+% \hline
+% \end{tabular}
+% 
+% 
+% \end{multicols}
+
+\end{document}
+
+% 
+% \begin{multicols}{2}
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+%  & ST & Mark Viduka \\
+% \hline
+% \end{tabular}
+% 
+% \columnbreak
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \hline
+% \end{tabular}
+% 
+% \end{multicols}
+% 
+% 
+% \begin{multicols}{2}
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \end{tabular}
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \end{tabular}
+% 
+% \columnbreak
+% 
+% \begin{tabular}{ |l|l|l| }
+% \hline
+% \multicolumn{3}{ |c| }{Team sheet} \\
+% \hline
+% Goalkeeper & GK & Paul Robinson \\ \hline
+% \multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+%  & DC & Michael Duburry \\
+%  & DC & Dominic Matteo \\
+%  & RB & Didier Domi \\ \hline
+% \multirow{3}{*}{Midfielders} & MC & David Batty \\
+%  & MC & Eirik Bakke \\
+%  & MC & Jody Morris \\ \hline
+% Forward & FW & Jamie McMaster \\ \hline
+% \multirow{2}{*}{Strikers} & ST & Alan Smith \\
+%  & ST & Mark Viduka \\
+% \hline
+% \end{tabular}
+% 
+% 
+% \end{multicols}
+% 
+% \end{document}
+
