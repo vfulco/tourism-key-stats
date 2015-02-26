@@ -1,0 +1,100 @@
+\documentclass{mbie-article}
+\usepackage{float}
+
+<<echo=FALSE, results='hide'>>=
+opts_knit$set(root.dir = "..")
+.libPaths("P:/R/libraries/current")
+library(xtable)   
+library(ggplot2)   
+@
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+%  total={210mm,297mm},
+ left=14mm,
+ right=15mm,
+ top=40mm,
+ bottom=15mm,
+ }
+ 
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{color}
+% \usepackage{floating}
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+
+\section*{A Test of nested tables}
+
+\fontsize{7pt}{8.4pt}
+
+\begin{tabular}[t]{p{8.5cm} p{0.05cm} p{8.5cm} }
+%   \midrule
+&& \\
+\cellcolor{black} {\color{white} International Visitor Arrivals$^1$ (Year ended Dec 2014) }
+& 
+&
+\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
+
+\input{../tables/table1.tex}
+  
+&
+&
+
+\input{../tables/table2.tex}
+
+ \\
+\cellcolor{lightgray} International Visitor Arrivals$^1$ (Year ended Dec 2014) 
+& 
+&
+\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
+%   \midrule
+&& \\
+\input{../tables/table3.tex}
+&
+&
+\input{../tables/table4.tex}
+
+\\
+\cellcolor{lightgray} International Visitor Arrivals$^1$ (Year ended Dec 2014) 
+& 
+&
+\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
+%    \midrule
+
+&& \\
+
+\input{../tables/table5.tex}
+&
+&  
+\multirow{4}{*}{  
+\input{../tables/table6.tex}
+}
+
+\\
+&
+&
+\\
+\cellcolor{lightgray}  
+International Visitor Expenditure$^*2$ (Year ended Dec 2014) 
+&
+&
+\\
+
+\input{../tables/table7.tex}
+&
+& 
+\\
+  
+\end{tabular}
+ 
+
+\end{document}

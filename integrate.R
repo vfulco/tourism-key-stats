@@ -5,15 +5,12 @@ project_dir <- getwd()
 
 #===============Import and reshape data=======
 
-# source("R/whatever.R")
-
-MyCars <- mtcars[1:4 , 1:5]
-
+source("R/KeyStats-TableCreation.r")
 
 #==============compile the latex document=============
 setwd("knitr")
 
-knit2pdf(input="keystats_onepager.Rnw", 
+knit2pdf(input="KeyStats.rnw", 
          compiler = 'xelatex', 
          quiet=TRUE, 
          clean = TRUE)
