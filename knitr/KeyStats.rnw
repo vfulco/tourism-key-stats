@@ -12,10 +12,10 @@ library(ggplot2)
  \geometry{
  a4paper,
 %  total={210mm,297mm},
- left=14mm,
- right=15mm,
- top=40mm,
- bottom=15mm,
+ left=11mm,
+ right=14mm,
+ top=37mm,
+ bottom=14mm,
  }
  
 
@@ -24,6 +24,7 @@ library(ggplot2)
 \usepackage{multirow}
 \usepackage{colortbl}
 \usepackage{color}
+\usepackage[normalem]{ulem}
 % \usepackage{floating}
 
 \pagestyle{empty}
@@ -32,69 +33,184 @@ library(ggplot2)
 \begin{document}
 
 
-\section*{A Test of nested tables}
+\section*{Key Tourism Statistics}
+% \fontsize{6pt}{8.4pt}
+\fontsize{6pt}{8pt}
 
-\fontsize{7pt}{8.4pt}
+\fontsize{8pt}{10pt}
+\selectfont
+\centering
+\begin{tabular}[t]{p{8.7cm} p{0.02cm} p{8.7cm} }
 
-\begin{tabular}[t]{p{8.5cm} p{0.05cm} p{8.5cm} }
+% This is the beginning of 1st  block
 %   \midrule
-&& \\
-\cellcolor{black} {\color{white} International Visitor Arrivals$^1$ (Year ended Dec 2014) }
-& 
+% && \\
+% \cellcolor{black} {\color{white} International Visitor Arrivals$^1$ (Year ended Dec 2014) }
+% \cellcolor{lightgray}{International Visitor Arrivals \footnotemark[1] (Year ended Dec 2014) }
+% \footnote{footnotes working fine}
+\cellcolor{lightgray}{\textbf{\small International Visitor Arrivals$^1$ (Year ended Dec 2014) }}
+% \cellcolor{lightgray}{\smallInternational Visitor Arrivals$^1$ (Year ended Dec 2014) }
+&  
 &
-\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
+% \cellcolor{lightgray} International Visitor Expenditure$^1$ (Year ended Dec 2014)\\
+\cellcolor{lightgray}{\textbf{\small International Visitor Expenditure$^*^2$ (Year ended Dec 2014) }}\\ 
 
-\input{../tables/table1.tex}
-  
+\input{../tables/IVA_tab1.tex}
+\
+
+\input{../outputs/note_1.txt}
+\
+
+% \textbf{\small Purpose of Visit\footnote{footnotes working fine}}
+\textbf{Purpose of Visit}
+\
+
+% \textbf{\small Purpose of Visit}
+\input{../tables/IVA_tab2.tex}
+\
+
+\input{../tables/IVA_los.tex}
+\
+
 &
 &
 
-\input{../tables/table2.tex}
+\input{../tables/IVE_tab1.tex}
+\
 
- \\
-\cellcolor{lightgray} International Visitor Arrivals$^1$ (Year ended Dec 2014) 
-& 
-&
-\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
-%   \midrule
-&& \\
-\input{../tables/table3.tex}
-&
-&
-\input{../tables/table4.tex}
+\input{../tables/IVE_tab3.tex}
+\
+
 
 \\
-\cellcolor{lightgray} International Visitor Arrivals$^1$ (Year ended Dec 2014) 
+
+% This is the beginning of 2st  block
+\cellcolor{lightgray}{\textbf{\small Commercial Accommodation$^4$ (Year ended Dec 2014) }}
 & 
 &
-\cellcolor{lightgray} Domestic Tourism$^5$ (Year ended Dec 2012)\\
+\cellcolor{lightgray}{\textbf{\small Tourism Forecast 2020$^7$ }}  \\
+%   \midrule
+
+\input{../tables/Accom_tab1.tex}
+\
+
+\input{../tables/Accom_tab2.tex}
+\
+
+
+&
+&
+\input{../tables/Fcst_tab1.tex}
+\
+
+\input{../tables/Fcst_tab2.tex}
+\
+
+\\
+
+% This is the beginning of 3nd block
+
+\cellcolor{lightgray}{\textbf{\small Trips aboard by NZers$^3$ (Year ended Dec 2014) }}  
+& 
+&
+\cellcolor{lightgray}{\textbf{\small Regional Tourist Estimate$^5$ (Year ended Dec 2012)}} \\
 %    \midrule
 
-&& \\
+\input{../tables/NZ_out_tab1.tex}
+\
 
-\input{../tables/table5.tex}
+\input{../tables/NZ_out_tab2.tex}
+\
+
 &
 &  
-\multirow{4}{*}{  
-\input{../tables/table6.tex}
-}
+% \multirow{4}{*}{  
+% \input{../tables/table6.tex}
+% }
+% 
+% %--------
+\input{../tables/RTE_tab1.tex}
+\
+
+
+% \begin{tabular}[t]{|p{3.5cm}|p{2.5cm}|p{1.5cm}|}
+%   \hline
+% Data Sources \\ 
+%   \hline
+% $^1$International Travel and Migration - 'Business' excludes conferences. \\ 
+%   Domestic & 13.4 & 3.2\% \\ 
+%   Total & 23.8 & 5.0\% \\ 
+%    \hline
+% \multicolumn{3}{p{6.5cm}}{{\tiny Some notes on table};Some notes on table;Some notes on table;}\\ 
+% \end{tabular}
+
+%--------
 
 \\
-&
-&
-\\
-\cellcolor{lightgray}  
-International Visitor Expenditure$^*2$ (Year ended Dec 2014) 
-&
-&
-\\
 
-\input{../tables/table7.tex}
+% This is the beginning of 4nd block
+
+\cellcolor{lightgray}{\textbf{\small Economic Contribution$^6$ (Year ended Dec 2012) }} 
+&
+&
+\textbf{\uline{\small Data Sources}}\\
+
+\input{../tables/EC_exp_tab1.tex}
+\
+
+\textbf{\uline{Tourism Exports}}
+\
+
+\input{../outputs/EC_comment_1.txt}
+\
+
+% Tourism Contribution to GDP
+\textbf{\uline{Tourism Contribution to GDP}}
+\
+
+\input{../outputs/EC_comment_2.txt}
+\
+ 
+% Tourism Employment
+\textbf{\uline{Tourism Employment}}
+\
+
+\input{../outputs/EC_comment_3.txt}
+\
+
+\
+\
 &
 & 
+
+\fontsize{6pt}{8pt}
+\selectfont
+\input{../outputs/Data_S_1.txt}
+\
+
+\input{../outputs/Data_S_2.txt}
+\
+
+\input{../outputs/Data_S_3.txt}
+\
+
+\input{../outputs/Data_S_4.txt}
+\
+
+\input{../outputs/Data_S_5.txt}
+\
+
+\input{../outputs/Data_S_6.txt}
+\
+
+\input{../outputs/Data_S_7.txt}
+\
+
+\input{../outputs/Data_S_8.txt}
+\
+
 \\
   
 \end{tabular}
- 
 
 \end{document}
