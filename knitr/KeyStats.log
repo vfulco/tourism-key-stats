@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.3.3)  5 MAR 2015 15:01
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.3.3)  13 MAR 2015 13:43
 entering extended mode
 **KeyStats.tex
 
@@ -1042,197 +1042,318 @@ Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 14.
 Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
 t 14.4pt
  -> ^^^^^E/Windows/Fonts/calibrib.ttf
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 8.0
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--83
+
+ []
+
+Requested font "Arial" at 6.0pt
+ -> Ì^^E/Windows/Fonts/arial.ttf
+Requested font "Arial/ICU" at 6.0pt
+ -> º^^E/Windows/Fonts/arial.ttf
+\g_fontspec_family_Arial_int=\count158
+Requested font "Arial/ICU" at 6.0pt
+ -> µ^^G/Windows/Fonts/arial.ttf
+Requested font "Arial/ICU" at 6.0pt
+ -> ¸^^G/Windows/Fonts/arial.ttf
+Requested font "Arial/B/ICU" at 6.0pt
+ -> »^^G/Windows/Fonts/arialbd.ttf
+Requested font "Arial/B/ICU" at 6.0pt
+ -> Á^^G/Windows/Fonts/arialbd.ttf
+Requested font "Arial/ICU" at 6.0pt
+ -> Ä^^G/Windows/Fonts/arial.ttf
+Requested font "Arial/I/ICU" at 6.0pt
+ -> Ç^^G/Windows/Fonts/ariali.ttf
+Requested font "Arial/I/ICU" at 6.0pt
+ -> Í^^G/Windows/Fonts/ariali.ttf
+Requested font "Arial/ICU" at 6.0pt
+ -> Ð^^G/Windows/Fonts/arial.ttf
+Requested font "Arial/BI/ICU" at 6.0pt
+ -> Ó^^G/Windows/Fonts/arialbi.ttf
+Requested font "Arial/BI/ICU" at 6.0pt
+ -> Ù^^G/Windows/Fonts/arialbi.ttf
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Arial(0)' created for font 'Arial' with options [].
+. 
+. This font family consists of the following shapes:
+. 
+. * 'normal' with NFSS spec.:
+. <->"Arial/ICU:script=latn;language=DFLT;"
+. 
+. * 'bold' with NFSS spec.:
+. <->"Arial/B/ICU:script=latn;language=DFLT;"
+. 
+. * 'italic' with NFSS spec.:
+. <->"Arial/I/ICU:script=latn;language=DFLT;"
+. 
+. * 'bold italic' with NFSS spec.:
+. <->"Arial/BI/ICU:script=latn;language=DFLT;"
+.................................................
+Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
 pt
- -> c^^E/Windows/Fonts/calibri.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 8.0
+ -> Ü^^G/Windows/Fonts/calibri.ttf
+Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 7.0
 pt
- -> o^^E/Windows/Fonts/georgia.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
+ -> è^^G/Windows/Fonts/calibri.ttf
+Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 7.0
 pt
- -> ^^81^^E/Windows/Fonts/georgia.ttf
+ -> ô^^G/Windows/Fonts/georgia.ttf
 Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 5.0
 pt
- -> ^^93^^E/Windows/Fonts/georgia.ttf
-Requested font "cmmi8" at 8.0pt
-Requested font "cmmi6" at 6.0pt
-Requested font "cmsy8" at 8.0pt
-Requested font "cmsy6" at 6.0pt
-Requested font "cmex8" at 8.0pt
-Requested font "cmex7" at 6.0pt
+ -> ^^F^^H/Windows/Fonts/georgia.ttf
+Requested font "cmex7" at 7.0pt
 Requested font "cmex7" at 5.0pt
-Requested font "cmr8" at 8.0pt
-Requested font "cmr6" at 6.0pt
 Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
-t 8.0pt
- -> ¥^^E/Windows/Fonts/calibrib.ttf
+t 7.0pt
+ -> ^^X^^H/Windows/Fonts/calibrib.ttf
+
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\IVA_t
+itle.txt"
 Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
 t 9.0pt
- -> ±^^E/Windows/Fonts/calibrib.ttf
+ -> $^^H/Windows/Fonts/calibrib.ttf
 Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 9.0
 pt
- -> É^^E/Windows/Fonts/georgia.ttf
+ -> <^^H/Windows/Fonts/georgia.ttf
+Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
+pt
+ -> N^^H/Windows/Fonts/georgia.ttf
 Requested font "cmmi9" at 9.0pt
+Requested font "cmmi6" at 6.0pt
 Requested font "cmsy9" at 9.0pt
+Requested font "cmsy6" at 6.0pt
 Requested font "cmex9" at 9.0pt
+Requested font "cmex7" at 6.0pt
 Requested font "cmr9" at 9.0pt
+Requested font "cmr6" at 6.0pt
+)
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\IVE_t
+itle.txt"
 ! Double superscript.
-<argument> ...nternational Visitor Expenditure$^*^
-                                                  2$ (Year ended Dec 2014) 
-l.99 ... Expenditure$^*^2$ (Year ended Dec 2014) }
-                                                  }\\
+l.1 \small Internatonal Visitor Expenditure$^*^
+                                               2$ (Yearly ended at Q4 2014 )
 I treat `x^1^2' essentially like `x^1{}^2'.
 
+)
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\iva_to
+t.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--112
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--112
+
+ []
+
 
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\IVA_ta
 b1.tex")
+Overfull \hbox (2.47585pt too wide) in paragraph at lines 3--115
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--115
+
+ []
+
+
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\note_
 1.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\IVA_ta
 b2.tex")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt"
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--1
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--1
+
+ []
+
+)
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\IVA_lo
 s.tex")
+Overfull \hbox (2.9118pt too wide) in paragraph at lines 130--132
+[] []| 
+ []
+
+
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\ive_ex
+p_tab0.tex")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt"
+Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--1
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--1
+
+ []
+
+)
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\IVE_ta
-b1.tex")
-Underfull \hbox (badness 10000) in paragraph at lines 3--123
-[]|[]
+b1.tex"
+Overfull \hbox (5.04846pt too wide) in paragraph at lines 4--4
+[]|\EU1/Calibri(0)/m/n/7 Current_Yr| 
+ []
+
+)
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt"
+Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--1
+[][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--123
+Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
  []
 
-
+)
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\IVE_ta
 b3.tex"
-Overfull \hbox (3.25522pt too wide) in paragraph at lines 5--6
-[]|\EU1/Calibri(0)/m/n/8 Growth(pa)| 
+Overfull \hbox (5.04846pt too wide) in paragraph at lines 4--4
+[]|\EU1/Calibri(0)/m/n/7 Current_Yr| 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 3--126
-[]|[]
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\ive_n
+ote_1.txt")
+Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--152
+[][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--126
-
- []
-
-
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\accom
+_title.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\fcst_
+title.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Accom_
-tab1.tex"
-Overfull \hbox (0.86375pt too wide) in paragraph at lines 9--9
-[]|\EU1/Calibri(0)/m/n/8 10,966,542| 
+tab1.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--166
+[][]
  []
 
 
-Overfull \hbox (0.86375pt too wide) in paragraph at lines 10--10
-[]|\EU1/Calibri(0)/m/n/8 10,018,478| 
+Underfull \hbox (badness 10000) in paragraph at lines 3--166
+
  []
 
 
-Overfull \hbox (0.86375pt too wide) in paragraph at lines 11--11
-[]|\EU1/Calibri(0)/m/n/8 31,398,005| 
- []
-
-)
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Accom_
 tab2.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--169
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--169
+
+ []
+
+
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Fcst_t
 ab1.tex")
+Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--177
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--177
+
+ []
+
+
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Fcst_t
 ab2.tex"
-Overfull \hbox (2.69493pt too wide) in paragraph at lines 5--6
-[]|\EU1/Calibri(0)/m/n/8 Spend($Mil)| 
+Overfull \hbox (0.57993pt too wide) in paragraph at lines 4--5
+[]|\EU1/Calibri(0)/m/n/7 Spend($Mil)| 
+ []
+
+
+Overfull \hbox (2.72083pt too wide) in paragraph at lines 5--5
+[]|\EU1/Calibri(0)/m/n/7 1,603,000| 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 3--151
-[]|[]
+Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--184
+[][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--151
-
- []
-
-
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\NZ_ou
+t_title.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\rte_t
+itle.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\NZ_out
 _tab1.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--201
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--201
+
+ []
+
+
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\NZ_out
 _tab2.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--204
+[][]
+ []
+
+
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\RTE_ta
 b1.tex"
-Overfull \hbox (1.93788pt too wide) in paragraph at lines 5--5
-[]|\EU1/Calibri(0)/m/n/8 Domestic| 
- []
-
-
-Overfull \hbox (1.42989pt too wide) in paragraph at lines 5--5
-[]|\EU1/Calibri(0)/m/n/8 Total| 
- []
-
-
-Overfull \hbox (3.98848pt too wide) in paragraph at lines 7--7
-[]|\EU1/Calibri(0)/m/n/8 4,772| 
- []
-
-
-Overfull \hbox (3.98848pt too wide) in paragraph at lines 8--8
-[]|\EU1/Calibri(0)/m/n/8 1,461| 
- []
-
-
-Overfull \hbox (3.98848pt too wide) in paragraph at lines 9--9
-[]|\EU1/Calibri(0)/m/n/8 1,371| 
- []
-
-
-Overfull \hbox (3.98848pt too wide) in paragraph at lines 10--10
-[]|\EU1/Calibri(0)/m/n/8 1,266| 
- []
-
-
-Overfull \hbox (3.98848pt too wide) in paragraph at lines 11--11
-[]|\EU1/Calibri(0)/m/n/8 1,005| 
+Overfull \hbox (2.62045pt too wide) in paragraph at lines 4--4
+[]|\EU1/Calibri(0)/m/n/7 International| 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 3--177
-[]|[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--177
-
- []
-
-
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\ec_ti
+tle.txt")
+("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
+space.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\EC_exp
-_tab1.tex"
-Overfull \hbox (3.77782pt too wide) in paragraph at lines 5--5
-[]|\EU1/Calibri(0)/m/n/8 Expenditure| 
+_tab1.tex")
+Overfull \hbox (1.85678pt too wide) in paragraph at lines 3--230
+[][]
  []
 
 
-Overfull \hbox (1.8325pt too wide) in paragraph at lines 5--6
-[]|\EU1/Calibri(0)/m/n/8 Growth(pa)| 
+Underfull \hbox (badness 10000) in paragraph at lines 3--230
+
  []
 
-)
+
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\EC_co
 mment_1.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\EC_co
 mment_2.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\EC_co
 mment_3.txt")
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
-pt
- -> Ö
-/Windows/Fonts/calibri.ttf
-
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\Data_
 S_1.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\Data_
@@ -1258,11 +1379,11 @@ Requested font "[lmmono8-regular]" at 6.0pt
  -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmmono
 8-regular.otf
 )
-Overfull \hbox (5.27092pt too wide) in paragraph at lines 86--258
- [] 
+Overfull \hbox (5.27092pt too wide) in paragraph at lines 90--284
+ [][] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 259.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 285.
 File: MBIE_generic_background.pdf Graphic file (type QTm)
 <use  "MBIE_generic_background.pdf" >
 (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\oberdiek\se-ascii-prin
@@ -1272,19 +1393,19 @@ File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
 ) [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 259.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 285.
 
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
 s.aux")
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 259.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 259.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 285.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 285.
  ) 
 Here is how much of TeX's memory you used:
- 22377 strings out of 428974
- 402991 string characters out of 3164391
- 490665 words of memory out of 3000000
- 25418 multiletter control sequences out of 15000+200000
- 7967 words of font info for 57 fonts, out of 3000000 for 9000
+ 22461 strings out of 428974
+ 406098 string characters out of 3164391
+ 491665 words of memory out of 3000000
+ 25438 multiletter control sequences out of 15000+200000
+ 7099 words of font info for 59 fonts, out of 3000000 for 9000
  912 hyphenation exceptions out of 8191
  53i,19n,49p,10461b,338s stack positions out of 5000i,500n,10000p,200000b,50000s
 

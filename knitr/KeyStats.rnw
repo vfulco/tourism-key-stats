@@ -35,9 +35,13 @@ library(ggplot2)
 
 \section*{Key Tourism Statistics}
 % \fontsize{6pt}{8.4pt}
+\today\\
 \fontsize{6pt}{8pt}
 
-\fontsize{8pt}{10pt}
+
+\setmainfont{Arial}
+
+\fontsize{7pt}{9pt}
 \selectfont
 \centering
 \begin{tabular}[t]{p{8.7cm} p{0.02cm} p{8.7cm} }
@@ -48,12 +52,20 @@ library(ggplot2)
 % \cellcolor{black} {\color{white} International Visitor Arrivals$^1$ (Year ended Dec 2014) }
 % \cellcolor{lightgray}{International Visitor Arrivals \footnotemark[1] (Year ended Dec 2014) }
 % \footnote{footnotes working fine}
-\cellcolor{lightgray}{\textbf{\small International Visitor Arrivals$^1$ (Year ended Dec 2014) }}
+% \colorbox{ProcessBlue}{\color{Green}{\input{../outputs/IVA_title.txt} }}
+\cellcolor{lightgray}{\textbf{\input{../outputs/IVA_title.txt} }}
 % \cellcolor{lightgray}{\smallInternational Visitor Arrivals$^1$ (Year ended Dec 2014) }
 &  
 &
 % \cellcolor{lightgray} International Visitor Expenditure$^1$ (Year ended Dec 2014)\\
-\cellcolor{lightgray}{\textbf{\small International Visitor Expenditure$^*^2$ (Year ended Dec 2014) }}\\ 
+% \cellcolor{lightgray}{\textbf{\small International Visitor Expenditure$^*^2$ (Year ended Dec 2014) }}\\ 
+\cellcolor{lightgray}{\textbf{\input{../outputs/IVE_title.txt} }}\\ 
+
+\input{../outputs/line_space.txt}
+\
+
+\input{../tables/iva_tot.tex}
+\
 
 \input{../tables/IVA_tab1.tex}
 \
@@ -61,67 +73,91 @@ library(ggplot2)
 \input{../outputs/note_1.txt}
 \
 
-% \textbf{\small Purpose of Visit\footnote{footnotes working fine}}
-\textbf{Purpose of Visit}
+\input{../outputs/line_space.txt}
 \
+
+% \textbf{Purpose of Visit}
+% \
 
 % \textbf{\small Purpose of Visit}
 \input{../tables/IVA_tab2.tex}
 \
-
+\
+\input{../outputs/line_space.txt}
+\
 \input{../tables/IVA_los.tex}
+&
+&
+\input{../outputs/line_space.txt}
 \
 
-&
-&
+\input{../tables/ive_exp_tab0.tex}
+\
+\input{../outputs/line_space.txt}
+\
 
 \input{../tables/IVE_tab1.tex}
+\
+\input{../outputs/line_space.txt}
 \
 
 \input{../tables/IVE_tab3.tex}
 \
-
-
+\input{../outputs/ive_note_1.txt}
+\
 \\
 
 % This is the beginning of 2st  block
-\cellcolor{lightgray}{\textbf{\small Commercial Accommodation$^4$ (Year ended Dec 2014) }}
+\cellcolor{lightgray}{\textbf{\input{../outputs/accom_title.txt} }}
 & 
 &
-\cellcolor{lightgray}{\textbf{\small Tourism Forecast 2020$^7$ }}  \\
+\cellcolor{lightgray}{\textbf{\input{../outputs/fcst_title.txt} }} \\
 %   \midrule
+\input{../outputs/line_space.txt}
+\
 
 \input{../tables/Accom_tab1.tex}
 \
+% \input{../outputs/line_space.txt}
+% \
 
 \input{../tables/Accom_tab2.tex}
 \
 
+&
+&
+\input{../outputs/line_space.txt}
+\
 
-&
-&
 \input{../tables/Fcst_tab1.tex}
 \
 
+% \input{../outputs/line_space.txt}
+% \
+
 \input{../tables/Fcst_tab2.tex}
 \
-
 \\
 
 % This is the beginning of 3nd block
 
-\cellcolor{lightgray}{\textbf{\small Trips aboard by NZers$^3$ (Year ended Dec 2014) }}  
+% \cellcolor{lightgray}{\textbf{\small Trips aboard by NZers$^3$ (Year ended Dec 2014) }}  
+
+\cellcolor{lightgray}{\textbf{\input{../outputs/NZ_out_title.txt} }}  
 & 
 &
-\cellcolor{lightgray}{\textbf{\small Regional Tourist Estimate$^5$ (Year ended Dec 2012)}} \\
+\cellcolor{lightgray}{\textbf{\input{../outputs/rte_title.txt} }} \\
 %    \midrule
+\input{../outputs/line_space.txt}
+\
 
 \input{../tables/NZ_out_tab1.tex}
 \
+% \input{../outputs/line_space.txt}
+% \
 
 \input{../tables/NZ_out_tab2.tex}
 \
-
 &
 &  
 % \multirow{4}{*}{  
@@ -129,34 +165,26 @@ library(ggplot2)
 % }
 % 
 % %--------
-\input{../tables/RTE_tab1.tex}
+\input{../outputs/line_space.txt}
 \
 
-
-% \begin{tabular}[t]{|p{3.5cm}|p{2.5cm}|p{1.5cm}|}
-%   \hline
-% Data Sources \\ 
-%   \hline
-% $^1$International Travel and Migration - 'Business' excludes conferences. \\ 
-%   Domestic & 13.4 & 3.2\% \\ 
-%   Total & 23.8 & 5.0\% \\ 
-%    \hline
-% \multicolumn{3}{p{6.5cm}}{{\tiny Some notes on table};Some notes on table;Some notes on table;}\\ 
-% \end{tabular}
-
-%--------
-
+\input{../tables/RTE_tab1.tex}
+\
 \\
-
 % This is the beginning of 4nd block
 
-\cellcolor{lightgray}{\textbf{\small Economic Contribution$^6$ (Year ended Dec 2012) }} 
+\cellcolor{lightgray}{\textbf{\input{../outputs/ec_title.txt} }} 
 &
 &
-\textbf{\uline{\small Data Sources}}\\
+% \uline{\small Data Sources}\\
+\cellcolor{lightgray}{\textbf{\small Data Sources}} \\
+% \textbf{\uline{\small Data Sources}}
+\input{../outputs/line_space.txt}
+\
 
 \input{../tables/EC_exp_tab1.tex}
 \
+
 
 \textbf{\uline{Tourism Exports}}
 \
@@ -178,8 +206,6 @@ library(ggplot2)
 \input{../outputs/EC_comment_3.txt}
 \
 
-\
-\
 &
 & 
 
