@@ -8,79 +8,90 @@ library(utils)
 library(xtable)
 library(data.table)
 library(RODBC)
-library(reshape)
 library(stringr)
 library(mbie)
 library(mbiedata)
 library(mbieDBmisc)
 library(survey)
 library(scales)
+library(dplyr)
+library(tidyr)
 
 
 # ====================================create summary tables ============================================================
 
 # ================================== Reporting Period Parameters ==================================
 
-TRED_Conn <- odbcConnect("TRED_Prod")
+TRED <- odbcConnect("TRED_Prod")
 
 
 # ================================== International Visitor Arrival Analysis ==================================
 
 # --------- Title ---------
 
-iv_pc <- ImportTS(TRED_Conn, "Visitor arrival totals (Monthly)")
-save(iv_pc, file = "data/iv_pc.rda")
-load("data/iv_pc.rda")
+# only import subset - much faster
+iv_pc <- ImportTS(TRED, "Visitor arrival totals (Monthly)",
+                  where = "cc1.ClassificationValue = 'Actual Counts' and
+                          TimePeriod > '2012-01-01'")
 
 iv_report_end_date <- max(iv_pc$TimePeriod)
 
 
-IVA_title <- paste("\\small Internatonal Visitor Arrivals$^1$ (Yearly ended at", months(iv_report_end_date), year(iv_report_end_date), ")")
+IVA_title <- paste("\\small Internatonal Visitor Arrivals$^1$ (Yearly ended at", 
+                   months(iv_report_end_date), year(iv_report_end_date), ")")
 sink("outputs/IVA_title.txt")
-cat(IVA_title)
+  cat(IVA_title)
 sink()
 
 # --------- Total International Markets ---------
 
 
 
-iv_pc_tot_1 <- subset(iv_pc, ClassificationValue == "Actual Counts" & 
-                        TimePeriod > iv_report_end_date -years(1) & 
-                        TimePeriod < iv_report_end_date + days(1))
-iv_tot_1 <- sum(iv_pc_tot_1$Value)
-
-iv_pc_tot_0 <- subset(iv_pc, ClassificationValue == "Actual Counts" & 
-                        TimePeriod > iv_report_end_date -years(2) & 
-                        TimePeriod < iv_report_end_date - years(1) + days(1))
-iv_tot_0 <- sum(iv_pc_tot_0$Value)
+iv_tot_1 <- iv_pc %>%
+  filter(TimePeriod > iv_report_end_date - years(1) & 
+         TimePeriod < iv_report_end_date + days(1)) %>%
+  select(Value) %>%
+  sum()
 
 
-iva_growth <- (iv_tot_1-iv_tot_0)/iv_tot_0
+iv_tot_0 <- iv_pc %>% 
+  filter(TimePeriod > iv_report_end_date -years(2) & 
+         TimePeriod < iv_report_end_date - years(1) + days(1)) %>%
+  select(Value) %>%
+  sum()
+ 
 
-iva_total <-data.frame('Annual International Arrivals:', format(iv_tot_1, big.mark = ","), percent(round(iva_growth, digits=2)))
+
+iva_growth <- (iv_tot_1 - iv_tot_0) / iv_tot_0
+
+iva_total <- data.frame('Annual International Arrivals:', 
+                        format(iv_tot_1, big.mark = ","), 
+                        percent(round(iva_growth, digits=2)))
 names(iva_total) <- c(" ", " ", "Growth (pa)")
 
-iva_tot <- print(xtable(iva_total, align = "lp{5cm}p{1.3cm}p{1.2cm}",
-                        caption= NULL, digits = 0,label=NULL, type="latex"), 
-                 floating=FALSE, 
-                 hline.after= NULL,
-#                  hline.after= c(0, nrow(iva_tot)),
-                 include.rownames=FALSE
+iva_tot <- iva_total %>% 
+  xtable(align = "lp{5cm}p{1.3cm}p{1.2cm}",
+         caption= NULL, digits = 0,label=NULL, type="latex") %>%
+  print(floating=FALSE, 
+        hline.after= NULL,
+#       hline.after= c(0, nrow(iva_tot)),
+        include.rownames=FALSE)
                                  
-)
+
 
 iva_tot <- gsub("\\begin{tabular}","\\begin{tabular}[t]",iva_tot, fixed=T)
 iva_tot <- gsub("Annual International Arrivals","\\textbf{Annual International Arrivals}", iva_tot, fixed=T)
 
 sink("tables/iva_tot.tex")
-cat(iva_tot)
+  cat(iva_tot)
 sink()
 
 # --------- Key International Markets ---------
 
-iv_pc_p2 <- ImportTS(TRED_Conn, "Visitor arrivals by EVERY country of residence and purpose (Monthly)")
+iv_pc_p2 <- ImportTS(TRED, "Visitor arrivals by EVERY country of residence and purpose (Monthly)",
+                     where = "TimePeriod > '2013-01-01'")
 
-
+# PE asks - I'm not sure why you need this.  Why not reuse iv_tot_1
 total_sum <- subset(iv_pc_p2, ClassificationValue == "TOTAL ALL COUNTRIES OF RESIDENCE" & 
                       ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" &
                     TimePeriod > iv_report_end_date -years(1) & 
@@ -88,17 +99,40 @@ total_sum <- subset(iv_pc_p2, ClassificationValue == "TOTAL ALL COUNTRIES OF RES
 
 iva_total <- sum(total_sum$Value)
 
-iv_pc_p2_1 <- subset(iv_pc_p2,  ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & 
+iv_pc_p2_1 <- subset(iv_pc_p2,  ClassificationValue.1 == "TOTAL ALL TRAVEL PURPOSES" & 
                        substr(CountryGrouped, 1, 4) != "Rest" & 
                        CountryGrouped != "Other" &
-                       TimePeriod > iv_report_end_date -years(1) & 
+                       TimePeriod > iv_report_end_date - years(1) & 
                        TimePeriod < iv_report_end_date + days(1))
 
-iv_pc_p2_0 <- subset(iv_pc_p2, ClassificationValue.1 =="TOTAL ALL TRAVEL PURPOSES" & 
+
+iv_pc_p2 %>% filter(CountryGrouped == "Other") %>% select(ClassificationValue) %>% unique()
+
+# this next bit of code I didn't like.  Here is how I would do the Vistors:
+
+peter_visitors <- iv_pc_p2 %>%
+  filter(CountryGrouped %in% c("Australia", "China", "USA", "UK", "Japan", "Germany")) %>%
+  mutate(Year = ifelse(TimePeriod > iv_report_end_date - years(1), "This", 
+                       ifelse(TimePeriod > iv_report_end_date - years(2), "Last", "Earlier"))) %>%
+  group_by(CountryGrouped) %>%
+  summarise(
+    Visitors = sum(Value[Year == "This"]),
+    "Market %" = paste0(round(Visitors / iv_tot_1 * 100), "%"),
+    "Growth (pa)" = paste0(round((Visitors / sum(Value[Year == "Last"]) - 1) * 100), "%")
+      ) %>%
+  select(1, 3, 2, 4) %>%
+  rename("Key International Markets" = CountryGrouped) %>%
+  arrange(-Visitors) %>%
+  data.frame()
+
+#-------------did not review below here----------------------
+
+
+iv_pc_p2_0 <- subset(iv_pc_p2, ClassificationValue.1 == "TOTAL ALL TRAVEL PURPOSES" & 
                        substr(CountryGrouped, 1, 4) != "Rest" & 
                        CountryGrouped != "Other" &
-                       TimePeriod > iv_report_end_date -years(2) & 
-                       TimePeriod < iv_report_end_date -years(1) + days(1))
+                       TimePeriod > iv_report_end_date - years(2) & 
+                       TimePeriod < iv_report_end_date - years(1) + days(1))
 
 iv_pc_tot_sum_1 <- aggregate(Value ~ ClassificationValue, data=iv_pc_p2_1, FUN= "sum")
 iv_pc_tot_sum_0 <- aggregate(Value ~ ClassificationValue, data=iv_pc_p2_0, FUN= "sum")
@@ -152,7 +186,7 @@ sink()
 
 #----------------------------- International Visitor Arrival Purpose of Visiting ---------------------------
 
-iv_pov <- ImportTS(TRED_Conn, "Visitor arrivals by country of residence, purpose and length of stay (Monthly)")
+iv_pov <- ImportTS(TRED, "Visitor arrivals by country of residence, purpose and length of stay (Monthly)")
 
 save(iv, file = "data/iv_pov.rda")
 load("data/iv_pov.rda")
@@ -245,7 +279,7 @@ sink()
 
 SQL_query <- "select max(Year) as survey_yr, right(max(Qtr), len(max(qtr))-5) as survey_qtr FROM [TRED].[Production].[vw_IVSSurveyMainHeader]"
 
-survey_date <- sqlQuery(TRED_Conn, SQL_query)
+survey_date <- sqlQuery(TRED, SQL_query)
 
 survey_qtr <- survey_date$survey_qtr
 survey_yr <- survey_date$survey_yr
@@ -274,11 +308,11 @@ if (survey_qtr== '1') {
 
 SQL_query_1 <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure FROM Production.vw_IVSSurveyMainHeader where Qtr in ", qry_period)
 
-ive_main_1 <- sqlQuery(TRED_Conn, SQL_query_1)
+ive_main_1 <- sqlQuery(TRED, SQL_query_1)
 
 SQL_query_0 <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure FROM Production.vw_IVSSurveyMainHeader where Qtr in ", qry_period_prev)
 
-ive_main_0 <- sqlQuery(TRED_Conn, SQL_query_0)
+ive_main_0 <- sqlQuery(TRED, SQL_query_0)
 
 ive_main_1 <- cbind(ive_main_1, "CountryGroup" = CountryGroup(ive_main_1$CORNextYr, shorten=TRUE, type="IVSweights", OneChina_first=FALSE))
 
@@ -370,7 +404,7 @@ WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 
 order by total_sp desc
 ) bb ")
 
-pov_1 <- sqlQuery(TRED_Conn, sql_pov_1)
+pov_1 <- sqlQuery(TRED, sql_pov_1)
 
 sql_pov_0 <- paste("SELECT bb.POV, bb.total_sp as total_sp_prev FROM
 (
@@ -381,7 +415,7 @@ WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 
 order by total_sp desc
 ) bb ")
 
-pov_0 <- sqlQuery(TRED_Conn, sql_pov_0)
+pov_0 <- sqlQuery(TRED, sql_pov_0)
 
 ive_pov_sum <- merge(pov_1, pov_0)
 ive_pov_sum <- data.table(ive_pov_sum)
@@ -416,7 +450,7 @@ sink()
 
 # ================================== Trip aboard by NZers ==================================
 
-NZ_out_sum <- ImportTS(TRED_Conn, "Short-term NZ traveller departure totals (Monthly)")
+NZ_out_sum <- ImportTS(TRED, "Short-term NZ traveller departure totals (Monthly)")
 
 NZ_out_sum_end_date = max(NZ_out_sum$TimePeriod)
 
@@ -457,7 +491,7 @@ sink()
 #-------------------------------------------- Key destination countries ---------------------------------
 
 
-NZ_out <- ImportTS(TRED_Conn, "Short-term NZ traveller departures by EVERY country of main dest and purpose (Monthly)")
+NZ_out <- ImportTS(TRED, "Short-term NZ traveller departures by EVERY country of main dest and purpose (Monthly)")
 
 Report_end_date_NZ_out = max(NZ_out$TimePeriod)
 Report_end_date_NZ_out_1 <- Report_end_date_NZ_out + days(1)
@@ -519,7 +553,7 @@ sink()
 
 Fcst_query <- "SELECT * FROM Production.vw_NZTFSurveyMainHeader"
 
-Fcst <- sqlQuery(TRED_Conn, Fcst_query)
+Fcst <- sqlQuery(TRED, Fcst_query)
 
 Fcst_year <- as.numeric(max(Fcst$ForecastYear))
 End_year <- as.numeric(max(Fcst$Year))
@@ -610,7 +644,7 @@ sink()
 
 
 
-EC_exp <- ImportTS(TRED_Conn, "Summary of Tourism Expenditure by type of tourist (ANZSIC06) (Annual-Mar)")
+EC_exp <- ImportTS(TRED, "Summary of Tourism Expenditure by type of tourist (ANZSIC06) (Annual-Mar)")
 
 EC_exp_sum <- subset(EC_exp, TimePeriod == max(EC_exp$TimePeriod))
 
@@ -698,7 +732,7 @@ sink()
 
 # --------- Tourism GDP Contribution ---------
 
-EC_GDP <- ImportTS(TRED_Conn, "Tourism expenditure by component (ANZSIC06) (Annual-Mar)")
+EC_GDP <- ImportTS(TRED, "Tourism expenditure by component (ANZSIC06) (Annual-Mar)")
 EC_GDP_sum <- subset(EC_GDP, TimePeriod == max(EC_exp$TimePeriod))
 
 EC_GDP_sum_rpt <- subset(EC_GDP_sum, ClassificationValue %in% c('Direct tourism value added', 
@@ -737,7 +771,7 @@ sink()
 
 # --------- Tourism Employment ---------
 
-EC_emp <- ImportTS(TRED_Conn, "Summary of Tourism Employment (ANZSIC06) (Annual-Mar)")
+EC_emp <- ImportTS(TRED, "Summary of Tourism Employment (ANZSIC06) (Annual-Mar)")
 
 EC_emp_sum <- subset(EC_emp, TimePeriod == max(EC_exp$TimePeriod) )
 
@@ -761,7 +795,7 @@ sink()
 
 # ================================== Commercial Accommodation Stats ==================================
 
-ACCOM <- ImportTS(TRED_Conn, "Actual by Accommodation by Type by Variable (Monthly)")
+ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)")
 ACCOM<- data.table(ACCOM)
 
 accom_report_end_date <- max(ACCOM$TimePeriod)
@@ -773,7 +807,7 @@ sink()
 
 # I need add this in as this is for annual summary 13 Mar 2015
 
-ACCOM_annual<- ImportTS(TRED_Conn, "Actual by Accommodation by Type by Variable (Annual-Dec)")
+ACCOM_annual<- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Annual-Dec)")
 
 
 # --------- Guest Nights Summary ---------
@@ -870,7 +904,7 @@ on d.L2Description = mh.TA_MOD
 group by mh.YearEndMarch, sp.Type, d.L1Description
 order by mh.YearEndMarch"
 
-RTE <- sqlQuery(TRED_Conn, RTE_query)
+RTE <- sqlQuery(TRED, RTE_query)
 
 rte_end_date <- max(RTE$YearEndMarch)
 
