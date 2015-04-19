@@ -1,12 +1,12 @@
 \documentclass{mbie-article}
 \usepackage{float}
 
-<<echo=FALSE, results='hide'>>=
-opts_knit$set(root.dir = "..")
-.libPaths("P:/R/libraries/current")
-library(xtable)   
-library(ggplot2)   
-@
+% <<echo=FALSE, results='hide'>>=
+% opts_knit$set(root.dir = "..")
+% .libPaths("P:/R/libraries/current")
+% library(xtable)   
+% library(ggplot2)   
+% @
 
 \usepackage{geometry}
  \geometry{
@@ -238,5 +238,17 @@ library(ggplot2)
 \\
   
 \end{tabular}
+
+\clearpage 
+% \newpage
+% \input{../figures/PageTwoPlot.pdf}
+% \
+% \usepackage{pdfpages}
+
+\includegraphics{../figures/PageTwoPlot.pdf}
+
+% \includepdf{../figures/PageTwoPlot.pdf}
+
+% \newpage
 
 \end{document}
