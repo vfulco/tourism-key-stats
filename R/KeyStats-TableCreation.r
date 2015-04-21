@@ -159,7 +159,8 @@ Key_Market <- Key_Market %>%
   arrange(-Visitors) %>%
   mutate(No_Visits = format(Visitors, big.mark = ",")) %>%
   select(1, 3, 5, 4) %>%
-  rename('Key International Markets' = CountryGrouped)
+  rename('Key International Markets' = CountryGrouped) %>%
+  clean_names()
 
 
 IVA_tab1 <- print(xtable(Key_Market, align = "lp{3.5cm}p{1.1cm}p{1.3cm}p{1.2cm}",

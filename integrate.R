@@ -3,6 +3,8 @@ library(xtable)
 project_dir <- getwd()
 
 
+source("r/functions.R")
+
 #===============Import and reshape data=======
 
 source("R/KeyStats-TableCreation.r")
