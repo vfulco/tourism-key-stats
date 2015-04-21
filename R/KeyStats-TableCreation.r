@@ -750,7 +750,8 @@ ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)",
 
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
-accom_title <- paste("\\small Commercial Accommodation$^4$ (Yearly ended at", months(accom_report_end_date), year(accom_report_end_date), ")")
+accom_title <- paste("\\small Commercial Accommodation$^4$ (Yearly ended at", 
+                     months(accom_report_end_date), year(accom_report_end_date), ")")
 sink("outputs/accom_title.txt")
 cat(accom_title)
 sink()
@@ -801,7 +802,7 @@ ACCOM_p_sum <- ACCOM %>%
   rename('Occupancy Rates' = Accom_Type)
   
 
-Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "p{5cm}l{1.5cm}r{1.5cm}r", 
+Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
                            caption = NULL, digits = 0,label = NULL, type = "latex"), 
                     floating = FALSE, 
                     hline.after = NULL,
@@ -811,8 +812,8 @@ Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "p{5cm}l{1.5cm}r{1.5cm}r",
 
 Accom_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Accom_tab2, fixed = T)
 Accom_tab2 <- gsub("Occupancy Rates","\\textbf{Occupancy Rates}", Accom_tab2, fixed = T)
-# Accom_tab2 <- gsub("}p{","}rp{", Accom_tab2, fixed = T)
-# Accom_tab2 <- gsub("{p{","{lp{", Accom_tab2, fixed = T)
+#  Accom_tab2 <- gsub("}p{","}rp{", Accom_tab2, fixed = T)
+#  Accom_tab2 <- gsub("{p{","{lp{", Accom_tab2, fixed = T)
 sink("tables/Accom_tab2.tex")
 cat(Accom_tab2)
 sink()
