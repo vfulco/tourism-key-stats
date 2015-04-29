@@ -3,9 +3,11 @@ library(xtable)
 project_dir <- getwd()
 
 
-#===============Import and reshape data=======
+#===============Import Stats tables and Plots =======
 
 source("R/KeyStats-TableCreation.r")
+
+source("R/KTS_Plots.r")
 
 #==============compile the latex document=============
 setwd("knitr")

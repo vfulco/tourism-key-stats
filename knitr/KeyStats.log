@@ -1,13 +1,14 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.3.3)  17 APR 2015 10:52
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.3.3)  29 APR 2015 14:31
 entering extended mode
-**KeyStats.tex
+**//WIN1210/Homedrives-WLG3/FaneG/My*Documents/Git_Clone/KeyStats/knitr/KeyStat
+s.tex
 
-("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
+("//WIN1210/Homedrives-WLG3/FaneG/My Documents/Git_Clone/KeyStats/knitr/KeyStat
 s.tex"
 LaTeX2e <2011/06/27>
 Babel <3.9l> and hyphenation patterns for 68 languages loaded.
-(P:/MiKTeX/libraries/mbie-template-release/mbie-article.cls
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\article.cls
+(P:/MiKTeX/libraries/mbie-template-release/mbie-article.cls (P:/MiKTeX/librarie
+s/miktex-portable-current/tex\latex\base\article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -23,19 +24,15 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\etoolbox\etoolbox.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\etoolbox\etoolbox.sty
 Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\misc\etex.sty
 Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
 \et@xins=\count88
 )
 \etb@tempcnta=\count89
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\eso-pic\eso-pic.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\eso-pic\eso-pic.sty
 Package: eso-pic 2013/10/06 v2.0d eso-pic (RN)
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\oberdiek\atbegshi.sty
 Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 
@@ -49,15 +46,12 @@ Package ifpdf Info: pdfTeX in PDF mode is not detected.
 )) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\graphics\keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\xcolor\xcolor.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\xcolor\xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\00miktex\color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: xetex.def on input line 225.
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\xelatex\xetex-def\xetex.def
 File: xetex.def 2014/04/28 v4.01 LaTeX color/graphics driver for XeTeX (RRM/JK)
 
@@ -72,10 +66,8 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\fontspec\fontspec.sty
 Package: fontspec 2013/05/20 v2.3c Font selection for XeLaTeX and LuaLaTeX
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\l3kernel\expl3.sty
 Package: expl3 2014/06/10 v5105 L3 programming layer (loader) 
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\l3kernel\expl3-code.tex
 Package: expl3 2014/06/10 v5105 L3 programming layer (code) 
 L3 Module: l3bootstrap 2014/05/26 v4889 L3 Bootstrap code
@@ -204,7 +196,7 @@ Variant \tl_gset:cV already defined; not changing it on line 69
 s.sty
 Package: fontspec-patches 2013/05/20 v2.3c Font selection for XeLaTeX and LuaLa
 TeX
- (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\fixltx2e.sty
+(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\fixltx2e.sty
 Package: fixltx2e 2006/09/13 v1.1m fixes to LaTeX
 LaTeX Info: Redefining \em on input line 420.
 )
@@ -226,61 +218,36 @@ LaTeX Info: Redefining \- on input line 33.
 sty
 Package: fontspec-xetex 2013/05/20 v2.3c Font selection for XeLaTeX and LuaLaTe
 X
- (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\fontenc.sty
+(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\euenc\eu1enc.def
 File: eu1enc.def 2010/05/27 v0.1h Experimental Unicode font encodings
 )
 LaTeX Font Info:    Try loading font information for EU1+lmr on input line 100.
 
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\euenc\eu1lmr.fd
 File: eu1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Requested font "[lmroman10-regular]:mapping=tex-text" at 10.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmroma
-n10-regular.otf
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\xelatex\xunicode\xunicode.sty
+)) (P:/MiKTeX/libraries/miktex-portable-current/tex\xelatex\xunicode\xunicode.s
+ty
 File: xunicode.sty 2011/09/09 v0.981 provides access to latin accents and many 
 other characters in Unicode lower plane
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\tipa\t3enc.def
 File: t3enc.def 2001/12/31 T3 encoding
-Requested font "[lmromanslant10-regular]:mapping=tex-text" at 10.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmroma
-nslant10-regular.otf
-Requested font "[lmroman10-italic]:mapping=tex-text" at 10.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmroma
-n10-italic.otf
-Requested font "[lmroman10-bold]:mapping=tex-text" at 10.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmroma
-n10-bold.otf
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line 357
 .
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\euenc\eu1lmss.fd
 File: eu1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Requested font "[lmsans10-regular]:mapping=tex-text" at 10.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmsans
-10-regular.otf
-)
+))
 \tipaTiiicode=\count120
 \tipasavetokens=\toks15
 \tipachecktokens=\toks16
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\graphics\graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\graphics\graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\graphics\trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\00miktex\graphics.cfg
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\00miktex\graphics.cfg
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: xetex.def on input line 91.
@@ -399,22 +366,9 @@ LaTeX Info: Redefining \itshape on input line 2087.
 LaTeX Info: Redefining \slshape on input line 2092.
 LaTeX Info: Redefining \scshape on input line 2097.
 LaTeX Info: Redefining \upshape on input line 2102.
- (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\fontspec\fontspec.cfg))
-)
+(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\fontspec\fontspec.cfg)))
 \g__file_internal_ior=\read1
-Requested font "Calibri" at 10.0pt
- -> ¶^^C/Windows/Fonts/calibri.ttf
-Requested font "Calibri/ICU" at 10.0pt
- -> é^^C/Windows/Fonts/calibri.ttf
 \g_fontspec_family_Calibri_int=\count122
-Requested font "Calibri/ICU" at 10.0pt
- -> ï^^C/Windows/Fonts/calibri.ttf
-Requested font "Calibri Bold/ICU" at 10.0pt
- -> ò^^C/Windows/Fonts/calibrib.ttf
-Requested font "Calibri Italic/ICU" at 10.0pt
- -> ø^^C/Windows/Fonts/calibrii.ttf
-Requested font "Calibri Bold Italic/ICU" at 10.0pt
- -> ^^A^^D/Windows/Fonts/calibriz.ttf
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -449,19 +403,7 @@ Requested font "Calibri Bold Italic/ICU" at 10.0pt
 . <->"Calibri Bold
 . Italic/ICU:script=latn;language=DFLT;mapping=tex-text;+smcp;"
 .................................................
-Requested font "Georgia" at 10.0pt
- -> ^^82^^D/Windows/Fonts/georgia.ttf
-Requested font "Georgia/ICU" at 10.0pt
- -> L^^D/Windows/Fonts/georgia.ttf
 \g_fontspec_family_Georgia_int=\count123
-Requested font "Georgia/ICU" at 10.0pt
- -> ^^9d^^D/Windows/Fonts/georgia.ttf
-Requested font "Georgia Bold/ICU" at 10.0pt
- -> ^^9d^^D/Windows/Fonts/georgiab.ttf
-Requested font "Georgia Italic/ICU" at 10.0pt
- -> s^^D/Windows/Fonts/georgiai.ttf
-Requested font "Georgia Bold Italic/ICU" at 10.0pt
- -> F^^D/Windows/Fonts/georgiaz.ttf
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -483,11 +425,6 @@ Requested font "Georgia Bold Italic/ICU" at 10.0pt
 . * 'bold italic' with NFSS spec.:
 . <->"Georgia Bold Italic/ICU:script=latn;language=DFLT;mapping=tex-text;"
 .................................................
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 10.
-0pt
- -> "^^D/Windows/Fonts/georgia.ttf
-Requested font "Georgia/ICU" at 10.0pt
- -> î^^D/Windows/Fonts/georgia.ttf
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -497,8 +434,6 @@ Requested font "Georgia/ICU" at 10.0pt
 . 
 . This font family consists of the following shapes:
 .................................................
-Requested font "Calibri/ICU" at 10.0pt
- -> ß^^D/Windows/Fonts/calibri.ttf
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -508,8 +443,6 @@ Requested font "Calibri/ICU" at 10.0pt
 . 
 . This font family consists of the following shapes:
 .................................................
-Requested font "Calibri/ICU" at 10.0pt
- -> 
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -519,24 +452,20 @@ Requested font "Calibri/ICU" at 10.0pt
 . 
 . This font family consists of the following shapes:
 .................................................
- (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsmath.sty
+(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip49
-
 For additional information on amsmath, use the `?' option.
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amstext.sty
 Package: amstext 2000/06/29 v2.01
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks17
 \ex@=\dimen139
-))
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsbsy.sty
+)) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen140
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsopn.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\amsmath\amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count124
@@ -576,16 +505,14 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \mathdisplay@stack=\toks21
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\float\float.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count136
 \float@exts=\toks22
 \float@box=\box43
 \@float@everytoks=\toks23
 \@floatcapt=\box44
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\hyperref.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\hyperref.sty
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
 (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\oberdiek\hobsub-hyperr
@@ -633,25 +560,20 @@ Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
 Package hobsub Info: Skipping package `atbegshi' (already loaded).
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\generic\ifxetex\ifxetex.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\ifxetex\ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\oberdiek\auxhook.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\oberdiek\auxhook.sty
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\oberdiek\kvoptions.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\oberdiek\kvoptions.sty
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
 \@linkdim=\dimen148
 \Hy@linkcounter=\count137
 \Hy@pagecounter=\count138
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 )
 \Hy@SavedSpaceFactor=\count139
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\00miktex\hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
@@ -663,14 +585,12 @@ Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
 \c@Hy@tempcnt=\count140
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\url\url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
 \XeTeXLinkMargin=\dimen149
-Requested font "pzdr" at 0.00002pt
 \Fld@menulength=\count141
 \Field@Width=\dimen150
 \Fld@charsize=\dimen151
@@ -692,7 +612,6 @@ Package hyperref Message: Driver (autodetected): hxetex.
 
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\hxetex.def
 File: hxetex.def 2012/11/06 v6.83m Hyperref driver for XeTeX
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\puenc.def
 File: puenc.def 2012/11/06 v6.83m Hyperref: PDF Unicode definition (HO)
 )
@@ -726,8 +645,7 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \FrameSep=\dimen155
 ) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\alltt.sty
 Package: alltt 1997/06/16 v2.0g defines alltt environment
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\geometry\geometry.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\geometry\geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@cnth=\count149
 \Gm@cntv=\count150
@@ -762,13 +680,10 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@thisruleclass=\count154
 \@lastruleclass=\count155
 \@thisrulewidth=\dimen176
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\multirow\multirow.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\multirow\multirow.sty
 \bigstrutjot=\dimen177
-)
-(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\colortbl\colortbl.sty
+) (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\colortbl\colortbl.sty
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\tools\array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen178
@@ -779,8 +694,7 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 )
 \everycr=\toks26
 \minrowclearance=\skip56
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\ulem\ulem.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\ulem\ulem.sty"
 \UL@box=\box46
 \UL@hyphenbox=\box47
 \UL@skip=\skip57
@@ -789,14 +703,11 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \UL@pe=\count156
 \UL@pixel=\dimen181
 \ULC@box=\box48
-Requested font "lasy6" scaled 1000
 Package: ulem 2012/05/18
 \ULdepth=\dimen182
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
@@ -811,7 +722,6 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             Family '?' is the default used for unknown fonts.
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 )
@@ -878,8 +788,7 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
 ))
-("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
-s.aux")
+No file KeyStats.aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
 LaTeX Font Info:    ... okay on input line 81.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
@@ -896,7 +805,7 @@ LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 81.
 LaTeX Font Info:    ... okay on input line 81.
 LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 81.
 LaTeX Font Info:    Try loading font information for T3+cmr on input line 81.
- (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\tipa\t3cmr.fd
+(P:/MiKTeX/libraries/miktex-portable-current/tex\latex\tipa\t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
 LaTeX Font Info:    ... okay on input line 81.
@@ -906,14 +815,10 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 81.
 LaTeX Font Info:    ... okay on input line 81.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 81.
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\base\ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 81.
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 10.
-0pt
- -> ^^I^^E/Windows/Fonts/calibri.ttf
 \AtBeginShipoutBox=\box49
 .................................................
 . fontspec info: "setup-math"
@@ -983,7 +888,6 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> EU1/Calibri(0)/bx/n on input line 81.
 Package hyperref Info: Link coloring OFF on input line 81.
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\hyperref\nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -996,12 +900,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 81.
 LaTeX Info: Redefining \pageref on input line 81.
 LaTeX Info: Redefining \nameref on input line 81.
-
-("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
-s.out")
-("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
-s.out")
 \@outlinefile=\write3
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
 
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1036,42 +937,12 @@ s.out")
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 14.
-4pt
- -> 9^^E/Windows/Fonts/calibri.ttf
-Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
-t 14.4pt
- -> ^^^^^E/Windows/Fonts/calibrib.ttf
 
 Underfull \hbox (badness 10000) in paragraph at lines 86--88
 
  []
 
-Requested font "Arial" at 6.0pt
- -> Ì^^E/Windows/Fonts/arial.ttf
-Requested font "Arial/ICU" at 6.0pt
- -> º^^E/Windows/Fonts/arial.ttf
 \g_fontspec_family_Arial_int=\count158
-Requested font "Arial/ICU" at 6.0pt
- -> µ^^G/Windows/Fonts/arial.ttf
-Requested font "Arial/ICU" at 6.0pt
- -> ¸^^G/Windows/Fonts/arial.ttf
-Requested font "Arial/B/ICU" at 6.0pt
- -> »^^G/Windows/Fonts/arialbd.ttf
-Requested font "Arial/B/ICU" at 6.0pt
- -> Á^^G/Windows/Fonts/arialbd.ttf
-Requested font "Arial/ICU" at 6.0pt
- -> Ä^^G/Windows/Fonts/arial.ttf
-Requested font "Arial/I/ICU" at 6.0pt
- -> Ç^^G/Windows/Fonts/ariali.ttf
-Requested font "Arial/I/ICU" at 6.0pt
- -> Í^^G/Windows/Fonts/ariali.ttf
-Requested font "Arial/ICU" at 6.0pt
- -> Ð^^G/Windows/Fonts/arial.ttf
-Requested font "Arial/BI/ICU" at 6.0pt
- -> Ó^^G/Windows/Fonts/arialbi.ttf
-Requested font "Arial/BI/ICU" at 6.0pt
- -> Ù^^G/Windows/Fonts/arialbi.ttf
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -1091,51 +962,17 @@ Requested font "Arial/BI/ICU" at 6.0pt
 . * 'bold italic' with NFSS spec.:
 . <->"Arial/BI/ICU:script=latn;language=DFLT;"
 .................................................
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
-pt
- -> Ü^^G/Windows/Fonts/calibri.ttf
-Requested font "Calibri/ICU:script=latn;language=DFLT;mapping=tex-text;" at 7.0
-pt
- -> è^^G/Windows/Fonts/calibri.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 7.0
-pt
- -> ô^^G/Windows/Fonts/georgia.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 5.0
-pt
- -> ^^F^^H/Windows/Fonts/georgia.ttf
-Requested font "cmex7" at 7.0pt
-Requested font "cmex7" at 5.0pt
-Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
-t 7.0pt
- -> ^^X^^H/Windows/Fonts/calibrib.ttf
 
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\IVA_t
-itle.txt"
-Requested font "Calibri Bold/ICU:script=latn;language=DFLT;mapping=tex-text;" a
-t 9.0pt
- -> $^^H/Windows/Fonts/calibrib.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 9.0
-pt
- -> <^^H/Windows/Fonts/georgia.ttf
-Requested font "Georgia/ICU:script=latn;language=DFLT;mapping=tex-text;" at 6.0
-pt
- -> N^^H/Windows/Fonts/georgia.ttf
-Requested font "cmmi9" at 9.0pt
-Requested font "cmmi6" at 6.0pt
-Requested font "cmsy9" at 9.0pt
-Requested font "cmsy6" at 6.0pt
-Requested font "cmex9" at 9.0pt
-Requested font "cmex7" at 6.0pt
-Requested font "cmr9" at 9.0pt
-Requested font "cmr6" at 6.0pt
-)
+itle.txt")
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\IVE_t
 itle.txt"
-! Double superscript.
-l.1 \small Internatonal Visitor Expenditure$^*^
-                                               2$ (Yearly ended at Q4 2014 )
+\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\IVE_tit
+le.txt:1: Double superscript
 I treat `x^1^2' essentially like `x^1{}^2'.
 
+Missing character: There is no ∗ in font Georgia/OT:script=latn;language=DFLT;m
+apping=tex-text;!
 )
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\outputs\line_
 space.txt")
@@ -1258,26 +1095,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--171
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Accom_
 tab2.tex"
 
-! Package array Error:  Illegal pream-token (1.5cm): `c' used.
+
+\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Accom_ta
+b2.tex:3: Package array Error:  Illegal pream-token (1.5cm): `c' used.
 
 See the array package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3 \begin{tabular}[t]{l{1.5cm}r{1.5cm}r}
-                                         
+Type  H <return>  for immediate help
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-! Package array Error:  Illegal pream-token (1.5cm): `c' used.
+
+\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\tables\Accom_ta
+b2.tex:3: Package array Error:  Illegal pream-token (1.5cm): `c' used.
 
 See the array package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3 \begin{tabular}[t]{l{1.5cm}r{1.5cm}r}
-                                         
+Type  H <return>  for immediate help
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1394,17 +1227,16 @@ LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 2.
 
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\euenc\eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Requested font "[lmmono8-regular]" at 6.0pt
- -> P:/MiKTeX/libraries/miktex-portable-current/fonts/opentype/public/lm/lmmono
-8-regular.otf
-)
+))
 Overfull \hbox (5.27092pt too wide) in paragraph at lines 95--289
  [][] 
  []
 
+File: ../figures/KTS_Page2_Plot.pdf Graphic file (type QTm)
+ <use  "../figures/KTS_Page2_Plot.pdf" >
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 294.
 File: MBIE_generic_background.pdf Graphic file (type QTm)
-<use  "MBIE_generic_background.pdf" >
+ <use  "MBIE_generic_background.pdf" >
 (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\oberdiek\se-ascii-prin
 t.def
 File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
@@ -1412,33 +1244,24 @@ File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
 ) [1
 
 ]
-File: ../figures/PageTwoPlot.pdf Graphic file (type QTm)
- <use  "../figures/PageTwoPlot.pdf" >
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 302.
-File: MBIE_generic_background.pdf Graphic file (type QTm)
-
-<use  "MBIE_generic_background.pdf" > [2
-
-]
 Overfull \vbox (22.06044pt too high) has occurred while \output is active []
 
 File: MBIE_generic_background.pdf Graphic file (type QTm)
-
-<use  "MBIE_generic_background.pdf" > [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 302.
+ <use  "MBIE_generic_background.pdf" > [2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 294.
 
 ("\\WIN1210\Homedrives-WLG3\FaneG\My Documents\Git_Clone\KeyStats\knitr\KeyStat
 s.aux")
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 302.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 302.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 294.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 294.
  ) 
 Here is how much of TeX's memory you used:
- 22464 strings out of 428974
- 406150 string characters out of 3164391
- 490665 words of memory out of 3000000
+ 22459 strings out of 428974
+ 406014 string characters out of 3164391
+ 490572 words of memory out of 3000000
  25439 multiletter control sequences out of 15000+200000
  7099 words of font info for 59 fonts, out of 3000000 for 9000
  912 hyphenation exceptions out of 8191
- 53i,19n,49p,10461b,339s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,19n,49p,10531b,339s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on KeyStats.pdf (3 pages).
+Output written on KeyStats.pdf (2 pages).

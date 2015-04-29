@@ -90,7 +90,7 @@ grid.newpage()
   
 
 
-  vp2 <- viewport(x=0.5, y=1/6, width=1, height=0.3)
+  vp2 <- viewport(x=0.2, y=1/6, width=1, height=0.2)
   print(TSAPlot, vp=vp2)
   grid.text("Source: Tourism Satellite Account", x=0.7, y=0.03, just="left",
           gp =gpar(fontfamily=TheFont, fontface="italic", cex=0.5))
