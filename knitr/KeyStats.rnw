@@ -93,6 +93,9 @@
 \input{../outputs/line_space.txt}
 \
 \input{../tables/IVA_los.tex}
+\
+\input{../outputs/line_space.txt}
+\
 &
 &
 \input{../outputs/line_space.txt}
@@ -157,13 +160,14 @@
 %    \midrule
 \input{../outputs/line_space.txt}
 \
-
 \input{../tables/NZ_out_tab1.tex}
 \
 % \input{../outputs/line_space.txt}
 % \
 
 \input{../tables/NZ_out_tab2.tex}
+\
+\input{../outputs/line_space.txt}
 \
 &
 &  
@@ -215,6 +219,9 @@
 
 &
 & 
+\input{../outputs/line_space.txt}
+\
+
 
 \fontsize{6pt}{8pt}
 \selectfont

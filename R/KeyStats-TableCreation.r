@@ -96,15 +96,16 @@ iva_total <- data.frame('Annual International Arrivals:',
 names(iva_total) <- c(" ", " ", "Growth (pa)")
 
 iva_tot <- iva_total %>% 
-  xtable(align = "lp{5cm}p{1.3cm}p{1.2cm}",
+  xtable(align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
          caption = NULL, digits = 0,label = NULL, type = "latex") %>%
   print(floating = FALSE, 
         hline.after = NULL,
 #       hline.after = c(0, nrow(iva_tot)),
         include.rownames = FALSE)
                                  
-iva_tot <- gsub("\\begin{tabular}","\\begin{tabular}[t]",iva_tot, fixed = T)
-iva_tot <- gsub("Annual International Arrivals","\\textbf{Annual International Arrivals}", iva_tot, fixed = T)
+iva_tot <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", iva_tot, fixed = T)
+iva_tot <- gsub("}p{", "}>{\\hfill}p{", iva_tot, fixed = T)
+iva_tot <- gsub("Annual International Arrivals", "\\textbf{Annual International Arrivals}", iva_tot, fixed = T)
 
 sink("tables/iva_tot.tex")
   cat(iva_tot)
@@ -157,13 +158,13 @@ Market_share <- percent(round(Market_share, 3))
 Key_Market <- Key_Market %>%
   top_n(6, Visitors) %>%
   arrange(-Visitors) %>%
-  mutate(No_Visits = format(Visitors, big.mark = ",")) %>%
+  mutate(Visits = format(Visitors, big.mark = ",")) %>%
   select(1, 3, 5, 4) %>%
   rename('Key International Markets' = CountryGrouped) %>%
   clean_names()
 
 
-IVA_tab1 <- print(xtable(Key_Market, align = "lp{3.5cm}p{1.1cm}p{1.3cm}p{1.2cm}",
+IVA_tab1 <- print(xtable(Key_Market, align = "lp{3.3cm}p{1.1cm}p{1.3cm}p{1.4cm}",
                          caption = NULL, digits = 0,label = NULL,  type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -173,7 +174,8 @@ IVA_tab1 <- print(xtable(Key_Market, align = "lp{3.5cm}p{1.1cm}p{1.3cm}p{1.2cm}"
 )
 
 
-IVA_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVA_tab1, fixed=T)
+IVA_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", IVA_tab1, fixed=T)
+IVA_tab1 <- gsub("}p{", "}>{\\hfill}p{", IVA_tab1, fixed = T)
 
 sink("tables/IVA_tab1.tex")
 cat(IVA_tab1)
@@ -208,22 +210,24 @@ POV_sum <- iv_pov %>%
                               ifelse(TimePeriod > iv_report_end_date - years(2), "Last", "Earlier"))) %>%
   group_by(ClassificationValue.1) %>%
   summarise(
-    No_Nights = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((No_Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  arrange(-No_Nights) %>%
-  mutate(No_Nights = format(No_Nights, big.mark = ",")) %>%
-  rename('Purpose of Visiting' = ClassificationValue.1)
+    Nights = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  arrange(-Nights) %>%
+  mutate(Nights = format(Nights, big.mark = ",")) %>%
+  rename('Purpose of Visiting' = ClassificationValue.1) %>%
+  clean_names()
 
 
-IVA_tab2 <- print(xtable(POV_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}",
+IVA_tab2 <- print(xtable(POV_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
                   include.rownames = FALSE
                   )
 
-IVA_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVA_tab2, fixed = T)
-IVA_tab2 <- gsub("Purpose of Visiting","\\textbf{Purpose of Visiting}", IVA_tab2, fixed = T)
+IVA_tab2 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]",IVA_tab2, fixed = T)
+IVA_tab2 <- gsub("}p{", "}>{\\hfill}p{", IVA_tab2, fixed = T)
+IVA_tab2 <- gsub("Purpose of Visiting", "\\textbf{Purpose of Visiting}", IVA_tab2, fixed = T)
 sink("tables/IVA_tab2.tex")
 cat(IVA_tab2)
 sink()
@@ -243,13 +247,13 @@ LOS_sum <- iv_pov %>%
     Days_Last = sum(Value[Year_Period == "Last" & ClassificationValue.2 == "Total stay days"])/
       sum(Value[Year_Period == "Last" & ClassificationValue.2 == "TOTAL ALL LENGTHS OF STAY"]),
     "Growth (pa)" = paste0(round((Days / Days_Last - 1) * 100), "%")) %>%
-#   arrange(-No_Nights) %>%
+#   arrange(-Nights) %>%
   mutate(ClassificationValue.1 = 'Average Intended length of stay:', Days = round(Days)) %>%
   select(1, 2, 4) %>%
   rename(' ' = ClassificationValue.1)
 
 
-IVA_los <- print(xtable(LOS_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}",
+IVA_los <- print(xtable(LOS_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                  hline.after = NULL,
@@ -259,8 +263,9 @@ IVA_los <- print(xtable(LOS_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}",
                   )
 
 
-IVA_los <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVA_los, fixed = T)
-IVA_los <- gsub("Average Intended length of stay:","\\textbf{Average Intended length of stay:}", IVA_los, fixed = T)
+IVA_los <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", IVA_los, fixed = T)
+IVA_los <- gsub("}p{", "}>{\\hfill}p{", IVA_los, fixed = T)
+IVA_los <- gsub("Average Intended length of stay:", "\\textbf{Average Intended length of stay:}", IVA_los, fixed = T)
 sink("tables/IVA_los.tex")
 cat(IVA_los)
 sink()
@@ -333,7 +338,7 @@ ive_exp_sum_final <- inner_join(ive_exp_sum_1, ive_exp_sum_0, by = "Summary") %>
   select(-Prev) %>% 
   rename("  " = Summary, " "= Curr)
   
-ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.4cm}p{0.9cm}p{1.2cm}",
+ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
                              caption = NULL, digits = 0,label = NULL, type = "latex"), 
                       floating = FALSE,
                       hline.after = NULL,
@@ -342,8 +347,9 @@ ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.4cm}p{0.9cm}p{1.2c
 )
 
 
-ive_exp_tab0 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",ive_exp_tab0, fixed = T)
-ive_exp_tab0 <- gsub("Total Expenditure($mil)","\\textbf{Total Expenditure($mil)}", ive_exp_tab0, fixed = T)
+ive_exp_tab0 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", ive_exp_tab0, fixed = T)
+ive_exp_tab0 <- gsub("}p{", "}>{\\hfill}p{", ive_exp_tab0, fixed = T)
+ive_exp_tab0 <- gsub("Total Expenditure($mil)", "\\textbf{Total Expenditure($mil)}", ive_exp_tab0, fixed = T)
 sink("tables/ive_exp_tab0.tex")
 cat(ive_exp_tab0)
 sink()
@@ -367,10 +373,11 @@ ive_main_sum_1 <- ive_main_1 %>%
   arrange(-Current_Yr) %>%
   top_n(5, Current_Yr) %>% 
   mutate("Current_Yr" = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>% 
-  rename("Key International Markets ($mil)" = CountryGroup)
+  rename("Key International Markets ($mil)" = CountryGroup) %>%
+  clean_names()
 
 
-IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.4cm}p{0.9cm}p{1.2cm}", 
+IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -378,8 +385,9 @@ IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.4cm}p{0.9cm}p{1.2cm}",
                   include.rownames = FALSE)
 
 
-IVE_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVE_tab1, fixed = T)
-IVE_tab1 <- gsub("Key International Markets ($mil)","\\textbf{Key International Markets ($mil)}", IVE_tab1, fixed = T)
+IVE_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", IVE_tab1, fixed = T)
+IVE_tab1 <- gsub("}p{", "}>{\\hfill}p{", IVE_tab1, fixed = T)
+IVE_tab1 <- gsub("Key International Markets ($mil)", "\\textbf{Key International Markets ($mil)}", IVE_tab1, fixed = T)
 sink("tables/IVE_tab1.tex")
 cat(IVE_tab1)
 sink()
@@ -416,9 +424,10 @@ ive_pov_sum <- inner_join(pov_1, pov_0, by = "POV") %>%
     "Growth (pa)" = paste0(round((sum(total_sp_curr) / sum(total_sp_prev) - 1) * 100), "%")) %>%
   arrange(-Current_Yr) %>%
   mutate( Current_Yr = format(Current_Yr, big.mark = ",")) %>%
-  rename('Total Spend by Purpose of Visit' = POV)
+  rename('Total Spend by Purpose of Visit' = POV) %>%
+  clean_names()
 
-IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{5.4cm}p{0.9cm}p{1.2cm}", 
+IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -427,6 +436,7 @@ IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{5.4cm}p{0.9cm}p{1.2cm}",
 
 
 IVE_tab3 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVE_tab3, fixed = T)
+IVE_tab3 <- gsub("}p{", "}>{\\hfill}p{", IVE_tab3, fixed = T)
 IVE_tab3 <- gsub("Total Spend by Purpose of Visit","\\textbf{Total Spend by Purpose of Visit}", IVE_tab3, fixed = T)
 IVE_tab3 <- gsub("\n\\end{tabular}","\n\\multicolumn{3}{p{8.25cm}}{$^*$Excludes international airfares and individuals whose purpose of visit to New Zealand was to attend a recognised educational institute, and are foreign-fee paying students.}\\\\ \n\\end{tabular}",IVE_tab3, fixed = T)
 
@@ -456,13 +466,14 @@ Annual_total_outbound <- NZ_out_sum %>%
                               ifelse(TimePeriod > NZ_out_sum_end_date - years(2), "Last", "Earlier"))) %>%
   group_by(ClassificationValue) %>%
   summarise(
-    No_Visits = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((No_Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  mutate(ClassificationValue.1 = 'Annual Outbound Departures:', No_Visits = format(round(No_Visits), big.mark = ",")) %>%
+    Visits = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  mutate(ClassificationValue.1 = 'Annual Outbound Departures:', Visits = format(round(Visits), big.mark = ",")) %>%
   rename(' ' = ClassificationValue.1) %>%
-  select(4, 2, 3)
+  select(4, 2, 3) %>%
+  clean_names()
 
-NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
+NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -471,6 +482,7 @@ NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{5cm}p{1.3cm}p{1.2
 
 
 NZ_out_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",NZ_out_tab1, fixed = T)
+NZ_out_tab1 <- gsub("}p{", "}>{\\hfill}p{", NZ_out_tab1, fixed = T)
 NZ_out_tab1 <- gsub("Annual Outbound Departures","\\textbf{Annual Outbound Departures}", NZ_out_tab1, fixed = T)
 sink("tables/NZ_out_tab1.tex")
 cat(NZ_out_tab1)
@@ -502,16 +514,17 @@ NZ_out_total <- NZ_out %>%
                               ifelse(CountryGrouped == "UK", "UK", 
                                      ifelse(CountryGrouped == "USA", "USA", as.character(Country))))) %>%
   group_by(Country) %>%
-  summarise( No_Visits = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((No_Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
+  summarise( Visits = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
     ) %>%
-  top_n(5, No_Visits) %>%
-  arrange(-No_Visits) %>%
-  mutate(No_Visits = format(No_Visits, big.mark = ",")) %>%
-  rename('Countries Visited by NZers' = Country)
+  top_n(5, Visits) %>%
+  arrange(-Visits) %>%
+  mutate(Visits = format(Visits, big.mark = ",")) %>%
+  rename('Countries Visited by NZers' = Country) %>%
+  clean_names()
   
 
-NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
+NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -520,6 +533,7 @@ NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{5cm}p{1.3cm}p{1.2cm}",
 
 
 NZ_out_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",NZ_out_tab2, fixed = T)
+NZ_out_tab2 <- gsub("}p{", "}>{\\hfill}p{", NZ_out_tab2, fixed = T)
 NZ_out_tab2 <- gsub("Countries Visited by NZers","\\textbf{Countries Visited by NZers}", NZ_out_tab2, fixed = T)
 sink("tables/NZ_out_tab2.tex")
 cat(NZ_out_tab2)
@@ -569,8 +583,8 @@ Fcst_sum_VisitorSpend <- Fcst %>%
 
 Fcst_sum_2_rpt <- bind_rows(Fcst_sum_Arrivals, Fcst_sum_VisitorDays, Fcst_sum_VisitorSpend)
 
-Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{5.4cm}p{0.9cm}p{1.2cm}", 
-                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
+Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
+                          caption = NULL, digits = 1,label = NULL, type = "latex"), 
                    floating = FALSE, 
                    hline.after = NULL,
 #                    hline.after = c(0, nrow(Fcst_sum_2_rpt)),
@@ -578,6 +592,7 @@ Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{5.4cm}p{0.9cm}p{1.2cm}",
 
 
 Fcst_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Fcst_tab1, fixed = T)
+Fcst_tab1 <- gsub("}p{", "}>{\\hfill}p{", Fcst_tab1, fixed = T)
 Fcst_tab1 <- gsub("CAGR","CAGR$^-$",Fcst_tab1, fixed = T)
 Fcst_tab1 <- gsub("\\end{tabular}","\n\\multicolumn{3}{p{8.25cm}}{$^-$CAGR = Compound Annual Growth Rate.}\\\\ \\end{tabular}",Fcst_tab1, fixed = T)
 
@@ -599,7 +614,7 @@ Fcst_sum_key <- Fcst %>%
   mutate(Visitors = format(Visitors, big.mark = ",")) %>%
   rename('Key Overseas Markets' = Country)
 
-Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{5.4cm}p{0.9cm}p{1.2cm}", 
+Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
                           caption = NULL, digits = 0,label = NULL, type = "latex"), 
                    floating = FALSE, 
                    hline.after = NULL,
@@ -607,6 +622,7 @@ Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{5.4cm}p{0.9cm}p{1.2cm}",
                    include.rownames = FALSE)
 
 Fcst_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Fcst_tab2, fixed = T)
+Fcst_tab2 <- gsub("}p{", "}>{\\hfill}p{", Fcst_tab2, fixed = T)
 Fcst_tab2 <- gsub("Key International Markets","\\textbf{Key International Markets}", Fcst_tab2, fixed = T)
 sink("tables/Fcst_tab2.tex")
 cat(Fcst_tab2)
@@ -665,7 +681,7 @@ inter_exp <- EC_exp_total %>%
 EC_exp_total <- EC_exp_total %>%
   rename("Tourism Market" = Class)
 
-EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
+EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{4.2cm}p{1.9cm}p{1.4cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -674,6 +690,7 @@ EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{5cm}p{1.3cm}p{1.2cm}",
 
 
 EC_exp_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",EC_exp_tab1, fixed = T)
+EC_exp_tab1 <- gsub("}p{", "}>{\\hfill}p{", EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("Tourism Market","\\textbf{Tourism Market}", EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("international","international$^+$",EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("\\end{tabular}","\\multicolumn{3}{p{7.5cm}}{$^+$Includes international airfares paid to New Zealand carriers.}\\ \n\\end{tabular}",EC_exp_tab1, fixed = T)
@@ -767,12 +784,13 @@ ACCOM_type_sum <- ACCOM %>%
                               ifelse(TimePeriod > accom_report_end_date-years(2), "Last", "Earlier"))) %>%
   group_by(ClassificationValue) %>%
   summarise(
-     No_Nights = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((No_Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  mutate(No_Nights = format(No_Nights, big.mark = ",")) %>%
-  rename('Accommodation Type' = ClassificationValue)
+     Nights = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  mutate(Nights = format(Nights, big.mark = ",")) %>%
+  rename('Accommodation Type' = ClassificationValue) %>%
+  clean_names()
   
-Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
+Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
                            caption = NULL, digits = 0,label = NULL, latex.environments = ""), 
                     floating = FALSE, 
                     hline.after = NULL,
@@ -780,6 +798,7 @@ Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}",
                     include.rownames = FALSE)
 
 Accom_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Accom_tab1, fixed = T)
+Accom_tab1 <- gsub("}p{", "}>{\\hfill}p{", Accom_tab1, fixed = T)
 Accom_tab1 <- gsub("Accommodation Type","\\textbf{Accommodation Type}", Accom_tab1, fixed = T)
 sink("tables/Accom_tab1.tex")
 cat(Accom_tab1)
@@ -800,10 +819,11 @@ ACCOM_p_sum <- ACCOM %>%
   summarise(
     This_Month = paste0(sum(Num_of_Stay[Year_Period == "Current"]), "%"),
     Month_Last_Yr = paste0(sum(Num_of_Stay[Year_Period == "Last"]), "%")) %>%
-  rename('Occupancy Rates' = Accom_Type)
+  rename('Occupancy Rates' = Accom_Type) %>%
+  clean_names()
   
 
-Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}", 
+Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
                            caption = NULL, digits = 0,label = NULL, type = "latex"), 
                     floating = FALSE, 
                     hline.after = NULL,
@@ -812,6 +832,7 @@ Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "lp{5cm}p{1.3cm}p{1.2cm}",
 
 
 Accom_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Accom_tab2, fixed = T)
+Accom_tab2 <- gsub("}p{", "}>{\\hfill}p{", Accom_tab2, fixed = T)
 Accom_tab2 <- gsub("Occupancy Rates","\\textbf{Occupancy Rates}", Accom_tab2, fixed = T)
 #  Accom_tab2 <- gsub("}p{","}rp{", Accom_tab2, fixed = T)
 #  Accom_tab2 <- gsub("{p{","{lp{", Accom_tab2, fixed = T)
@@ -875,14 +896,15 @@ RTE_sum <-RTE_1[, list ("RTO ($mil)" = RTE_1$RTO,
 
 RTE_sum_1 <- data.table(RTE_sum[order(RTE_sum$Total, decreasing = TRUE), ])[1:6]
 
-RTE_tab1 <- print(xtable(RTE_sum_1, align = "lp{2.3cm}p{1.2cm}p{1cm}p{0.9cm}p{1.2cm}", 
+RTE_tab1 <- print(xtable(RTE_sum_1, align = "lp{2cm}p{1.5cm}p{1cm}p{0.9cm}p{1.3cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
 #                   hline.after = c(0, nrow(RTE_sum_1)),
                   include.rownames = FALSE)
 
-RTE_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",RTE_tab1, fixed = T)
+RTE_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", RTE_tab1, fixed = T)
+RTE_tab1 <- gsub("}p{", "}>{\\hfill}p{", RTE_tab1, fixed = T)
 sink("tables/RTE_tab1.tex")
 cat(RTE_tab1)
 sink()
