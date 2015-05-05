@@ -46,7 +46,7 @@ library(survey)
 library(scales)
 library(dplyr)
 library(tidyr)
-
+source("r/functions.R")
 
 # ====================================create summary tables ============================================================
 
@@ -423,7 +423,7 @@ ive_pov_sum <- inner_join(pov_1, pov_0, by = "POV") %>%
     "Current_Yr" = sum(total_sp_curr),
     "Growth (pa)" = paste0(round((sum(total_sp_curr) / sum(total_sp_prev) - 1) * 100), "%")) %>%
   arrange(-Current_Yr) %>%
-  mutate( Current_Yr = format(Current_Yr, big.mark = ",")) %>%
+  mutate( Current_Yr = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>%
   rename('Total Spend by Purpose of Visit' = POV) %>%
   clean_names()
 
@@ -944,7 +944,7 @@ sink("outputs/Data_S_6.txt")
 cat(Data_S_6)
 sink()
 
-Data_S_7 <- paste("$^7$New Zealand's Tourism Sector Outlook: Forecasts for 2014-2020")
+Data_S_7 <- paste("$^7$New Zealand's Tourism Sector Outlook: Forecasts for", Fcst_year, "-", End_year)
 sink("outputs/Data_S_7.txt")
 cat(Data_S_7)
 sink()

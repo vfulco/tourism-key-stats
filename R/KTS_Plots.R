@@ -201,13 +201,13 @@ EC_exp <- ImportTS(TRED_Prod, "Tourism Expenditure by Type of Product and Type o
                           ifelse(substr(Product, 1, 6) == "Retail", "Retail sales - other", 
                                  ifelse(Product %in% c("Road, rail and water passenger transport", "Motor vehicle hire or rental",  
                                                        "Travel agency services"), "Other passenger transport", "Other tourism products")))) %>%
-  filter(Year == "2011") %>%
+  filter(Year == max(Year)) %>%
   group_by(Year, Demand_Type, Product) %>%
   summarise("Expenditure" = sum(Value)) %>%
   data.frame()
 
 
-Year_TSA <- 2011
+Year_TSA <- max(EC_exp$Year)
 
 TSAPlot <- EC_exp %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
