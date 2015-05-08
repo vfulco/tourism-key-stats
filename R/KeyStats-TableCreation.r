@@ -20,7 +20,7 @@
 ##    Created by George Fan on 20 April 2015
 ##     
 ##    Reviewed by 
-##       1)  
+##       1)  Pete McMillen, 8 May 2015 - corrected typos, removed redundant blanks, reordered source footnotes to reflect page order.
 ##       2) 
 ##
 ## Note: 
@@ -68,8 +68,8 @@ iv_pc <- ImportTS(TRED, "Visitor arrival totals (Monthly)",
 iv_report_end_date <- max(iv_pc$TimePeriod)
 
 
-IVA_title <- paste("\\small Internatonal Visitor Arrivals$^1$ (Yearly ended at", 
-                   months(iv_report_end_date), year(iv_report_end_date), ")")
+IVA_title <- paste0("\\small International Visitor Arrivals$^1$ (Year ended ", 
+                   months(iv_report_end_date), " ", year(iv_report_end_date), ")")
 sink("outputs/IVA_title.txt")
   cat(IVA_title)
 sink()
@@ -181,8 +181,8 @@ sink("tables/IVA_tab1.tex")
 cat(IVA_tab1)
 sink()
 
-note_1 <- paste("Combined, these markets provided", Market_share, "of international visitors to New Zealand for the year ended", 
-                  months(iv_report_end_date), year(iv_report_end_date), ".")
+note_1 <- paste0("Combined, these markets provided ", Market_share, " of international visitors to New Zealand for the year ended ", 
+                  months(iv_report_end_date), " ", year(iv_report_end_date), ".")
 note_1 <- gsub("%"," \\\\%",note_1)
 sink("outputs/note_1.txt")
 cat(note_1)
@@ -279,7 +279,7 @@ survey_date <- sqlQuery(TRED, SQL_query)
 survey_qtr <- survey_date$survey_qtr
 survey_yr <- survey_date$survey_yr
 
-IVE_title <- paste("\\small Internatonal Visitor Expenditure$^∗^2$ (Yearly ended at", paste0("Q", survey_qtr), survey_yr, ")")
+IVE_title <- paste0("\\small International Visitor Expenditure$^*$", "$^2$ (Year ended ", "Q", survey_qtr, " ", survey_yr, ")")
 sink("outputs/IVE_title.txt")
 cat(IVE_title)
 sink()
@@ -310,7 +310,7 @@ median_0 <- svyquantile(~WeightedSpend, design = ive_median_0, quantiles = 0.5)
 
 ive_exp_sum_0 <- ive_main_0 %>%
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
-  summarise("Total Expenditure($mil)" = sum(Expenditure)/1000000, 
+  summarise("Total Expenditure ($million)" = sum(Expenditure)/1000000, 
             "Average Expenditure per person per trip" = sum(Expenditure)/sum(PopulationWeight),
             "Median Expenditure per person per trip" = median_0
   ) %>%
@@ -326,7 +326,7 @@ median_1 <- svyquantile(~WeightedSpend, design = ive_median_1, quantiles = 0.5)
 
 ive_exp_sum_1 <- ive_main_1 %>%
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
-  summarise("Total Expenditure($mil)" = sum(Expenditure)/1000000, 
+  summarise("Total Expenditure ($million)" = sum(Expenditure)/1000000, 
             "Average Expenditure per person per trip" = sum(Expenditure)/sum(PopulationWeight),
             "Median Expenditure per person per trip" = median_1
   ) %>%
@@ -349,7 +349,7 @@ ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.1cm}p{1.1cm}p{1.3c
 
 ive_exp_tab0 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", ive_exp_tab0, fixed = T)
 ive_exp_tab0 <- gsub("}p{", "}>{\\hfill}p{", ive_exp_tab0, fixed = T)
-ive_exp_tab0 <- gsub("Total Expenditure($mil)", "\\textbf{Total Expenditure($mil)}", ive_exp_tab0, fixed = T)
+ive_exp_tab0 <- gsub("Total Expenditure ($million)", "\\textbf{Total Expenditure ($million)}", ive_exp_tab0, fixed = T)
 sink("tables/ive_exp_tab0.tex")
 cat(ive_exp_tab0)
 sink()
@@ -373,7 +373,7 @@ ive_main_sum_1 <- ive_main_1 %>%
   arrange(-Current_Yr) %>%
   top_n(5, Current_Yr) %>% 
   mutate("Current_Yr" = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>% 
-  rename("Key International Markets ($mil)" = CountryGroup) %>%
+  rename("Key International Markets ($million)" = CountryGroup) %>%
   clean_names()
 
 
@@ -387,7 +387,7 @@ IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
 
 IVE_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", IVE_tab1, fixed = T)
 IVE_tab1 <- gsub("}p{", "}>{\\hfill}p{", IVE_tab1, fixed = T)
-IVE_tab1 <- gsub("Key International Markets ($mil)", "\\textbf{Key International Markets ($mil)}", IVE_tab1, fixed = T)
+IVE_tab1 <- gsub("Key International Markets ($million)", "\\textbf{Key International Markets ($million)}", IVE_tab1, fixed = T)
 sink("tables/IVE_tab1.tex")
 cat(IVE_tab1)
 sink()
@@ -452,7 +452,7 @@ cat(ive_note_1)
 sink()
 
 
-# ================================== Trip aboard by NZers ==================================
+# ================================== Trip aboard by New Zealanders ==================================
 
 NZ_out_sum <- ImportTS(TRED, "Short-term NZ traveller departure totals (Monthly)",
                        where = paste("TimePeriod > '", qry_starting_date, "'"))
@@ -496,7 +496,7 @@ NZ_out <- ImportTS(TRED, "Short-term NZ traveller departures by EVERY country of
 
 Report_end_date_NZ_out = max(NZ_out$TimePeriod)
 
-NZ_out_title <- paste("\\small Trips aboard by NZers$^3$ (Yearly ended at", months(Report_end_date_NZ_out), year(Report_end_date_NZ_out), ")")
+NZ_out_title <- paste0("\\small Trips abroad by New Zealanders$^5$ (Year ended ", months(Report_end_date_NZ_out), " ", year(Report_end_date_NZ_out), ")")
 
 sink("outputs/NZ_out_title.txt")
 cat(NZ_out_title)
@@ -550,7 +550,7 @@ Fcst <- sqlQuery(TRED, Fcst_query)
 Fcst_year <- as.numeric(max(Fcst$ForecastYear))
 End_year <- as.numeric(max(Fcst$Year))
 
-fcst_title <- paste("\\small Tourism Forecast$^7$ (Forecast Period", Fcst_year, "-", End_year, ")")
+fcst_title <- paste0("\\small Tourism Forecast$^4$ (Forecast Period ", Fcst_year, " to ", End_year, ")")
 sink("outputs/fcst_title.txt")
 cat(fcst_title)
 sink()
@@ -560,7 +560,7 @@ sink()
 Fcst_sum_Arrivals <- Fcst %>%
 #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year-1)) %>%
-  summarise( Total = "TotalVisitorArrivals(mil)",
+  summarise( Total = "Total Visitor Arrivals (million)",
              Forecast = round(sum(TotalVisitorArrivals[Year == End_year])/1000000, 1),
              CAGR = percent(CAGR(sum(TotalVisitorArrivals[Year == End_year])/sum(TotalVisitorArrivals[Year == Fcst_year - 1]), 
                                  (End_year - Fcst_year + 1))/100))
@@ -568,7 +568,7 @@ Fcst_sum_Arrivals <- Fcst %>%
 Fcst_sum_VisitorDays <- Fcst %>%
   #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year-1)) %>%
-  summarise( Total = "TotalVisitorDays(mil)",
+  summarise( Total = "Total Visitor Days (million)",
              Forecast = round(sum(TotalVisitorDays[Year == End_year])/1000000, 1),
              CAGR = percent(CAGR(sum(TotalVisitorDays[Year == End_year])/sum(TotalVisitorDays[Year == Fcst_year - 1]), 
                                  (End_year - Fcst_year + 1))/100))             
@@ -576,7 +576,7 @@ Fcst_sum_VisitorDays <- Fcst %>%
 Fcst_sum_VisitorSpend <- Fcst %>%
   #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year-1)) %>%
-  summarise( Total = "TotalVisitorArrivals($bil)",
+  summarise( Total = "Total Visitor Expenditure ($billion)",
              Forecast = round(sum(TotalVisitorSpend[Year == End_year])/1000, 1),
              CAGR = percent(CAGR(sum(TotalVisitorSpend[Year == End_year])/sum(TotalVisitorSpend[Year == Fcst_year-1]), 
                                  (End_year - Fcst_year + 1))/100))
@@ -607,7 +607,7 @@ Fcst_sum_key <- Fcst %>%
   filter(Year == End_year & Country != "Other") %>%
   group_by(Country) %>%
   summarise( Visitors = sum(TotalVisitorArrivals),
-             "Spend($Mil)" = format(sum(TotalVisitorSpend[Year == End_year]), big.mark = ",")
+             "Spend ($m)" = format(sum(TotalVisitorSpend[Year == End_year]), big.mark = ",")
   ) %>%
   top_n(5, Visitors) %>%
   arrange(-Visitors) %>%
@@ -639,12 +639,12 @@ EC_exp <- ImportTS(TRED, "Summary of Tourism Expenditure by type of tourist (ANZ
 ec_end_date <- max(EC_exp$TimePeriod)
 ec_year <- year(ec_end_date)
 
-ec_title <- paste("\\small Economic Contribution$^6$ (Year End March", ec_year, ")")
+ec_title <- paste0("\\small Economic Contribution$^7$ (Year ended March ", ec_year, ")")
 sink("outputs/ec_title.txt")
 cat(ec_title)
 sink()
 
-# calculate the percentage of internations tourism expenditure
+# calculate the percentage of international tourism expenditure
 
 EC_exp_share <- EC_exp %>%
   filter(TimePeriod == ec_end_date & ClassificationValue %in% c('International tourism as a percentage of total exports')) %>%
@@ -670,7 +670,7 @@ EC_exp_total <- EC_exp %>%
                         ifelse(ClassificationValue == "International tourism expenditure","international", "Total"))) %>% 
   select(Class, Value) %>% 
   mutate(Value = format(round(Value/1000, 1), big.mark = ",")) %>% 
-  rename('Expenditure($bil)' = Value) %>% 
+  rename('Expenditure ($b)' = Value) %>% 
   inner_join(EC_exp_growth, by = "Class")
 
 
@@ -692,7 +692,7 @@ EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{4.2cm}p{1.9cm}p{1.4cm}",
 EC_exp_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("}p{", "}>{\\hfill}p{", EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("Tourism Market","\\textbf{Tourism Market}", EC_exp_tab1, fixed = T)
-EC_exp_tab1 <- gsub("international","international$^+$",EC_exp_tab1, fixed = T)
+EC_exp_tab1 <- gsub("international","International$^+$",EC_exp_tab1, fixed = T)
 EC_exp_tab1 <- gsub("\\end{tabular}","\\multicolumn{3}{p{7.5cm}}{$^+$Includes international airfares paid to New Zealand carriers.}\\ \n\\end{tabular}",EC_exp_tab1, fixed = T)
 
 sink("tables/EC_exp_tab1.tex")
@@ -768,8 +768,8 @@ ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)",
 
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
-accom_title <- paste("\\small Commercial Accommodation$^4$ (Yearly ended at", 
-                     months(accom_report_end_date), year(accom_report_end_date), ")")
+accom_title <- paste0("\\small Commercial Accommodation$^3$ (Year ended ", 
+                     months(accom_report_end_date), " ", year(accom_report_end_date), ")")
 sink("outputs/accom_title.txt")
 cat(accom_title)
 sink()
@@ -868,7 +868,7 @@ RTE <- sqlQuery(TRED, RTE_query)
 
 rte_end_date <- max(RTE$YearEndMarch)
 
-rte_title <- paste("\\small Regional Tourist Estimate$^5$ (Year End March", rte_end_date, ")")
+rte_title <- paste0("\\small Regional Tourism Estimates$^6$ (Year ended March ", rte_end_date, ")")
 sink("outputs/rte_title.txt")
 cat(rte_title)
 sink()
@@ -887,7 +887,7 @@ RTE_1[RTO == "Northland RTO", RTO := "Northland"]
 
 
 sum_spend <- sum(RTE_1$Spend.Domestic, RTE_1$Spend.International)
-RTE_sum <-RTE_1[, list ("RTO ($mil)" = RTE_1$RTO, 
+RTE_sum <-RTE_1[, list ("RTO ($million)" = RTE_1$RTO, 
 #                        "YearEndMarch" = RTE_1$YearEndMarch,
                         "International" = format(round(RTE_1$Spend.International, digits = 0),big.mark = ","),
                         "Domestic" = format(round(RTE_1$Spend.Domestic, digits = 0),big.mark = ","),
@@ -918,37 +918,35 @@ sink("outputs/Data_S_1.txt")
 cat(Data_S_1)
 sink() 
 
-Data_S_2 <- paste("$^2$International Visitor Survey - Figures in grey are not statistically significant. 'Business' excludes conferences.")
+Data_S_2 <- paste("$^2$International Visitor Survey - figures in grey are not statistically significant. 'Business' excludes conferences.")
 sink("outputs/Data_S_2.txt")
 cat(Data_S_2)
 sink()
 
-Data_S_3 <- paste("$^3$International Travel and Migration")
+Data_S_3 <- paste("$^3$Accommodation Survey.")
 sink("outputs/Data_S_3.txt")
 cat(Data_S_3)
 sink()
 
-
-Data_S_4 <- paste("$^4$Accommodation Survey")
+Data_S_4 <- paste0("$^4$New Zealand's Tourism Sector Outlook: Forecasts for ", Fcst_year, " to ", End_year, ".")
 sink("outputs/Data_S_4.txt")
 cat(Data_S_4)
 sink()
 
-Data_S_5 <- paste("$^5$Regional Tourism Estimation")
+Data_S_5 <- paste("$^5$International Travel and Migration.")
 sink("outputs/Data_S_5.txt")
 cat(Data_S_5)
 sink()
 
-Data_S_6 <- paste("$^6$Tourism Satellite Account")
+Data_S_6 <- paste("$^6$Regional Tourism Estimation.")
 sink("outputs/Data_S_6.txt")
 cat(Data_S_6)
 sink()
 
-Data_S_7 <- paste("$^7$New Zealand's Tourism Sector Outlook: Forecasts for", Fcst_year, "-", End_year)
+Data_S_7 <- paste("$^7$Tourism Satellite Account.")
 sink("outputs/Data_S_7.txt")
 cat(Data_S_7)
 sink()
-
 
 Data_S_8 <- paste("This paper was prepared by the Ministry of Business, Innovation and Employment. For further information visit the 
                   tourism data section of the Ministry's website url{http://www.med.govt.nz/sectors-industries/tourism}. 
@@ -961,14 +959,3 @@ sink("outputs/Data_S_8.txt")
 
 cat(Data_S_8)
 sink() 
-
-
-
-
-
-
-
-
-
-
-

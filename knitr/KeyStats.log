@@ -1,7 +1,7 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.3.3)  5 MAY 2015 22:16
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.5.8)  8 MAY 2015 17:01
 entering extended mode
-**H:/My*Documents/Git_Clone/KeyStats/knitr/KeyStats.tex
-("H:/My Documents/Git_Clone/KeyStats/knitr/KeyStats.tex"
+**F:/Key_Stats/knitr/KeyStats.tex
+(F:/Key_Stats/knitr/KeyStats.tex
 LaTeX2e <2011/06/27>
 Babel <3.9l> and hyphenation patterns for 68 languages loaded.
 (P:/MiKTeX/libraries/mbie-template-release/mbie-article.cls (P:/MiKTeX/librarie
@@ -1059,8 +1059,7 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
-))
-No file KeyStats.aux.
+)) (F:\Key_Stats\knitr\KeyStats.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
 LaTeX Font Info:    ... okay on input line 88.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
@@ -1101,10 +1100,8 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 88.
 LaTeX Info: Redefining \pageref on input line 88.
 LaTeX Info: Redefining \nameref on input line 88.
+(F:\Key_Stats\knitr\KeyStats.out) (F:\Key_Stats\knitr\KeyStats.out)
 \@outlinefile=\write3
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
@@ -1163,15 +1160,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 93--95
 . * 'bold italic' with NFSS spec.:
 . <->"Arial/BI/ICU:script=latn;language=DFLT;"
 .................................................
-("H:\My Documents\Git_Clone\KeyStats\outputs\IVA_title.txt") ("H:\My Documents\
-Git_Clone\KeyStats\outputs\IVE_title.txt"
-H:\My Documents\Git_Clone\KeyStats\outputs\IVE_title.txt:1: Double superscript
-I treat `x^1^2' essentially like `x^1{}^2'.
-
-Missing character: There is no ∗ in font cmr6!
-)
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\iva_tot.tex")
+(F:\Key_Stats\outputs\IVA_title.txt) (F:\Key_Stats\outputs\IVE_title.txt) (F:\K
+ey_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\iva_tot.tex)
 Overfull \hbox (1.85677pt too wide) in paragraph at lines 3--124
 [][]
  []
@@ -1181,8 +1171,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--124
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\tables\IVA_tab1.tex")
+(F:\Key_Stats\tables\IVA_tab1.tex)
 Overfull \hbox (2.47585pt too wide) in paragraph at lines 3--127
 [][]
  []
@@ -1192,11 +1181,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--127
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\note_1.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\IVA_tab2.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt"
+(F:\Key_Stats\outputs\note_1.txt) (F:\Key_Stats\outputs\line_space.txt) (F:\Key
+_Stats\tables\IVA_tab2.tex) (F:\Key_Stats\outputs\line_space.txt
 Overfull \hbox (1.85677pt too wide) in paragraph at lines 3--1
 [][]
  []
@@ -1206,9 +1192,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
  []
 
-)
-("H:\My Documents\Git_Clone\KeyStats\tables\IVA_los.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt"
+) (F:\Key_Stats\tables\IVA_los.tex) (F:\Key_Stats\outputs\line_space.txt
 Overfull \hbox (2.91179pt too wide) in paragraph at lines 142--1
 [] []
  []
@@ -1218,10 +1202,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 142--1
 
  []
 
-)
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\ive_exp_tab0.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt"
+) (F:\Key_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\ive_exp_tab0.tex) 
+(F:\Key_Stats\outputs\line_space.txt
 Overfull \hbox (1.85721pt too wide) in paragraph at lines 3--1
 [][]
  []
@@ -1231,9 +1213,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
  []
 
-)
-("H:\My Documents\Git_Clone\KeyStats\tables\IVE_tab1.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt"
+) (F:\Key_Stats\tables\IVE_tab1.tex) (F:\Key_Stats\outputs\line_space.txt
 Overfull \hbox (1.85721pt too wide) in paragraph at lines 3--1
 [][]
  []
@@ -1243,18 +1223,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
  []
 
-)
-("H:\My Documents\Git_Clone\KeyStats\tables\IVE_tab3.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\ive_note_1.txt")
+) (F:\Key_Stats\tables\IVE_tab3.tex) (F:\Key_Stats\outputs\ive_note_1.txt)
 Overfull \hbox (1.85721pt too wide) in paragraph at lines 3--167
 [][]
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\accom_title.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\fcst_title.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\Accom_tab1.tex")
+(F:\Key_Stats\outputs\accom_title.txt) (F:\Key_Stats\outputs\fcst_title.txt) (F
+:\Key_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\Accom_tab1.tex)
 Overfull \hbox (1.85677pt too wide) in paragraph at lines 3--181
 [][]
  []
@@ -1264,8 +1239,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--181
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\tables\Accom_tab2.tex")
+(F:\Key_Stats\tables\Accom_tab2.tex)
 Overfull \hbox (1.85677pt too wide) in paragraph at lines 3--184
 [][]
  []
@@ -1275,9 +1249,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--184
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\Fcst_tab1.tex")
+(F:\Key_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\Fcst_tab1.tex)
 Overfull \hbox (1.85721pt too wide) in paragraph at lines 3--192
 [][]
  []
@@ -1287,17 +1259,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--192
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\tables\Fcst_tab2.tex")
+(F:\Key_Stats\tables\Fcst_tab2.tex)
 Overfull \hbox (1.85721pt too wide) in paragraph at lines 3--199
 [][]
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\NZ_out_title.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\rte_title.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\NZ_out_tab1.tex")
+(F:\Key_Stats\outputs\NZ_out_title.txt) (F:\Key_Stats\outputs\rte_title.txt) (F
+:\Key_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\NZ_out_tab1.tex)
 Overfull \hbox (2.91179pt too wide) in paragraph at lines 210--215
 []| []
  []
@@ -1307,9 +1275,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 210--215
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\tables\NZ_out_tab2.tex")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt"
+(F:\Key_Stats\tables\NZ_out_tab2.tex) (F:\Key_Stats\outputs\line_space.txt
 Overfull \hbox (1.85677pt too wide) in paragraph at lines 3--1
 [][]
  []
@@ -1319,17 +1285,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--1
 
  []
 
-)
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\RTE_tab1.tex")
+) (F:\Key_Stats\outputs\line_space.txt) (F:\Key_Stats\tables\RTE_tab1.tex)
 Overfull \hbox (3.09445pt too wide) in paragraph at lines 3--234
 [][]
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\ec_title.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\tables\EC_exp_tab1.tex")
+(F:\Key_Stats\outputs\ec_title.txt) (F:\Key_Stats\outputs\line_space.txt) (F:\K
+ey_Stats\tables\EC_exp_tab1.tex)
 Overfull \hbox (1.85634pt too wide) in paragraph at lines 3--246
 [][]
  []
@@ -1339,21 +1301,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--246
 
  []
 
-
-("H:\My Documents\Git_Clone\KeyStats\outputs\EC_comment_1.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\EC_comment_2.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\EC_comment_3.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\line_space.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_1.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_2.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_3.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_4.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_5.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_6.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_7.txt")
-("H:\My Documents\Git_Clone\KeyStats\outputs\Data_S_8.txt"
+(F:\Key_Stats\outputs\EC_comment_1.txt) (F:\Key_Stats\outputs\EC_comment_2.txt)
+(F:\Key_Stats\outputs\EC_comment_3.txt) (F:\Key_Stats\outputs\line_space.txt) (
+F:\Key_Stats\outputs\Data_S_1.txt) (F:\Key_Stats\outputs\Data_S_2.txt) (F:\Key_
+Stats\outputs\Data_S_3.txt) (F:\Key_Stats\outputs\Data_S_4.txt) (F:\Key_Stats\o
+utputs\Data_S_5.txt) (F:\Key_Stats\outputs\Data_S_6.txt) (F:\Key_Stats\outputs\
+Data_S_7.txt) (F:\Key_Stats\outputs\Data_S_8.txt
 LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 2.
-
 (P:/MiKTeX/libraries/miktex-portable-current/tex\latex\euenc\eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ))
@@ -1362,39 +1316,33 @@ Overfull \hbox (5.27092pt too wide) in paragraph at lines 102--303
  []
 
 File: ../figures/KTS_Page2_Plot.pdf Graphic file (type QTm)
-
 <use  "../figures/KTS_Page2_Plot.pdf" >
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 308.
 File: MBIE_generic_background.pdf Graphic file (type QTm)
-
 <use  "MBIE_generic_background.pdf" >
 (P:/MiKTeX/libraries/miktex-portable-current/tex\generic\oberdiek\se-ascii-prin
 t.def
 File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
 
-)
-[1
+) [1
 
 ]
 Overfull \vbox (22.06044pt too high) has occurred while \output is active []
 
 File: MBIE_generic_background.pdf Graphic file (type QTm)
-
-<use  "MBIE_generic_background.pdf" >
-[2]
+<use  "MBIE_generic_background.pdf" > [2]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 308.
-
-("H:\My Documents\Git_Clone\KeyStats\knitr\KeyStats.aux")
+(F:\Key_Stats\knitr\KeyStats.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 308.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 308.
  ) 
 Here is how much of TeX's memory you used:
- 25977 strings out of 428974
- 455758 string characters out of 3164391
- 562843 words of memory out of 3000000
+ 25983 strings out of 428974
+ 454721 string characters out of 3164391
+ 562958 words of memory out of 3000000
  28916 multiletter control sequences out of 15000+200000
  7147 words of font info for 65 fonts, out of 3000000 for 9000
  912 hyphenation exceptions out of 8191
- 53i,19n,54p,10502b,651s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,19n,54p,10480b,651s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on KeyStats.pdf (2 pages).
