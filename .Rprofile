@@ -1,9 +1,10 @@
 #============ set up R environment ============ #
 ## customize R package location 
-.libPaths(c("P:/R/libraries/3.1.2", "Z:/R/libraries/3.1.2", .libPaths()))
-##.libPaths(c("P:/R/libraries/current", "Z:/R/libraries/current", .libPaths()))
+source("P:/r/common.Rprofile")
+
 ## makes use of Internet Explorer functions to allow specification of proxies
 utils::setInternet2(TRUE)
+
 ## get RJSDMX working
 Sys.setenv(SDMX_CONF = "P:/R/configuration.properties")
 #============ set up R environment ============ #

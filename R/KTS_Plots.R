@@ -18,7 +18,7 @@
 ##    Created by George Fan on 29 April 2015
 ##     
 ##    Reviewed by 
-##       1)  
+##       1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, specified legend titles, $ format relevant y-axes.
 ##       2) 
 ##
 ## Note: 
@@ -106,14 +106,14 @@ RTEMap <- ggplot() +
   geom_point(data = spend_only, aes(x = long.centre, y = lat.centre, size = LatestSpend), shape = 1) +
   facet_wrap(~Type) +
   theme_nothing(6, base_family = TheFont) +
-  scale_size(paste0("Spend in ", LastYear, " ($m)"), label = comma, range = c(1,10)) +
+  scale_size(paste0("Spend in ", LastYear, " ($m)"), label = comma, range = c(1, 10)) +
   scale_fill_gradientn(paste0("Average growth ",  FirstYear, " to ", LastYear) %>% wrap(18), 
                        colours = brewer.pal(9, "Spectral"),
                        label = percent) +
   theme(legend.text = element_text(lineheight = 0.2), 
         legend.key.height = unit(0.3, "cm")) +
   coord_map() +
-  ggtitle("Regional Tourism Spending distribution (International vs Domestic)")
+  ggtitle("Regional tourism spend distribution (international cf. domestic)")
 
 
 
@@ -161,24 +161,24 @@ ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = Cou
   annotate("rect", xmin = Fcst_start_Year, xmax = Fcst_End_Year, ymin = 0, ymax = Inf, fill = "lightblue") +
   geom_line() + 
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("CountryGroup", values = tourism.cols("Alternating")) +                      
-  scale_size("Visitors\nper year\n('000s)", label = comma) +
-  scale_y_continuous("Spend ($m)\n", label = comma) +
+  scale_colour_manual("Country/\ncountry group", values = tourism.cols("Alternating")) +                      
+  #scale_size("Visitors\nper year\n('000s)", label = comma) +
+  scale_y_continuous("Spend ($million)\n", label = dollar) +
   theme(legend.text = element_text(lineheight = 0.3), legend.key.height = unit(0.4, "cm")) +
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Total Spending by Country Group Year end ", Fcst_start_Year - 1, "\n(Blue shaded period is forecast.)"))
+  labs(x = paste0("Total spend by country/country group year ended ", Fcst_start_Year - 1, "\n(blue shaded area is forecast)"))
 
 
 ivs_arrival_plot <- ggplot(ive_arrival_POV, aes(x = Year, y = TotalVisitorArrivals/1000, color = POV)) +
   geom_line() +
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("POV", values = tourism.cols("Alternating")) +                      
-  scale_size("Visitors\nper year\n('000s)", label = comma) +
-  scale_y_continuous("Total Arrival('000s)\n", label = comma) +
+  scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) +                      
+  #scale_size("Visitors\nper year\n('000s)", label = comma) +
+  scale_y_continuous("Total arrivals ('000s)\n", label = comma) +
   guides(col = guide_legend(nrow = 3, byrow = TRUE)) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) + 
-  labs(x = paste0("Total Arrival by POV Year end ", Fcst_start_Year - 1))
+  labs(x = paste0("Total arrivals by purpose of visit, year ended ", Fcst_start_Year - 1))
 
 
 
@@ -213,13 +213,13 @@ TSAPlot <- EC_exp %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
   geom_bar(width = 0.8, height = 0.2) +
   theme_light(4, base_family = TheFont) +
-  scale_y_continuous("Tourism expenditure ($m)\n", label = comma) +
+  scale_y_continuous("Tourism expenditure ($million)\n", label = dollar) +
   scale_fill_manual("", values = tourism.cols("Alternating"), guide = guide_legend(reverse = TRUE)) +
   theme(axis.text.x = element_text(color = "black")) +
   theme(legend.text = element_text(lineheight = 0.4), legend.key.height = unit(0.4, "cm")) +  
-  ggtitle("Expenditure by Product by Market") +
+  ggtitle("Expenditure by product by market") +
   guides(col = guide_legend(ncol = 2, byrow = TRUE)) +
-  labs(x = paste0("Year ending March of ", Year_TSA))
+  labs(x = paste0("Year ended March ", Year_TSA))
 
 
 #=================================== 5 Accommodation Guest Nights Plot==============================================
@@ -251,13 +251,13 @@ accom_plot <- ggplot(Guest_nights_Yr, aes(x = TimePeriod, y = Guest_Nights/10^6,
   theme_minimal() +
   geom_line() +
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("Accom_Type", values = tourism.cols("Alternating")) + 
+  scale_colour_manual("Accommodation type", values = tourism.cols("Alternating")) + 
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) + 
-  scale_size("Visitors\nper year\n('000s)", label = comma) +
-  scale_y_continuous("Number of Guest Nights (mil)\n", label = comma) +
+  #scale_size("Visitors\nper year\n('000s)", label = comma) +
+  scale_y_continuous("Number of guest nights (million)\n", label = comma) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Guest Nights by Accommodation Type Monthly end ", substr(Month_Accom, 1, 3), " of ", Year_Accom)) + 
+  labs(x = paste0("Guest nights by accommodation type - monthly ended ", substr(Month_Accom, 1, 3), " ", Year_Accom)) + 
   guides(col = guide_legend(nrow = 2, byrow = TRUE))
 
 
