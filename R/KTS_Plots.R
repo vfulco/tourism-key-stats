@@ -119,40 +119,62 @@ RTEMap <- ggplot() +
 
 #========================== 3 International Vistor Expenditure: Actuals and Forecast ==========================
 
-Fcst_query <- paste("SELECT * FROM Production.vw_NZTFSurveyMainHeader where Year >= ", Fcst_start_Year)
+SQL_qry_ive <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, POV, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure 
+                     FROM Production.vw_IVSSurveyMainHeader ")
+ive <- sqlQuery(TRED_Prod, SQL_qry_ive)
+
+Latest_date_Spend <- max(ive$Year)
+
+Fcst_query <- paste("SELECT * FROM Production.vw_NZTFSurveyMainHeader where Year > ", Latest_date_Spend)
 Fcst <- sqlQuery(TRED_Prod, Fcst_query)
 
+Fcst_start_Year <- min(Fcst$Year)
 Fcst_End_Year <- max(Fcst$Year)
-list_country <- unique(Fcst$Country)
+Fcst_year <- max(Fcst$ForecastYear)
 
-SQL_qry_ive <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, POV, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure 
-                     FROM Production.vw_IVSSurveyMainHeader where Year < ", Fcst_start_Year)
-ive_1 <- sqlQuery(TRED_Prod, SQL_qry_ive)
+Fcst <- Fcst %>%
+  filter(ForecastYear == Fcst_year)
 
-save(ive_1, file = "data/ive_1.rda")
+Country_List_fcst <- Fcst %>%
+  filter(Country != 'All' & substr(Country, 1, 5) != 'Other') %>%
+  #   mutate(Country = ifelse(substr(Country, 1, 5) == 'Other', 'Other', as.character(Country))) %>%
+  select(Country) %>%
+  unique()
 
-
-ive_2 <- ive_1 %>% 
+ive_2 <- ive %>% 
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
   mutate(CountryGroup = ifelse(CountryGroup == "Korea, Republic of", "Korea", 
                                ifelse(CountryGroup == "USA", "US", as.character(CountryGroup)))) %>%
-  mutate(CountryGroup = ifelse(CountryGroup %in% list_country, as.character(CountryGroup), "Other"))
-
-ive_exp_sum_1 <- ive_2 %>%
+  mutate(CountryGroup = ifelse(CountryGroup %in% Country_List_fcst$Country, as.character(CountryGroup), "Other")) %>%
   group_by(CountryGroup, Year) %>% 
-  summarise("TotalVisitorSpend" = sum(Expenditure)/1000000,
-            "TotalVisitorArrivals" = round(sum(PopulationWeight)))
+  summarise("TotalVisitorSpend" = sum(Expenditure)/1000000)
 
-ive_arrival_POV <- ive_2 %>%
-  mutate(POV = ifelse(POV == "Education", "Other", as.character(POV))) %>%
-  group_by(POV, Year) %>%
-  summarise("TotalVisitorArrivals" = round(sum(PopulationWeight)))
+Country_List <- unique(ive_2$CountryGroup)
 
-ive_sum <- Fcst %>%
-  select(Country, Year, TotalVisitorSpend, TotalVisitorArrivals) %>%
-  rename("CountryGroup" = Country)
+ive_Other <- Fcst %>%
+  select(Country, Year, TotalVisitorSpend) %>%
+  filter(Country %in% Country_List | Country == 'All') %>%
+  mutate(Country = ifelse(Country != 'All', 'Other', as.character(Country))) %>%
+  group_by(Country, Year) %>% 
+  summarise("TotalVisitorSpend" = sum(TotalVisitorSpend)/1000000) %>%
+  spread(Country, TotalVisitorSpend) %>%
+  mutate(Country = 'Other',
+         TotalVisitorSpend = All - Other) %>%
+  select(-All, -Other)
 
-ive_sum <- bind_rows(ive_exp_sum_1, ive_sum) %>%
+ive_Single <- Fcst %>% 
+  select(Country, Year, TotalVisitorSpend) %>%
+  filter(Country %in% Country_List & Country != 'All') %>%
+  group_by(Country, Year) %>% 
+  summarise("TotalVisitorSpend" = sum(TotalVisitorSpend)/1000000)
+
+ive_fcst <- bind_rows(ive_Single, ive_Other) %>%
+  arrange(Country, Year) %>%
+  rename("CountryGroup" = Country) %>%
+  group_by(CountryGroup, Year) %>% 
+  summarise("TotalVisitorSpend" = sum(TotalVisitorSpend))
+
+ive_sum <- bind_rows(ive_2, ive_fcst) %>%
   arrange(Year, CountryGroup)
 
 
@@ -162,27 +184,56 @@ ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = Cou
   geom_line() + 
   theme_light(6, base_family = TheFont) +
   scale_colour_manual("Country/\ncountry group", values = tourism.cols("Alternating")) +                      
-  #scale_size("Visitors\nper year\n('000s)", label = comma) +
   scale_y_continuous("Spend ($million)\n", label = dollar) +
   theme(legend.text = element_text(lineheight = 0.3), legend.key.height = unit(0.4, "cm")) +
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Total spend by country/country group year ended ", Fcst_start_Year - 1, "\n(blue shaded area is forecast)"))
+  labs(x = paste0("Total spend by country/country group year ended ", Latest_date_Spend, "\n(blue shaded area is forecast)"))
+
+# ============================ Arrival Plot ================================
+
+iv_pov_0 <- ImportTS(TRED, "Visitor arrivals by country of residence, purpose and length of stay (Monthly)")
+
+Latest_Date_Arr <- max(iv_pov_0$TimePeriod)
 
 
-ivs_arrival_plot <- ggplot(ive_arrival_POV, aes(x = Year, y = TotalVisitorArrivals/1000, color = POV)) +
+ive_arrival_POV <- iv_pov_0 %>%
+  filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY")) %>%
+  rename('POV' = ClassificationValue.1)
+
+ive_arrival_3 <- ive_arrival_POV %>%
+  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
+  mutate(POV = "Other") %>%
+  group_by(TimePeriod, POV) %>%
+  summarise(Value1 = sum(Value)) %>%
+  select(TimePeriod, POV, Value1)
+
+ive_arrival_All <- ive_arrival_POV %>%
+  filter(POV == "TOTAL ALL TRAVEL PURPOSES") %>%
+  rename('POV1' = POV, 'Value2'= Value)
+
+ive_arrival_other <- left_join(ive_arrival_3, ive_arrival_All, by = "TimePeriod") %>%
+  mutate(Value = Value2 - Value1) %>%
+  select(-Value1, -Value2, -POV1)
+
+ive_arrival_POV_sum <- bind_rows(ive_arrival_POV, ive_arrival_other) %>%
+  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
+  arrange(POV, TimePeriod) %>% 
+  group_by(POV) %>%
+  mutate(Value = rollapplyr(Value, width = 12, FUN = mean, fill = NA)) %>%
+  filter(!is.na(Value))
+
+ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
   geom_line() +
   theme_light(6, base_family = TheFont) +
   scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) +                      
   #scale_size("Visitors\nper year\n('000s)", label = comma) +
   scale_y_continuous("Total arrivals ('000s)\n", label = comma) +
-  guides(col = guide_legend(nrow = 3, byrow = TRUE)) +
+  guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) + 
-  labs(x = paste0("Total arrivals by purpose of visit, year ended ", Fcst_start_Year - 1))
+  labs(x = paste0("Total arrivals by purpose of visit, year ended ", months(Latest_Date_Arr), " of ", year(Latest_Date_Arr)))
 
-
-
-#=================================== 4 TSA Plot==============================================
+#=================================== 4 TSA Plot ==============================================
 
 Current_Year <- year(today())- 1
 Previous_Year <- Current_Year - 1
@@ -274,12 +325,12 @@ grid.text("Source: Regional Tourism Estimates(RTE)", x = 0.75, y = 0.67, just = 
 
 vp2 <- viewport(x = 0.3, y= 0.51, width = 0.55, height = 0.3)
 print(ivs_exp_plot, vp = vp2)
-grid.text("Source: International Visitor Survey(IVS) and Forecast", x = 0.25, y = 0.365, just = "left",
+grid.text("Source: International Visitor Survey(IVS) and NZIER", x = 0.25, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp3 <- viewport(x = 0.75, y = 0.51, width = 0.4, height = 0.3)
 print(ivs_arrival_plot, vp=vp3)
-grid.text("Source: International Visitor Survey(IVS)", x = 0.75, y = 0.365, just = "left",
+grid.text("Source: International Travel and Migration(ITM)", x = 0.75, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp4 <- viewport(x = 0.3, y = 0.2, width = 0.5, height = 0.3)
@@ -289,7 +340,7 @@ grid.text("Source: Tourism Satellite Account(TSA)", x = 0.3, y = 0.05, just = "l
 
 vp5 <- viewport(x = 0.75, y = 0.2, width = 0.45, height = 0.3)
 print(accom_plot, vp = vp5)
-grid.text("Source: Regional Tourism Estimates(RTE)", x = 0.75, y = 0.05, just = "left",
+grid.text("Source: Accommodation Survey", x = 0.75, y = 0.05, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 dev.off()
