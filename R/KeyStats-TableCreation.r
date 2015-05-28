@@ -54,6 +54,12 @@ source("r/functions.R")
 
 TRED <- odbcConnect("TRED_Prod")
 
+Key_Market_arrival = 6
+Key_Market_spend = 5
+Key_Market_Fcst = 5
+Key_outbound_destination = 5
+Key_region = 6 
+
 qry_starting_date <- today() - years(3)
 
 yday(qry_starting_date) <- 1
@@ -149,14 +155,14 @@ Key_Market <- iv_pc_p2 %>%
       ) 
 
 Market_share <- Key_Market %>% 
-  top_n(6, Visitors) %>%
+  top_n(Key_Market_arrival, Visitors) %>%
   select(Visitors) %>% 
   sum()/total_sum
 
 Market_share <- percent(round(Market_share, 3))
 
 Key_Market <- Key_Market %>%
-  top_n(6, Visitors) %>%
+  top_n(Key_Market_arrival, Visitors) %>%
   arrange(-Visitors) %>%
   mutate(Visits = format(Visitors, big.mark = ",")) %>%
   select(1, 3, 5, 4) %>%
@@ -199,7 +205,7 @@ iv_pov <- ImportTS(TRED, "Visitor arrivals by country of residence, purpose and 
                    where = paste("TimePeriod > '", qry_starting_date, "'"))
 
 save(iv_pov, file = "data/iv_pov.rda")
-load("data/iv_pov.rda")
+# load("data/iv_pov.rda")
 
 iv_pov_report_end_date <- max(iv_pov$TimePeriod)
 
@@ -371,7 +377,7 @@ ive_main_sum_1 <- ive_main_1 %>%
   mutate("Growth (pa)" = paste0(round((Current_Yr / Last_Yr - 1)*100), "%")) %>% 
   select(-Last_Yr) %>%
   arrange(-Current_Yr) %>%
-  top_n(5, Current_Yr) %>% 
+  top_n(Key_Market_spend, Current_Yr) %>% 
   mutate("Current_Yr" = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>% 
   rename("Key international markets ($million)" = CountryGroup) %>%
   clean_names()
@@ -480,7 +486,6 @@ NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{4.8cm}p{1.3cm}p{1
                      #                      hline.after = c(0, nrow(Annual_total_outbound)),
                      include.rownames = FALSE)
 
-
 NZ_out_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",NZ_out_tab1, fixed = T)
 NZ_out_tab1 <- gsub("}p{", "}>{\\hfill}p{", NZ_out_tab1, fixed = T)
 NZ_out_tab1 <- gsub("Annual outbound departures","\\textbf{Annual Outbound Departures}", NZ_out_tab1, fixed = T)
@@ -512,18 +517,23 @@ NZ_out_total <- NZ_out %>%
   mutate(Year_Period = ifelse(TimePeriod > Report_end_date_NZ_out - years(1), "Current", 
                               ifelse(TimePeriod > Report_end_date_NZ_out - years(2), "Last", "Earlier"))) %>%
   mutate(Country = ifelse(CountryGrouped == "China", "China", 
-                              ifelse(CountryGrouped == "UK", "UK", 
-                                     ifelse(CountryGrouped == "USA", "USA", as.character(Country))))) %>%
+                          ifelse(CountryGrouped == "Australia", "Australia", 
+                                 ifelse(CountryGrouped == "UK", "UK", 
+                                        ifelse(CountryGrouped == "Japan", "Japan", 
+                                               ifelse(CountryGrouped == "Germany", "Germany", 
+                                                      ifelse(CountryGrouped == "Canada", "Canada", 
+                                                             ifelse(CountryGrouped == "Korea, Republic of", "Korea, Republic of", 
+                                     ifelse(CountryGrouped == "USA", "USA", as.character(Country)))))))))) %>%
   group_by(Country) %>%
   summarise( Visits = sum(Value[Year_Period == "Current"]),
     "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
     ) %>%
-  top_n(5, Visits) %>%
+  top_n(Key_outbound_destination, Visits) %>%
   arrange(-Visits) %>%
   mutate(Visits = format(Visits, big.mark = ",")) %>%
   rename('Countries visited by New Zealanders' = Country) %>%
   clean_names()
-  
+
 
 NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
@@ -554,6 +564,11 @@ Fcst_query <- paste("SELECT * FROM Production.vw_NZTFSurveyMainHeader where Year
                     "order by ForecastYear, Country, Year")
 
 Fcst <- sqlQuery(TRED, Fcst_query)
+
+# fcst_2015 <- Fcst %>%
+#   filter(Year == 2015, ForecastYear == 2015)
+# 
+# write.csv(fcst_2015, file = "data/fcst_2015.csv")
 
 Fcst_year <- as.numeric(max(Fcst$ForecastYear))
 End_year <- as.numeric(max(Fcst$Year))
@@ -613,12 +628,12 @@ sink()
 
 Fcst_sum_key <- Fcst %>%
   data.frame() %>%
-  filter(Year == End_year & !Country %in% c("All", "Other", "Other excl India and Indonesia", "Other incl India and Indonesia")) %>%
+  filter(Year == End_year & !Country %in% c("All") & substr(Country, 1, 5) != "Other") %>%  
   group_by(Country) %>%
   summarise( Visitors = sum(TotalVisitorArrivals),
              "Spend ($m)" = format(round(sum(TotalVisitorSpend[Year == End_year]) / 10^6, 0), big.mark = ",")
   ) %>%
-  top_n(5, Visitors) %>%
+  top_n(Key_Market_Fcst, Visitors) %>%
   arrange(-Visitors) %>%
   mutate(Visitors = format(Visitors, big.mark = ",")) %>%
   rename('Key overseas markets' = Country)
@@ -903,7 +918,7 @@ RTE_sum <-RTE_1[, list ("RTO ($million)" = RTE_1$RTO,
                         "Total" = format(round(RTE_1$Spend.Domestic+RTE_1$Spend.International, 0), big.mark = ","),
                         "%" = percent(round((RTE_1$Spend.Domestic+RTE_1$Spend.International)/sum_spend, digits = 2)))]
 
-RTE_sum_1 <- data.table(RTE_sum[order(RTE_sum$Total, decreasing = TRUE), ])[1:6]
+RTE_sum_1 <- data.table(RTE_sum[order(RTE_sum$Total, decreasing = TRUE), ])[1:Key_region]
 
 RTE_tab1 <- print(xtable(RTE_sum_1, align = "lp{2cm}p{1.5cm}p{1cm}p{0.9cm}p{1.3cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
