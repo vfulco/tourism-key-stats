@@ -120,7 +120,7 @@ iv_pc_p2 <- ImportTS(TRED, "Visitor arrivals by EVERY country of residence and p
 total_sum <- iv_pc_p2 %>%
   filter(ClassificationValue == "TOTAL ALL COUNTRIES OF RESIDENCE" & 
            ClassificationValue.1 == "TOTAL ALL TRAVEL PURPOSES" &
-           TimePeriod > iv_report_end_date -years(1) & 
+           TimePeriod > iv_report_end_date - years(1) & 
            TimePeriod < iv_report_end_date + days(1)) %>%
   select(Value) %>%
   sum()
@@ -506,7 +506,8 @@ sink()
 
 NZ_out_total <- NZ_out %>%
   rename("Country" = ClassificationValue, "Trip_Type" = ClassificationValue.1) %>%
-  filter(!(Country %in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "AFRICA AND THE MIDDLE EAST", "TOTAL ALL COUNTRIES OF MAIN DESTINATION")) & 
+  filter(Country != toupper(Country) &
+  #%in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "AFRICA AND THE MIDDLE EAST", "TOTAL ALL COUNTRIES OF MAIN DESTINATION")) & 
            Trip_Type == "TOTAL ALL TRAVEL PURPOSES") %>%
   mutate(Year_Period = ifelse(TimePeriod > Report_end_date_NZ_out - years(1), "Current", 
                               ifelse(TimePeriod > Report_end_date_NZ_out - years(2), "Last", "Earlier"))) %>%
