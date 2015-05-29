@@ -1,1 +1,1 @@
-$^2$International Visitor Survey - figures in grey are not statistically significant. 'Business' excludes conferences.
+$^2$International Visitor Survey - 'Business' excludes conferences.

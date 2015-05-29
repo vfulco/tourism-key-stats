@@ -20,8 +20,10 @@
 ##    Created by George Fan on 20 April 2015
 ##     
 ##    Reviewed by 
-##       1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, removed redundant blanks, reordered source footnotes to reflect page order.
-##       2) 
+##        1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, removed redundant blanks, reordered source footnotes to reflect page order.
+##        2)  Pete McMillen, 28 May 2015 - substantive peer review of style/tone, grammar, interpretability, accuracy of code, output tables and plots
+##        3)  Pete McMillen, 29 May 2015 - hard coded Commercial Accommodation factor levels to output in standard order:
+##              hotel, motel, backpackers, holiday parks, total.
 ##
 ## Note: 
 ##
@@ -458,7 +460,7 @@ cat(ive_note_1)
 sink()
 
 
-# ================================== Trip aboard by New Zealanders ==================================
+# ================================== Trips abroad by New Zealanders ==================================
 
 NZ_out_sum <- ImportTS(TRED, "Short-term NZ traveller departure totals (Monthly)",
                        where = paste("TimePeriod > '", qry_starting_date, "'"))
@@ -790,6 +792,9 @@ sink()
 ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)",
                   where = paste("TimePeriod > '", qry_starting_date, "'"))
 
+ACCOM$ClassificationValue <- factor(ACCOM$ClassificationValue,
+                                    levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total'))
+
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
 accom_title <- paste0("\\small Commercial Accommodation$^3$ (Year ended ", 
@@ -802,7 +807,7 @@ sink()
 
 
 ACCOM_type_sum <- ACCOM %>%
-  filter(ClassificationValue %in% c('Holiday parks', 'Backpackers', 'Motels', 'Hotels', 'Total') & 
+  filter(ClassificationValue %in% c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total') & 
            ClassificationValue.1 %in% c('Number of guest nights')) %>%
   mutate(Year_Period = ifelse(TimePeriod > accom_report_end_date-years(1), "Current", 
                               ifelse(TimePeriod > accom_report_end_date-years(2), "Last", "Earlier"))) %>%
@@ -831,7 +836,7 @@ sink()
 # --------- Occupancy Rates Summary ---------
 
 ACCOM_p_sum <- ACCOM %>%
-  filter(ClassificationValue %in% c('Holiday parks', 'Backpackers', 'Motels', 'Hotels', 'Total') & 
+  filter(ClassificationValue %in% c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total') & 
            ClassificationValue.1 %in% c('Occupancy rate (percent)')) %>%
   select(1, 2, 3, 4) %>%
   rename('Accom_Type' = ClassificationValue, 'Class' = ClassificationValue.1, 'Num_of_Stay' = Value) %>%
@@ -942,7 +947,7 @@ sink("outputs/Data_S_1.txt")
 cat(Data_S_1)
 sink() 
 
-Data_S_2 <- paste("$^2$International Visitor Survey - figures in grey are not statistically significant. 'Business' excludes conferences.")
+Data_S_2 <- paste("$^2$International Visitor Survey - 'Business' excludes conferences.")
 sink("outputs/Data_S_2.txt")
 cat(Data_S_2)
 sink()

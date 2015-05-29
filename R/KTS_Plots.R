@@ -177,17 +177,20 @@ ive_fcst <- bind_rows(ive_Single, ive_Other) %>%
 ive_sum <- bind_rows(ive_2, ive_fcst) %>%
   arrange(Year, CountryGroup)
 
+# order countries by total spend highest to lowest in maximum forecast year
+ive_sum$CountryGroup <- factor(ive_sum$CountryGroup,
+                               levels = rev(ive_sum$CountryGroup[order(ive_sum$TotalVisitorSpend[ive_sum$Year == Fcst_End_Year])]))
 
 ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = CountryGroup)) +
   theme_minimal() +
   annotate("rect", xmin = Fcst_start_Year, xmax = Fcst_End_Year, ymin = 0, ymax = Inf, fill = "lightblue") +
   geom_line() + 
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("Country/\ncountry group", values = tourism.cols("Alternating")) +                      
+  scale_colour_manual("Country", values = tourism.cols("Alternating")) +                      
   scale_y_continuous("Spend ($million)\n", label = dollar) +
   theme(legend.text = element_text(lineheight = 0.3), legend.key.height = unit(0.4, "cm")) +
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Total spend by country/country group year ended ", Latest_date_Spend, "\n(blue shaded area is forecast)"))
+  labs(x = paste0("Total spend by country, year ended ", Latest_date_Spend, "\n(blue shaded area is forecast)"))
 
 # ============================ Arrival Plot ================================
 
@@ -222,6 +225,10 @@ ive_arrival_POV_sum <- bind_rows(ive_arrival_POV, ive_arrival_other) %>%
   mutate(Value = rollapplyr(Value, width = 12, FUN = mean, fill = NA)) %>%
   filter(!is.na(Value))
 
+# hard code standard POV factor level order
+ive_arrival_POV_sum$POV <- factor(ive_arrival_POV_sum$POV,
+                               levels = c('Holiday/Vacation', 'Business', 'Visit Friends/Relatives', 'Other'))
+
 ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
   geom_line() +
   theme_light(6, base_family = TheFont) +
@@ -231,7 +238,7 @@ ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/10
   guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) + 
-  labs(x = paste0("Total arrivals by purpose of visit, year ended ", months(Latest_Date_Arr), " of ", year(Latest_Date_Arr)))
+  labs(x = paste0("Total arrivals by purpose of visit, year ended ", months(Latest_Date_Arr), " ", year(Latest_Date_Arr)))
 
 #=================================== 4 TSA Plot ==============================================
 
@@ -260,6 +267,14 @@ EC_exp <- ImportTS(TRED_Prod, "Tourism Expenditure by Type of Product and Type o
 
 Year_TSA <- max(EC_exp$Year)
 
+# hard code and wrap standard TSA tourism product factor level order
+EC_exp$Product <- factor(EC_exp$Product)
+EC_exp$Product <- wrap(EC_exp$Product, 25)
+EC_exp$Product <- factor(EC_exp$Product, levels = c('Other tourism products', 'Education services', 'Retail sales - other',
+                                                    'Retail sales - fuel and\nother automotive products', 'Other passenger transport',
+                                                    'Air passenger transport', 'Food and beverage serving\nservices',
+                                                    'Accommodation services'))
+
 TSAPlot <- EC_exp %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
   geom_bar(width = 0.8, height = 0.2) +
@@ -267,7 +282,7 @@ TSAPlot <- EC_exp %>%
   scale_y_continuous("Tourism expenditure ($million)\n", label = dollar) +
   scale_fill_manual("", values = tourism.cols("Alternating"), guide = guide_legend(reverse = TRUE)) +
   theme(axis.text.x = element_text(color = "black")) +
-  theme(legend.text = element_text(lineheight = 0.4), legend.key.height = unit(0.4, "cm")) +  
+  theme(legend.text = element_text(lineheight = 1), legend.key.height = unit(0.5, "cm")) +  
   ggtitle("Expenditure by product by market") +
   guides(col = guide_legend(ncol = 2, byrow = TRUE)) +
   labs(x = paste0("Year ended March ", Year_TSA))
@@ -296,6 +311,10 @@ End_of_Accom_Rpt <- Guest_nights_Yr %>%
   unique()
 Month_Accom <- months(End_of_Accom_Rpt$TimePeriod)
 Year_Accom <- year(End_of_Accom_Rpt$TimePeriod)
+
+# hard code standard Accommodation Type factor level order
+Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
+                                     levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks'))
 
 
 accom_plot <- ggplot(Guest_nights_Yr, aes(x = TimePeriod, y = Guest_Nights/10^6, color = Accom_Type)) +
@@ -333,14 +352,14 @@ print(ivs_arrival_plot, vp=vp3)
 grid.text("Source: International Travel and Migration(ITM)", x = 0.75, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
-vp4 <- viewport(x = 0.3, y = 0.2, width = 0.5, height = 0.3)
+vp4 <- viewport(x = 0.3, y = 0.2, width = 0.55, height = 0.3)
 print(TSAPlot, vp = vp4)
 grid.text("Source: Tourism Satellite Account(TSA)", x = 0.3, y = 0.05, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
-vp5 <- viewport(x = 0.75, y = 0.2, width = 0.45, height = 0.3)
+vp5 <- viewport(x = 0.75, y = 0.2, width = 0.4, height = 0.3)
 print(accom_plot, vp = vp5)
-grid.text("Source: Accommodation Survey", x = 0.75, y = 0.05, just = "left",
+grid.text("Source: Accommodation Survey", x = 0.8, y = 0.05, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 dev.off()
