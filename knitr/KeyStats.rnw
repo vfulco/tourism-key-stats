@@ -53,7 +53,7 @@
 \centering
 \begin{tabular}[t]{p{8.7cm} p{0.02cm} p{8.7cm} }
 
-% This is the beginning of 1st  block
+% This is the beginning of 1st block
 %   \midrule
 % && \\
 % \cellcolor{black} {\color{white} International Visitor Arrivals$^1$ (Year ended Dec 2014) }
@@ -117,7 +117,7 @@
 \
 \\
 
-% This is the beginning of 2st  block
+% This is the beginning of 2nd  block
 \cellcolor{lightgray}{\textbf{\input{../outputs/accom_title.txt} }}
 & 
 &
@@ -149,7 +149,7 @@
 \
 \\
 
-% This is the beginning of 3nd block
+% This is the beginning of 3rd block
 
 % \cellcolor{lightgray}{\textbf{\small Trips aboard by NZers$^3$ (Year ended Dec 2014) }}  
 
@@ -182,7 +182,7 @@
 \input{../tables/RTE_tab1.tex}
 \
 \\
-% This is the beginning of 4nd block
+% This is the beginning of 4th block
 
 \cellcolor{lightgray}{\textbf{\input{../outputs/ec_title.txt} }} 
 &
@@ -244,6 +244,7 @@
 \
 
 \input{../outputs/Data_S_7.txt}
+\input{../outputs/line_space.txt}
 \
 
 \input{../outputs/Data_S_8.txt}
