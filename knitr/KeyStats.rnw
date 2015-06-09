@@ -197,7 +197,6 @@
 \
 
 
-% Tourism Exports
 \textbf{Tourism Exports}
 \
 
