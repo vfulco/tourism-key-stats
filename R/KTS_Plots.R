@@ -188,6 +188,9 @@ ive_fcst <- bind_rows(ive_Single, ive_Other) %>%
 ive_sum <- bind_rows(ive_2, ive_fcst) %>%
   arrange(Year, CountryGroup)
 
+# order countries by total spend highest to lowest in maximum forecast year
+  ive_sum$CountryGroup <- factor(ive_sum$CountryGroup,
+                                levels = rev(ive_sum$CountryGroup[order(ive_sum$TotalVisitorSpend[ive_sum$Year == Fcst_End_Year])]))
 
 ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = CountryGroup)) +
   theme_minimal() +
@@ -302,6 +305,12 @@ EC_exp <- ImportTS(TRED, "Tourism Expenditure by Type of Product and Type of Tou
 
 Year_TSA <- max(EC_exp$Year)
 
+EC_exp$Product <- wrap(EC_exp$Product, 20)
+EC_exp$Product <- factor(EC_exp$Product, levels = c('Other tourism\nproducts', 'Education services', 'Retail sales - other',
+                                                    'Retail sales - fuel\nand other automotive\nproducts', 'Other passenger\ntransport',
+                                                    'Air passenger\ntransport', 'Food and beverage\nserving services',
+                                                    'Accommodation\nservices'))
+
 TSAPlot <- EC_exp %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
   geom_bar(width = 0.8, height = 0.2) +
@@ -309,10 +318,10 @@ TSAPlot <- EC_exp %>%
   scale_y_continuous("Tourism expenditure ($millions)\n", label = dollar) +
   scale_fill_manual("", values = tourism.cols("Alternating"), guide = guide_legend(reverse = TRUE)) +
   theme(axis.text.x = element_text(color = "black")) +
-  theme(legend.text = element_text(lineheight = 1), legend.key.height = unit(0.5, "cm")) +  
+  theme(legend.text = element_text(lineheight = 1), legend.key.height = unit(0.6, "cm")) +  
   theme(axis.title.x = element_blank()) +
   guides(col = guide_legend(ncol = 2, byrow = TRUE)) +
-  ggtitle(paste0("Economic impact on the industries (year ending Mar ", Year_TSA, ")"))
+  ggtitle(paste0("Economic contribution by industry (year ending Mar ", Year_TSA, ")"))
 
 
 
@@ -378,7 +387,7 @@ grid.text("Source: International Visitor Survey(IVS) and NZIER", x = 0.25, y = 0
 
 vp3 <- viewport(x = 0.75, y = 0.51, width = 0.4, height = 0.3)
 print(ivs_arrival_plot, vp=vp3)
-grid.text("Source: International Travel and Migration(ITM)", x = 0.75, y = 0.365, just = "left",
+grid.text("Source: International Travel and Migration(ITM)", x = 0.7, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp4 <- viewport(x = 0.3, y = 0.2, width = 0.5, height = 0.3)
@@ -388,7 +397,7 @@ grid.text("Source: Tourism Satellite Account(TSA)", x = 0.3, y = 0.05, just = "l
 
 vp5 <- viewport(x = 0.75, y = 0.2, width = 0.45, height = 0.3)
 print(accom_plot, vp = vp5)
-grid.text("Source: Accommodation Survey", x = 0.75, y = 0.05, just = "left",
+grid.text("Source: Accommodation Survey", x = 0.8, y = 0.05, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 dev.off()
