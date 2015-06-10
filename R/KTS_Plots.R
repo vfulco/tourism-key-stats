@@ -194,22 +194,13 @@ ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = Cou
   annotate("rect", xmin = Fcst_start_Year, xmax = Fcst_End_Year, ymin = 0, ymax = Inf, fill = "lightblue") +
   geom_line() + 
   theme_light(6, base_family = TheFont) +
-<<<<<<< HEAD
   scale_colour_manual("Country", values = tourism.cols("Alternating")) + 
   scale_y_continuous("Spend ($millions)\n", label = dollar) +
-=======
-  scale_colour_manual("Country/\ncountry group", values = tourism.cols("Alternating")) +                      
-  scale_y_continuous("Spend ($million)\n", label = dollar) +
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
   theme(legend.text = element_text(lineheight = 0.3), legend.key.height = unit(0.4, "cm")) +
   theme(axis.title.x = element_blank()) +
   theme(legend.key = element_blank()) +
-<<<<<<< HEAD
   ggtitle(paste0("Total spend by country (year ending Dec ", Latest_date_Spend, ")", "\n(blue shaded area is forecast)"))
 
-=======
-  labs(x = paste0("Total spend by country/country group year ended ", Latest_date_Spend, "\n(blue shaded area is forecast)"))
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
 
 # ============================ Arrival Plot ================================
 
@@ -253,12 +244,7 @@ ive_arr_POV_sum <- ive_arrival_POV_sum %>%
 ive_arr_POV_sum$POV <- factor(ive_arr_POV_sum$POV,
                                   levels = rev(ive_arr_POV_sum$POV[order(ive_arr_POV_sum$Value[ive_arr_POV_sum$TimePeriod == Latest_Date_Arr])]))
 
-<<<<<<< HEAD
-
 ivs_arrival_plot <- ggplot(ive_arr_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
-=======
-ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
   geom_line() +
   theme_light(6, base_family = TheFont) +
   scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) + 
@@ -268,7 +254,6 @@ ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/10
   scale_y_continuous("Total arrivals ('000s)\n", label = comma) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) + 
-<<<<<<< HEAD
   theme(axis.title.x = element_blank()) +
   guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
   ggtitle(paste0("Total arrivals by purpose of visit (month ending ", substr(months(Latest_Date_Arr), 1, 3), " ", year(Latest_Date_Arr), ")"))
@@ -289,13 +274,6 @@ ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/10
 
 #-------------------------
 
-
-
-
-
-=======
-  labs(x = paste0("Total arrivals by purpose of visit, year ended ", months(Latest_Date_Arr), " of ", year(Latest_Date_Arr)))
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
 
 #=================================== 4 TSA Plot ==============================================
 
@@ -331,13 +309,8 @@ TSAPlot <- EC_exp %>%
   scale_y_continuous("Tourism expenditure ($millions)\n", label = dollar) +
   scale_fill_manual("", values = tourism.cols("Alternating"), guide = guide_legend(reverse = TRUE)) +
   theme(axis.text.x = element_text(color = "black")) +
-<<<<<<< HEAD
   theme(legend.text = element_text(lineheight = 1), legend.key.height = unit(0.5, "cm")) +  
   theme(axis.title.x = element_blank()) +
-=======
-  theme(legend.text = element_text(lineheight = 0.4), legend.key.height = unit(0.4, "cm")) +  
-  ggtitle("Expenditure by product by market") +
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
   guides(col = guide_legend(ncol = 2, byrow = TRUE)) +
   ggtitle(paste0("Economic impact on the industries (year ending Mar ", Year_TSA, ")"))
 
@@ -368,15 +341,9 @@ End_of_Accom_Rpt <- Guest_nights_Yr %>%
 Month_Accom <- months(End_of_Accom_Rpt$TimePeriod)
 Year_Accom <- year(End_of_Accom_Rpt$TimePeriod)
 
-<<<<<<< HEAD
-# # hard code standard Accommodation Type factor level order
-# Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
-#                                      levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks'))
 
 Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
                                      levels = rev(Guest_nights_Yr$Accom_Type[order(Guest_nights_Yr$Guest_Nights[Guest_nights_Yr$TimePeriod == accom_annual_rpt_end_date])]))
-=======
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
 
 accom_plot <- ggplot(Guest_nights_Yr, aes(x = TimePeriod, y = Guest_Nights/10^6, color = Accom_Type)) +
   theme_minimal() +

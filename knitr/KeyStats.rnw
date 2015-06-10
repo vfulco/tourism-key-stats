@@ -242,6 +242,7 @@
 \
 
 \input{../outputs/Data_S_7.txt}
+\input{../outputs/line_space.txt}
 \
 
 \input{../outputs/Data_S_8.txt}

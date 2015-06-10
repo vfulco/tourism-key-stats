@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 \small Economic Contribution$^4$ (year ending March 2014)
+=======
+\small Economic Contribution$^4$ (Year ended March 2014)
+>>>>>>> f6451ec7dc575d1c7baddd04fe80232a36a6db97

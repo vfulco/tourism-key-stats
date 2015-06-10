@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 \small Tourism Forecast$^7$ (forecast period 2015 to 2021)
+=======
+\small Tourism Forecast$^7$ (Forecast Period 2015 to 2021)
+>>>>>>> f6451ec7dc575d1c7baddd04fe80232a36a6db97

@@ -947,12 +947,6 @@ sink()
 ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)",
                   where = paste("TimePeriod > '", qry_starting_date, "'"))
 
-<<<<<<< HEAD
-# ACCOM$ClassificationValue <- factor(ACCOM$ClassificationValue,
-#                                     levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total'))
-
-=======
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
 accom_title <- paste0("\\small Commercial Accommodation$^3$ (year ending ", 
@@ -963,14 +957,8 @@ sink()
 
 # --------- Guest Nights Summary ---------
 
-<<<<<<< HEAD
 ACCOM_type_sum_0 <- ACCOM %>%
   filter(ClassificationValue %in% c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total') & 
-=======
-
-ACCOM_type_sum <- ACCOM %>%
-  filter(ClassificationValue %in% c('Holiday parks', 'Backpackers', 'Motels', 'Hotels', 'Total') & 
->>>>>>> parent of e860186... push to master plot layout, legend and related tweaks
            ClassificationValue.1 %in% c('Number of guest nights')) %>%
   mutate(Year_Period = ifelse(TimePeriod > accom_report_end_date-years(1), "Current", 
                               ifelse(TimePeriod > accom_report_end_date-years(2), "Last", "Earlier"))) %>%
@@ -1160,8 +1148,6 @@ sink("outputs/Data_S_3.txt")
 cat(Data_S_3)
 sink()
 
-# Data_S_4 <- paste0("$^4$New Zealand's Tourism Sector Outlook: Forecasts for ", Fcst_year, " to ", End_year, ".")
-
 Data_S_4 <- paste("$^4$Tourism Satellite Account.")
 sink("outputs/Data_S_4.txt")
 cat(Data_S_4)
@@ -1177,11 +1163,6 @@ Data_S_6 <- paste("$^6$Regional Tourism Estimates (RTO = Regional Tourism Organi
 sink("outputs/Data_S_6.txt")
 cat(Data_S_6)
 sink()
-
-# Data_S_7 <- paste("$^7$Tourism Satellite Account.")
-# sink("outputs/Data_S_7.txt")
-# cat(Data_S_7)
-# sink()
 
 Data_S_7 <- paste0("$^7$New Zealand Tourism Forecasts ", Fcst_year, " to ", End_year, ".")
 sink("outputs/Data_S_7.txt")
