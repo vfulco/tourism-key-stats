@@ -52,10 +52,12 @@ library(scales)
 #========================== 1 Global parameters and DB Connection =========================
 
 
-TRED_Prod <- odbcConnect("TRED_Prod")
+TRED <- odbcConnect("TRED_Prod")
 
 base_size <- 12
 TheFont <- "Calibri"
+
+growth_period <- 1
 
 Fcst_start_Year <- year(today())
 
@@ -68,9 +70,7 @@ data(rto_gg)
 # ------------- RTE Query -----------------
 
 RTE_query <- "  select sp.Type, d.L1Description as RTO, mh.YearEndMarch, sum(sp.Spend) as Spend from 
-(
-select * from Production.vw_RTESurveyMainHeader
-) mh
+Production.vw_RTESurveyMainHeader mh
 left join Production.vw_RTESpend sp
 on mh.SurveyResponseID = sp.SurveyResponseID
 left join
@@ -83,10 +83,13 @@ on d.L2Description = mh.TA_MOD
 group by mh.YearEndMarch, sp.Type, d.L1Description, d.L2Description
 order by mh.YearEndMarch"
 
-RTE <- sqlQuery(TRED_Prod, RTE_query)
+RTE <- sqlQuery(TRED, RTE_query)
 
 LastYear <- max(RTE$YearEndMarch)
-FirstYear <- min(RTE$YearEndMarch)
+# FirstYear <- min(RTE$YearEndMarch)
+FirstYear <- LastYear - growth_period
+
+
 
 RTE_sum <- RTE %>%
   group_by(RTO, Type, YearEndMarch)  %>%
@@ -94,7 +97,7 @@ RTE_sum <- RTE %>%
   group_by(RTO, Type) %>%
   summarise(
     LatestSpend = Spend[YearEndMarch == LastYear],
-    cagr        = CAGR(ratio = Spend[YearEndMarch == LastYear] / Spend[YearEndMarch == FirstYear], period = LastYear - FirstYear + 1)
+    cagr        = CAGR(ratio = Spend[YearEndMarch == LastYear] / Spend[YearEndMarch == FirstYear], period = LastYear - FirstYear)
   ) %>%
   data.frame()
 
@@ -113,20 +116,27 @@ RTEMap <- ggplot() +
   theme(legend.text = element_text(lineheight = 0.2), 
         legend.key.height = unit(0.3, "cm")) +
   coord_map() +
-  ggtitle("Regional tourism spend distribution (international cf. domestic)")
+  ggtitle("Regional tourism spend distribution (international compared to domestic)")
 
 
 
 #========================== 3 International Vistor Expenditure: Actuals and Forecast ==========================
 
-SQL_qry_ive <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, POV, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure 
+SQL_qry_ive <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, RIGHT(Qtr, 1) as Qtr_Num, POV, PopulationWeight, WeightedSpend, PopulationWeight*WeightedSpend as Expenditure 
                      FROM Production.vw_IVSSurveyMainHeader ")
-ive <- sqlQuery(TRED_Prod, SQL_qry_ive)
+ive <- sqlQuery(TRED, SQL_qry_ive)
 
-Latest_date_Spend <- max(ive$Year)
+
+test <- ive %>%
+  filter(Year == 2015) %>%
+  select(Qtr_Num) %>%
+  max()
+
+Latest_date_Spend <- ifelse(max(ive$Qtr_Num[ive$Year == max(ive$Year)]) < 4, max(ive$Year)-1, max(ive$Year))
+
 
 Fcst_query <- paste("SELECT * FROM Production.vw_NZTFSurveyMainHeader where Year > ", Latest_date_Spend)
-Fcst <- sqlQuery(TRED_Prod, Fcst_query)
+Fcst <- sqlQuery(TRED, Fcst_query)
 
 Fcst_start_Year <- min(Fcst$Year)
 Fcst_End_Year <- max(Fcst$Year)
@@ -142,6 +152,7 @@ Country_List_fcst <- Fcst %>%
   unique()
 
 ive_2 <- ive %>% 
+  filter(Year < Latest_date_Spend + 1 ) %>%
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
   mutate(CountryGroup = ifelse(CountryGroup == "Korea, Republic of", "Korea", 
                                ifelse(CountryGroup == "USA", "US", as.character(CountryGroup)))) %>%
@@ -186,11 +197,13 @@ ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = Cou
   annotate("rect", xmin = Fcst_start_Year, xmax = Fcst_End_Year, ymin = 0, ymax = Inf, fill = "lightblue") +
   geom_line() + 
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("Country", values = tourism.cols("Alternating")) +                      
-  scale_y_continuous("Spend ($million)\n", label = dollar) +
+  scale_colour_manual("Country", values = tourism.cols("Alternating")) + 
+  scale_y_continuous("Spend ($millions)\n", label = dollar) +
   theme(legend.text = element_text(lineheight = 0.3), legend.key.height = unit(0.4, "cm")) +
+  theme(axis.title.x = element_blank()) +
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Total spend by country, year ended ", Latest_date_Spend, "\n(blue shaded area is forecast)"))
+  ggtitle(paste0("Total spend by country (year ending Dec ", Latest_date_Spend, ")", "\n(blue shaded area is forecast)"))
+
 
 # ============================ Arrival Plot ================================
 
@@ -203,12 +216,12 @@ ive_arrival_POV <- iv_pov_0 %>%
   filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY")) %>%
   rename('POV' = ClassificationValue.1)
 
+
 ive_arrival_3 <- ive_arrival_POV %>%
   filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
   mutate(POV = "Other") %>%
   group_by(TimePeriod, POV) %>%
-  summarise(Value1 = sum(Value)) %>%
-  select(TimePeriod, POV, Value1)
+  summarise(Value1 = sum(Value))
 
 ive_arrival_All <- ive_arrival_POV %>%
   filter(POV == "TOTAL ALL TRAVEL PURPOSES") %>%
@@ -220,32 +233,62 @@ ive_arrival_other <- left_join(ive_arrival_3, ive_arrival_All, by = "TimePeriod"
 
 ive_arrival_POV_sum <- bind_rows(ive_arrival_POV, ive_arrival_other) %>%
   filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
-  arrange(POV, TimePeriod) %>% 
+  select(TimePeriod, POV, Value) 
+
+ive_arr_POV_sum <- ive_arrival_POV_sum %>%
+  arrange(POV, TimePeriod) %>%
   group_by(POV) %>%
   mutate(Value = rollapplyr(Value, width = 12, FUN = mean, fill = NA)) %>%
-  filter(!is.na(Value))
+  filter(!is.na(Value)) %>% 
+  data.frame() %>%
+  arrange(TimePeriod, POV)
 
-# hard code standard POV factor level order
-ive_arrival_POV_sum$POV <- factor(ive_arrival_POV_sum$POV,
-                               levels = c('Holiday/Vacation', 'Business', 'Visit Friends/Relatives', 'Other'))
+# order countries by total spend highest to lowest in maximum forecast year
+ive_arr_POV_sum$POV <- factor(ive_arr_POV_sum$POV,
+                                  levels = rev(ive_arr_POV_sum$POV[order(ive_arr_POV_sum$Value[ive_arr_POV_sum$TimePeriod == Latest_Date_Arr])]))
 
-ivs_arrival_plot <- ggplot(ive_arrival_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
+
+ivs_arrival_plot <- ggplot(ive_arr_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
   geom_line() +
   theme_light(6, base_family = TheFont) +
-  scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) +                      
+  scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) + 
+#   scale_x_continuous(breaks=pretty_breaks(n=10)) + 
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE)) + 
   #scale_size("Visitors\nper year\n('000s)", label = comma) +
   scale_y_continuous("Total arrivals ('000s)\n", label = comma) +
-  guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) + 
-  labs(x = paste0("Total arrivals by purpose of visit, year ended ", months(Latest_Date_Arr), " ", year(Latest_Date_Arr)))
+  theme(axis.title.x = element_blank()) +
+  guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
+  ggtitle(paste0("Total arrivals by purpose of visit (month ending ", substr(months(Latest_Date_Arr), 1, 3), " ", year(Latest_Date_Arr), ")"))
+ 
+
+#-------------------------- forecats vs POV
+
+# forecasts2 <- sqlQuery(TRED, paste0("select 
+#                                  VisitorType, 
+#                                  NoOfVisitors, 
+#                                     Year, 
+#                                     Country
+#                                     from vw_NZTFVisitorNumbers v,
+#                                     vw_NZTFSurveyMainHeader m
+#                                     where v.SurveyResponseID = m.SurveyResponseID
+#                                     and m.ForecastYear = 2015"))
+
+
+#-------------------------
+
+
+
+
+
 
 #=================================== 4 TSA Plot ==============================================
 
 Current_Year <- year(today())- 1
 Previous_Year <- Current_Year - 1
 
-EC_exp <- ImportTS(TRED_Prod, "Tourism Expenditure by Type of Product and Type of Tourist (ANZSIC06) (Annual-Mar)") %>%
+EC_exp <- ImportTS(TRED, "Tourism Expenditure by Type of Product and Type of Tourist (ANZSIC06) (Annual-Mar)") %>%
   filter(year(TimePeriod) == year(max(TimePeriod)) | year(TimePeriod) == year(max(TimePeriod)) - 1) %>%
   mutate(Year = as.character(year(TimePeriod))) %>%
   select(Year, ClassificationValue.1, ClassificationValue.2, Value) %>%
@@ -278,24 +321,26 @@ EC_exp$Product <- factor(EC_exp$Product, levels = c('Other tourism products', 'E
 TSAPlot <- EC_exp %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
   geom_bar(width = 0.8, height = 0.2) +
-  theme_light(4, base_family = TheFont) +
-  scale_y_continuous("Tourism expenditure ($million)\n", label = dollar) +
+  theme_light(6, base_family = TheFont) +
+  scale_y_continuous("Tourism expenditure ($millions)\n", label = dollar) +
   scale_fill_manual("", values = tourism.cols("Alternating"), guide = guide_legend(reverse = TRUE)) +
   theme(axis.text.x = element_text(color = "black")) +
   theme(legend.text = element_text(lineheight = 1), legend.key.height = unit(0.5, "cm")) +  
-  ggtitle("Expenditure by product by market") +
+  theme(axis.title.x = element_blank()) +
   guides(col = guide_legend(ncol = 2, byrow = TRUE)) +
-  labs(x = paste0("Year ended March ", Year_TSA))
+  ggtitle(paste0("Economic impact on the industries (year ending Mar ", Year_TSA, ")"))
+
 
 
 #=================================== 5 Accommodation Guest Nights Plot==============================================
 
-ACCOM <- ImportTS(TRED_Prod, "Actual by Accommodation by Type by Variable (Monthly)")
+ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)")
 
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
-ACCOM_annual<- ImportTS(TRED_Prod, "Actual by Accommodation by Type by Variable (Annual-Dec)")
+ACCOM_annual<- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Annual-Dec)")
 
+accom_annual_rpt_end_date <- max(ACCOM_annual$TimePeriod)
 
 # --------- Guest Nights Summary ---------
 
@@ -312,10 +357,12 @@ End_of_Accom_Rpt <- Guest_nights_Yr %>%
 Month_Accom <- months(End_of_Accom_Rpt$TimePeriod)
 Year_Accom <- year(End_of_Accom_Rpt$TimePeriod)
 
-# hard code standard Accommodation Type factor level order
-Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
-                                     levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks'))
+# # hard code standard Accommodation Type factor level order
+# Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
+#                                      levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks'))
 
+Guest_nights_Yr$Accom_Type <- factor(Guest_nights_Yr$Accom_Type,
+                                     levels = rev(Guest_nights_Yr$Accom_Type[order(Guest_nights_Yr$Guest_Nights[Guest_nights_Yr$TimePeriod == accom_annual_rpt_end_date])]))
 
 accom_plot <- ggplot(Guest_nights_Yr, aes(x = TimePeriod, y = Guest_Nights/10^6, color = Accom_Type)) +
   theme_minimal() +
@@ -324,11 +371,12 @@ accom_plot <- ggplot(Guest_nights_Yr, aes(x = TimePeriod, y = Guest_Nights/10^6,
   scale_colour_manual("Accommodation type", values = tourism.cols("Alternating")) + 
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) + 
   #scale_size("Visitors\nper year\n('000s)", label = comma) +
-  scale_y_continuous("Number of guest nights (million)\n", label = comma) +
+  scale_y_continuous("Number of guest nights (millions)\n", label = comma) +
   theme(legend.text = element_text(lineheight = 0.2), legend.key.height = unit(0.2, "cm"), legend.position = "bottom") + 
   theme(legend.key = element_blank()) +
-  labs(x = paste0("Guest nights by accommodation type - monthly ended ", substr(Month_Accom, 1, 3), " ", Year_Accom)) + 
-  guides(col = guide_legend(nrow = 2, byrow = TRUE))
+  theme(axis.title.x = element_blank()) +
+  guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
+  ggtitle(paste0("Guest nights by accommodation type (year ending ", substr(Month_Accom, 1, 3), " ", Year_Accom, ")"))
 
 
 #===================== 6 Place on page===========================

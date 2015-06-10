@@ -1,4 +1,4 @@
-
+ 
 
 #######################################################################################################
 ## Project description:  Key Tourism Statistics - Part 1: Generate one-page statistics - tables
@@ -57,8 +57,8 @@ source("r/functions.R")
 TRED <- odbcConnect("TRED_Prod")
 
 Key_Market_arrival = 6
-Key_Market_spend = 5
-Key_Market_Fcst = 5
+Key_Market_spend = 6
+Key_Market_Fcst = 6
 Key_outbound_destination = 5
 Key_region = 6 
 
@@ -76,7 +76,7 @@ iv_pc <- ImportTS(TRED, "Visitor arrival totals (Monthly)",
 iv_report_end_date <- max(iv_pc$TimePeriod)
 
 
-IVA_title <- paste0("\\small International Visitor Arrivals$^1$ (Year ended ", 
+IVA_title <- paste0("\\small International Visitor Arrivals$^1$ (year ending ", 
                    months(iv_report_end_date), " ", year(iv_report_end_date), ")")
 sink("outputs/IVA_title.txt")
   cat(IVA_title)
@@ -99,12 +99,13 @@ iv_tot_0 <- iv_pc %>%
 iva_growth <- (iv_tot_1 - iv_tot_0) / iv_tot_0
 
 iva_total <- data.frame('Annual international arrivals:', 
-                        format(iv_tot_1, big.mark = ","), 
+                        ' ',
+                        format(round(iv_tot_1/1000, 0)*1000, big.mark = ","), 
                         percent(round(iva_growth, digits = 2)))
-names(iva_total) <- c(" ", " ", "Growth (pa)")
+names(iva_total) <- c(" ", "Market Share", "Visits", "Growth (pa)")
 
 iva_tot <- iva_total %>% 
-  xtable(align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
+  xtable(align = "lp{2.95cm}p{1.35cm}p{1.1cm}p{1.7cm}",
          caption = NULL, digits = 0,label = NULL, type = "latex") %>%
   print(floating = FALSE, 
         hline.after = NULL,
@@ -134,15 +135,6 @@ total_sum <- iv_pc_p2 %>%
   sum()
 
 
-top_market_country_list <- iv_pc_p2 %>%
-  filter(ClassificationValue.1 == "TOTAL ALL TRAVEL PURPOSES" & 
-           substr(CountryGrouped, 1, 4) != "Rest" & 
-           CountryGrouped != "Other" &
-           TimePeriod > iv_report_end_date - years(1) & 
-           TimePeriod < iv_report_end_date + days(1)) %>% 
-  select(CountryGrouped) %>% 
-  unique()
-
 Key_Market <- iv_pc_p2 %>%
   filter(ClassificationValue.1 == "TOTAL ALL TRAVEL PURPOSES" & 
            substr(CountryGrouped, 1, 4) != "Rest" & 
@@ -166,13 +158,13 @@ Market_share <- percent(round(Market_share, 3))
 Key_Market <- Key_Market %>%
   top_n(Key_Market_arrival, Visitors) %>%
   arrange(-Visitors) %>%
-  mutate(Visits = format(Visitors, big.mark = ",")) %>%
+  mutate(Visits = format(round(Visitors/1000, 0)*1000, big.mark = ",")) %>%
   select(1, 3, 5, 4) %>%
   rename('Key international markets' = CountryGrouped) %>%
   clean_names()
+names(Key_Market) <- c("    ", " ", "   ", "  ")
 
-
-IVA_tab1 <- print(xtable(Key_Market, align = "lp{3.3cm}p{1.1cm}p{1.3cm}p{1.4cm}",
+IVA_tab1 <- print(xtable(Key_Market, align = "lp{3cm}p{1.3cm}p{1.1cm}p{1.7cm}",
                          caption = NULL, digits = 0,label = NULL,  type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -189,7 +181,7 @@ sink("tables/IVA_tab1.tex")
 cat(IVA_tab1)
 sink()
 
-note_1 <- paste0("Combined, these markets provided ", Market_share, " of international visitors to New Zealand for the year ended ", 
+note_1 <- paste0("Combined, these markets provided ", Market_share, " of international visits to New Zealand for the year ended ", 
                   months(iv_report_end_date), " ", year(iv_report_end_date), ".")
 note_1 <- gsub("%"," \\\\%",note_1)
 sink("outputs/note_1.txt")
@@ -206,27 +198,81 @@ sink()
 iv_pov <- ImportTS(TRED, "Visitor arrivals by country of residence, purpose and length of stay (Monthly)", 
                    where = paste("TimePeriod > '", qry_starting_date, "'"))
 
-save(iv_pov, file = "data/iv_pov.rda")
-# load("data/iv_pov.rda")
-
 iv_pov_report_end_date <- max(iv_pov$TimePeriod)
 
+
+unique(iv_pov$ClassificationValue.1)
+
+
+# POV_sum <- iv_pov %>%
+#   filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY") & 
+#            ClassificationValue.1 %in% c("Business", "Holiday/Vacation", "Visit Friends/Relatives")) %>%
+#   mutate(Year_Period = ifelse(TimePeriod > iv_report_end_date - years(1), "Current", 
+#                               ifelse(TimePeriod > iv_report_end_date - years(2), "Last", "Earlier"))) %>%
+#   group_by(ClassificationValue.1) %>%
+#   summarise(
+#     Nights = sum(Value[Year_Period == "Current"]),
+#     "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+#   arrange(-Nights) %>%
+#   mutate(Nights = format(round(Nights/1000, 0)*1000, big.mark = ",")) %>%
+#   rename('Purpose of visit' = ClassificationValue.1) %>%
+#   clean_names()
+# 
+
 POV_sum <- iv_pov %>%
-  filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY") & 
-           ClassificationValue.1 %in% c("Business", "Holiday/Vacation", "Visit Friends/Relatives")) %>%
+  filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY")) %>%
   mutate(Year_Period = ifelse(TimePeriod > iv_report_end_date - years(1), "Current", 
                               ifelse(TimePeriod > iv_report_end_date - years(2), "Last", "Earlier"))) %>%
-  group_by(ClassificationValue.1) %>%
+  filter(Year_Period != "Earlier") %>%
+  rename('POV' = ClassificationValue.1) %>%
+  group_by(POV, Year_Period) %>%
+  summarise(Value = sum(Value)) %>%
+  data.frame()
+
+POV_sum_3 <- POV_sum %>%
+  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
+  mutate(POV = "Other") %>%
+  group_by(POV, Year_Period) %>%
+  summarise(Value1 = sum(Value))
+
+POV_sum_All <- POV_sum %>%
+  filter(POV == "TOTAL ALL TRAVEL PURPOSES") %>% 
+  group_by(POV, Year_Period) %>%
+  summarise(Value2 = sum(Value)) %>%
+  rename('POV1' = POV)
+
+POV_sum_other <- left_join(POV_sum_3, POV_sum_All, by = "Year_Period") %>%
+  mutate(Value = Value2 - Value1) %>%
+  select(-Value1, -Value2, -POV1)
+
+POV_sum_data <- bind_rows(POV_sum , POV_sum_other) %>%
+  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
+  select(POV, Year_Period, Value)
+
+
+POV_sum_data_3 <- POV_sum_data %>%
+  filter(POV != 'Other') %>%
+  group_by(POV) %>%
   summarise(
-    Nights = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  arrange(-Nights) %>%
-  mutate(Nights = format(Nights, big.mark = ",")) %>%
-  rename('Purpose of visit' = ClassificationValue.1) %>%
+    Visits = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  arrange(-Visits) %>%
+  mutate(Visits = format(round(Visits/1000, 0)*1000, big.mark = ","))
+
+POV_sum_data_other <- POV_sum_data %>%
+  filter(POV == 'Other') %>%
+  group_by(POV) %>%
+  summarise(
+    Visits = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  arrange(-Visits) %>%
+  mutate(Visits = format(round(Visits/1000, 0)*1000, big.mark = ","))
+
+POV_sum_final <- rbind(POV_sum_data_3, POV_sum_data_other) %>%
+  rename('Purpose of visit' = POV) %>%
   clean_names()
 
-
-IVA_tab2 <- print(xtable(POV_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
+IVA_tab2 <- print(xtable(POV_sum_final, align = "lp{4.7cm}p{1.1cm}p{1.7cm}",
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -261,7 +307,7 @@ LOS_sum <- iv_pov %>%
   rename(' ' = ClassificationValue.1)
 
 
-IVA_los <- print(xtable(LOS_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
+IVA_los <- print(xtable(LOS_sum, align = "lp{4.45cm}p{1.3cm}p{1.7cm}",
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                  hline.after = NULL,
@@ -287,7 +333,11 @@ survey_date <- sqlQuery(TRED, SQL_query)
 survey_qtr <- survey_date$survey_qtr
 survey_yr <- survey_date$survey_yr
 
-IVE_title <- paste0("\\small International Visitor Expenditure$^*$", "$^2$ (Year ended ", "Q", survey_qtr, " ", survey_yr, ")")
+end_month <- ifelse(survey_qtr == 1, "March", 
+                    ifelse(survey_qtr == 2, "June", 
+                           ifelse(survey_qtr == 3, "September", "December")))
+
+IVE_title <- paste0("\\small International Visitor Expenditure$^*$", "$^2$ (year ending ", end_month, " ", survey_yr, ")")
 sink("outputs/IVE_title.txt")
 cat(IVE_title)
 sink()
@@ -318,7 +368,7 @@ median_0 <- svyquantile(~WeightedSpend, design = ive_median_0, quantiles = 0.5)
 
 ive_exp_sum_0 <- ive_main_0 %>%
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
-  summarise("Total expenditure ($million)" = sum(Expenditure)/1000000, 
+  summarise("Total expenditure ($millions)" = sum(Expenditure)/1000000, 
             "Average expenditure per person per trip" = sum(Expenditure)/sum(PopulationWeight),
             "Median expenditure per person per trip" = median_0
   ) %>%
@@ -334,7 +384,7 @@ median_1 <- svyquantile(~WeightedSpend, design = ive_median_1, quantiles = 0.5)
 
 ive_exp_sum_1 <- ive_main_1 %>%
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
-  summarise("Total expenditure ($million)" = sum(Expenditure)/1000000, 
+  summarise("Total expenditure ($millions)" = sum(Expenditure)/1000000, 
             "Average expenditure per person per trip" = sum(Expenditure)/sum(PopulationWeight),
             "Median expenditure per person per trip" = median_1
   ) %>%
@@ -346,7 +396,7 @@ ive_exp_sum_final <- inner_join(ive_exp_sum_1, ive_exp_sum_0, by = "Summary") %>
   select(-Prev) %>% 
   rename("  " = Summary, " "= Curr)
   
-ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
+ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{4.85cm}p{1.3cm}p{1.35cm}",
                              caption = NULL, digits = 0,label = NULL, type = "latex"), 
                       floating = FALSE,
                       hline.after = NULL,
@@ -357,7 +407,7 @@ ive_exp_tab0 <- print(xtable(ive_exp_sum_final, align = "lp{5.1cm}p{1.1cm}p{1.3c
 
 ive_exp_tab0 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", ive_exp_tab0, fixed = T)
 ive_exp_tab0 <- gsub("}p{", "}>{\\hfill}p{", ive_exp_tab0, fixed = T)
-ive_exp_tab0 <- gsub("Total expenditure ($million)", "\\textbf{Total expenditure ($million)}", ive_exp_tab0, fixed = T)
+ive_exp_tab0 <- gsub("Total expenditure (\\$millions)", "\\textbf{Total expenditure (\\$millions)}", ive_exp_tab0, fixed = T)
 sink("tables/ive_exp_tab0.tex")
 cat(ive_exp_tab0)
 sink()
@@ -373,19 +423,19 @@ ive_main_sum_0 <- ive_main_0 %>%
 ive_main_sum_1 <- ive_main_1 %>% 
   mutate(CountryGroup = CountryGroup(CORNextYr, shorten = TRUE, type = "IVSweights", OneChina_first = FALSE)) %>% 
   group_by(CountryGroup) %>%
-  summarise("Current_Yr" = sum(Expenditure)/1000000) %>% 
+  summarise("Current_Year" = sum(Expenditure)/1000000) %>% 
   inner_join (ive_main_sum_0, by = "CountryGroup") %>% 
   filter(substr(CountryGroup, 1, 4) != "Rest") %>%
-  mutate("Growth (pa)" = paste0(round((Current_Yr / Last_Yr - 1)*100), "%")) %>% 
+  mutate("Growth (pa)" = paste0(round((Current_Year / Last_Yr - 1)*100), "%")) %>% 
   select(-Last_Yr) %>%
-  arrange(-Current_Yr) %>%
-  top_n(Key_Market_spend, Current_Yr) %>% 
-  mutate("Current_Yr" = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>% 
-  rename("Key international markets ($million)" = CountryGroup) %>%
+  arrange(-Current_Year) %>%
+  top_n(Key_Market_spend, Current_Year) %>% 
+  mutate("Current_Year" = format(dollar(round(Current_Year, 0)), big.mark = ",")) %>% 
+  rename("Key international markets ($millions)" = CountryGroup) %>%
   clean_names()
 
 
-IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
+IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{4.85cm}p{1.3cm}p{1.35cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -395,7 +445,7 @@ IVE_tab1 <- print(xtable(ive_main_sum_1, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
 
 IVE_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", IVE_tab1, fixed = T)
 IVE_tab1 <- gsub("}p{", "}>{\\hfill}p{", IVE_tab1, fixed = T)
-IVE_tab1 <- gsub("Key international markets ($million)", "\\textbf{Key international markets ($million)}", IVE_tab1, fixed = T)
+IVE_tab1 <- gsub("Key international markets (\\$millions)", "\\textbf{Key international markets (\\$millions)}", IVE_tab1, fixed = T)
 sink("tables/IVE_tab1.tex")
 cat(IVE_tab1)
 sink()
@@ -403,39 +453,89 @@ sink()
 
 # --------- calculate total expenditure by purpose of visit ---------
 
-sql_pov_1 <- paste("SELECT bb.POV, bb.total_sp as total_sp_curr FROM
-(
-SELECT top 3 POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp
-FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
-WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 'Business') and Qtr in ", qry_period,
-"group by POV
-order by total_sp desc
-) bb ")
+# sql_pov_1 <- paste("SELECT bb.POV, bb.total_sp as total_sp_curr FROM
+# (
+# SELECT top 3 POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp
+# FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
+# WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 'Business') and Qtr in ", qry_period,
+# "group by POV
+# order by total_sp desc
+# ) bb ")
+# 
+# pov_1 <- sqlQuery(TRED, sql_pov_1)
+# 
+# sql_pov_0 <- paste("SELECT bb.POV, bb.total_sp as total_sp_prev FROM
+# (
+# SELECT top 3 POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp
+# FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
+# WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 'Business') and Qtr in", qry_period_prev,
+# "group by POV
+# order by total_sp desc
+# ) bb ")
+# 
+# pov_0 <- sqlQuery(TRED, sql_pov_0)
 
-pov_1 <- sqlQuery(TRED, sql_pov_1)
 
-sql_pov_0 <- paste("SELECT bb.POV, bb.total_sp as total_sp_prev FROM
-(
-SELECT top 3 POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp
-FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
-WHERE (POV like '%Holiday%' or POV like '%Visiting Friends%Relatives%' or POV = 'Business') and Qtr in", qry_period_prev,
-"group by POV
-order by total_sp desc
-) bb ")
 
-pov_0 <- sqlQuery(TRED, sql_pov_0)
 
-ive_pov_sum <- inner_join(pov_1, pov_0, by = "POV") %>%
+sql_pov_1 <- paste("SELECT POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp_curr 
+                    FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
+                    WHERE  Qtr in ", qry_period, 
+                   "group by POV 
+                   order by total_sp_curr desc")
+
+pov_1 <- sqlQuery(TRED, sql_pov_1) %>%
+  mutate(POV = ifelse(POV %in% c('Holiday / vacation', 'Visiting friends / relatives', 'Business'), as.character(POV), "Other")) %>%
+  group_by(POV) %>%
+  summarise(total_sp_curr = sum(total_sp_curr))
+
+
+sql_pov_0 <- paste("SELECT POV, round(sum(WeightedSpend*PopulationWeight)/1000000, 0) as total_sp_prev 
+                    FROM [TRED].[Production].[vw_IVSSurveyMainHeader]
+                    WHERE  Qtr in ", qry_period_prev, 
+                   "group by POV 
+                   order by total_sp_prev desc")
+
+pov_0 <- sqlQuery(TRED, sql_pov_0) %>%
+  mutate(POV = ifelse(POV %in% c('Holiday / vacation', 'Visiting friends / relatives', 'Business'), as.character(POV), "Other")) %>%
+  group_by(POV) %>%
+  summarise(total_sp_prev = sum(total_sp_prev))
+
+ive_pov_sum_3 <- left_join(pov_1, pov_0, by = "POV") %>%
+  filter(POV != "Other") %>%
   group_by(POV) %>%
   summarise(
-    "Current_Yr" = sum(total_sp_curr),
+    "Current_Year" = sum(total_sp_curr),
     "Growth (pa)" = paste0(round((sum(total_sp_curr) / sum(total_sp_prev) - 1) * 100), "%")) %>%
-  arrange(-Current_Yr) %>%
-  mutate( Current_Yr = format(dollar(round(Current_Yr, 0)), big.mark = ",")) %>%
-  rename('Total spend by purpose of visit' = POV) %>%
+  arrange(-Current_Year) %>%
+  mutate( Current_Year = format(dollar(round(Current_Year, 0)), big.mark = ","))
+
+ive_pov_sum_Other <- left_join(pov_1, pov_0, by = "POV") %>%
+  filter(POV == "Other") %>%
+  group_by(POV) %>%
+  summarise(
+    "Current_Year" = sum(total_sp_curr),
+    "Growth (pa)" = paste0(round((sum(total_sp_curr) / sum(total_sp_prev) - 1) * 100), "%")) %>%
+  mutate( Current_Year = format(dollar(round(Current_Year, 0)), big.mark = ","))
+
+ive_pov_sum <- rbind(ive_pov_sum_3, ive_pov_sum_Other) %>%
+  rename('Total spend by purpose of visit ($millions)' = POV) %>%
   clean_names()
 
-IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
+
+
+
+# ive_pov_sum <- inner_join(pov_1, pov_0, by = "POV") %>%
+#   group_by(POV) %>%
+#   summarise(
+#     "Current_Year" = sum(total_sp_curr),
+#     "Growth (pa)" = paste0(round((sum(total_sp_curr) / sum(total_sp_prev) - 1) * 100), "%")) %>%
+#   arrange(-Current_Year) %>%
+#   mutate( Current_Year = format(dollar(round(Current_Year, 0)), big.mark = ",")) %>%
+#   rename('Total spend by purpose of visit' = POV) %>%
+#   clean_names()
+
+IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{4.85cm}p{1.3cm}p{1.35cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -445,7 +545,7 @@ IVE_tab3 <- print(xtable(ive_pov_sum, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
 
 IVE_tab3 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",IVE_tab3, fixed = T)
 IVE_tab3 <- gsub("}p{", "}>{\\hfill}p{", IVE_tab3, fixed = T)
-IVE_tab3 <- gsub("Total spend by purpose of visit","\\textbf{Total spend by purpose of visit}", IVE_tab3, fixed = T)
+IVE_tab3 <- gsub("Total spend by purpose of visit (\\$millions)","\\textbf{Total spend by purpose of visit (\\$millions)}", IVE_tab3, fixed = T)
 IVE_tab3 <- gsub("\n\\end{tabular}","\n\\multicolumn{3}{p{8.25cm}}{$^*$Excludes international airfares and individuals whose purpose of visit to New Zealand was to attend a recognised educational institute, and are foreign-fee paying students.}\\\\ \n\\end{tabular}",IVE_tab3, fixed = T)
 
 sink("tables/IVE_tab3.tex")
@@ -474,14 +574,14 @@ Annual_total_outbound <- NZ_out_sum %>%
                               ifelse(TimePeriod > NZ_out_sum_end_date - years(2), "Last", "Earlier"))) %>%
   group_by(ClassificationValue) %>%
   summarise(
-    Visits = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  mutate(ClassificationValue.1 = 'Annual Outbound Departures:', Visits = format(round(Visits), big.mark = ",")) %>%
+    Trips = sum(Value[Year_Period == "Current"]),
+    "Growth (pa)" = paste0(round((Trips / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
+  mutate(ClassificationValue.1 = 'Annual Outbound Departures', Trips = format(round(Trips/1000, 0)*1000, big.mark = ",")) %>%
   rename(' ' = ClassificationValue.1) %>%
   select(4, 2, 3) %>%
   clean_names()
 
-NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
+NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{4.7cm}p{1.1cm}p{1.7cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -490,10 +590,11 @@ NZ_out_tab1 <- print(xtable(Annual_total_outbound, align = "lp{4.8cm}p{1.3cm}p{1
 
 NZ_out_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",NZ_out_tab1, fixed = T)
 NZ_out_tab1 <- gsub("}p{", "}>{\\hfill}p{", NZ_out_tab1, fixed = T)
-NZ_out_tab1 <- gsub("Annual outbound departures","\\textbf{Annual Outbound Departures}", NZ_out_tab1, fixed = T)
+NZ_out_tab1 <- gsub("Annual Outbound Departures","\\textbf{Annual Outbound Departures}", NZ_out_tab1, fixed = T)
 sink("tables/NZ_out_tab1.tex")
 cat(NZ_out_tab1)
 sink()
+
 
 #-------------------------------------------- Key destination countries ---------------------------------
 
@@ -503,7 +604,7 @@ NZ_out <- ImportTS(TRED, "Short-term NZ traveller departures by EVERY country of
 
 Report_end_date_NZ_out = max(NZ_out$TimePeriod)
 
-NZ_out_title <- paste0("\\small Trips abroad by New Zealanders$^5$ (Year ended ", months(Report_end_date_NZ_out), " ", year(Report_end_date_NZ_out), ")")
+NZ_out_title <- paste0("\\small Trips abroad by New Zealanders$^5$ (year ending ", months(Report_end_date_NZ_out), " ", year(Report_end_date_NZ_out), ")")
 
 sink("outputs/NZ_out_title.txt")
 cat(NZ_out_title)
@@ -511,10 +612,36 @@ sink()
 
 #--------------------
 
-NZ_out_total <- NZ_out %>%
+# NZ_out_total <- NZ_out %>%
+#   rename("Country" = ClassificationValue, "Trip_Type" = ClassificationValue.1) %>%
+#   filter(Country != toupper(Country) &
+#   #%in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "AFRICA AND THE MIDDLE EAST", "TOTAL ALL COUNTRIES OF MAIN DESTINATION")) & 
+#            Trip_Type == "TOTAL ALL TRAVEL PURPOSES") %>%
+#   mutate(Year_Period = ifelse(TimePeriod > Report_end_date_NZ_out - years(1), "Current", 
+#                               ifelse(TimePeriod > Report_end_date_NZ_out - years(2), "Last", "Earlier"))) %>%
+#   mutate(Country = ifelse(CountryGrouped == "China", "China", 
+#                           ifelse(CountryGrouped == "Australia", "Australia", 
+#                                  ifelse(CountryGrouped == "UK", "UK", 
+#                                         ifelse(CountryGrouped == "Japan", "Japan", 
+#                                                ifelse(CountryGrouped == "Germany", "Germany", 
+#                                                       ifelse(CountryGrouped == "Canada", "Canada", 
+#                                                              ifelse(CountryGrouped == "Korea, Republic of", "Korea, Republic of", 
+#                                      ifelse(CountryGrouped == "USA", "USA", as.character(Country)))))))))) %>%
+#   group_by(Country) %>%
+#   summarise( Trips = sum(Value[Year_Period == "Current"]),
+#     " " = paste0(round((Trips / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
+#     ) %>%
+#   top_n(Key_outbound_destination, Trips) %>%
+#   arrange(-Trips) %>%
+#   mutate(Trips = format(round(Trips/1000, 0)*1000, big.mark = ",")) %>%
+#   rename('Countries visited by New Zealanders' = Country, ' ' = Trips) %>%
+#   clean_names()
+# 
+
+NZ_out_data <- NZ_out %>%
   rename("Country" = ClassificationValue, "Trip_Type" = ClassificationValue.1) %>%
   filter(Country != toupper(Country) &
-  #%in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "AFRICA AND THE MIDDLE EAST", "TOTAL ALL COUNTRIES OF MAIN DESTINATION")) & 
+           #%in% c("ASIA", "AMERICAS", "EUROPE", "OCEANIA", "AFRICA AND THE MIDDLE EAST", "TOTAL ALL COUNTRIES OF MAIN DESTINATION")) & 
            Trip_Type == "TOTAL ALL TRAVEL PURPOSES") %>%
   mutate(Year_Period = ifelse(TimePeriod > Report_end_date_NZ_out - years(1), "Current", 
                               ifelse(TimePeriod > Report_end_date_NZ_out - years(2), "Last", "Earlier"))) %>%
@@ -525,19 +652,33 @@ NZ_out_total <- NZ_out %>%
                                                ifelse(CountryGrouped == "Germany", "Germany", 
                                                       ifelse(CountryGrouped == "Canada", "Canada", 
                                                              ifelse(CountryGrouped == "Korea, Republic of", "Korea, Republic of", 
-                                     ifelse(CountryGrouped == "USA", "USA", as.character(Country)))))))))) %>%
+                                                                    ifelse(CountryGrouped == "USA", "USA", as.character(Country))))))))))
+
+
+Top_Dest <- NZ_out_data %>%
+  filter(Year_Period == "Current") %>%
   group_by(Country) %>%
-  summarise( Visits = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((Visits / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
-    ) %>%
-  top_n(Key_outbound_destination, Visits) %>%
-  arrange(-Visits) %>%
-  mutate(Visits = format(Visits, big.mark = ",")) %>%
-  rename('Countries visited by New Zealanders' = Country) %>%
+  summarise("Total_trips" = sum(Value)) %>%
+  top_n(Key_outbound_destination, Total_trips) %>%
+  arrange(-Total_trips) %>%
+  select(Country) %>%
+  unique()
+
+Top_Dest_list <- rbind(Top_Dest, c("Other"))
+
+NZ_out_total_temp <- NZ_out_data  %>%
+  mutate(Country = ifelse(Country %in% Top_Dest$Country, Country, "Other")) %>%
+  group_by(Country) %>%
+  summarise( Trips = sum(Value[Year_Period == "Current"]),
+             " " = paste0(round((Trips / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")
+  )
+  
+NZ_out_total <- left_join(Top_Dest_list, NZ_out_total_temp, by = "Country") %>%
+  mutate(Trips = format(round(Trips/1000, 0)*1000, big.mark = ",")) %>%
+  rename('Countries visited by New Zealanders' = Country, ' ' = Trips) %>%
   clean_names()
 
-
-NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
+NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{4.7cm}p{1.1cm}p{1.7cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -547,7 +688,7 @@ NZ_out_tab2 <- print(xtable(NZ_out_total, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
 
 NZ_out_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",NZ_out_tab2, fixed = T)
 NZ_out_tab2 <- gsub("}p{", "}>{\\hfill}p{", NZ_out_tab2, fixed = T)
-NZ_out_tab2 <- gsub("Countries visited by New Zealanders","\\textbf{Countries Visited by New Zealanders}", NZ_out_tab2, fixed = T)
+NZ_out_tab2 <- gsub("Countries visited by New Zealanders","\\textbf{Countries visited by New Zealanders}", NZ_out_tab2, fixed = T)
 sink("tables/NZ_out_tab2.tex")
 cat(NZ_out_tab2)
 sink()
@@ -575,7 +716,7 @@ Fcst <- sqlQuery(TRED, Fcst_query)
 Fcst_year <- as.numeric(max(Fcst$ForecastYear))
 End_year <- as.numeric(max(Fcst$Year))
 
-fcst_title <- paste0("\\small Tourism Forecast$^4$ (Forecast Period ", Fcst_year, " to ", End_year, ")")
+fcst_title <- paste0("\\small Tourism Forecast$^7$ (forecast period ", Fcst_year, " to ", End_year, ")")
 sink("outputs/fcst_title.txt")
 cat(fcst_title)
 sink()
@@ -585,30 +726,32 @@ sink()
 Fcst_sum_Arrivals <- Fcst %>%
 #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year-1) & Country == "All") %>%
-  summarise( Total = "Total visitor arrivals (million)",
+  summarise(Total = "Total visitor arrivals (millions)",
              Forecast = round(sum(TotalVisitorArrivals[Year == End_year])/1000000, 1),
-             CAGR = percent(CAGR(sum(TotalVisitorArrivals[Year == End_year])/sum(TotalVisitorArrivals[Year == Fcst_year - 1]), 
+             'Growth (pa)' = percent(CAGR(sum(TotalVisitorArrivals[Year == End_year])/sum(TotalVisitorArrivals[Year == Fcst_year - 1]), 
                                  (End_year - Fcst_year + 1))/100))
 
 Fcst_sum_VisitorDays <- Fcst %>%
   #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year-1) & Country == "All") %>%
-  summarise( Total = "Total visitor days (million)",
+  summarise(Total = "Total visitor days (millions)",
              Forecast = round(sum(TotalVisitorDays[Year == End_year])/1000000, 1),
-             CAGR = percent(CAGR(sum(TotalVisitorDays[Year == End_year])/sum(TotalVisitorDays[Year == Fcst_year - 1]), 
+             'Growth (pa)' = percent(CAGR(sum(TotalVisitorDays[Year == End_year])/sum(TotalVisitorDays[Year == Fcst_year - 1]), 
                                  (End_year - Fcst_year + 1))/100))             
              
 Fcst_sum_VisitorSpend <- Fcst %>%
   #   group_by(ForecastYear) %>% 
   filter(ForecastYear == Fcst_year & (Year == End_year | Year == Fcst_year - 1) & Country == "All") %>%
-  summarise( Total = "Total visitor expenditure ($billion)",
+  summarise(Total = "Total visitor expenditure ($billions)",
              Forecast = round(sum(TotalVisitorSpend[Year == End_year])/10^9, 1),
-             CAGR = percent(CAGR(sum(TotalVisitorSpend[Year == End_year])/sum(TotalVisitorSpend[Year == Fcst_year - 1]), 
+             'Growth (pa)' = percent(CAGR(sum(TotalVisitorSpend[Year == End_year])/sum(TotalVisitorSpend[Year == Fcst_year - 1]), 
                                  (End_year - Fcst_year + 1))/100))
+  
 
-Fcst_sum_2_rpt <- bind_rows(Fcst_sum_Arrivals, Fcst_sum_VisitorDays, Fcst_sum_VisitorSpend)
+Fcst_sum_2_rpt <- bind_rows(Fcst_sum_Arrivals, Fcst_sum_VisitorDays, Fcst_sum_VisitorSpend) %>%
+  rename(' ' = Total)
 
-Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
+Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{4.7cm}p{1.1cm}p{1.7cm}", 
                           caption = NULL, digits = 1,label = NULL, type = "latex"), 
                    floating = FALSE, 
                    hline.after = NULL,
@@ -617,9 +760,10 @@ Fcst_tab1 <- print(xtable(Fcst_sum_2_rpt, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
 
 
 Fcst_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Fcst_tab1, fixed = T)
+Fcst_tab1 <- gsub("Forecast", End_year, Fcst_tab1, fixed = T)
 Fcst_tab1 <- gsub("}p{", "}>{\\hfill}p{", Fcst_tab1, fixed = T)
-Fcst_tab1 <- gsub("CAGR","CAGR$^{\\text \\dagger}$",Fcst_tab1, fixed = T)
-Fcst_tab1 <- gsub("\\end{tabular}","\n\\multicolumn{3}{p{8.25cm}}{$^{\\text \\dagger}$CAGR = compound annual growth rate.}\\\\ \\end{tabular}",Fcst_tab1, fixed = T)
+# Fcst_tab1 <- gsub("CAGR","CAGR$^{\\text \\dagger}$",Fcst_tab1, fixed = T)
+# Fcst_tab1 <- gsub("\\end{tabular}","\n\\multicolumn{3}{p{8.25cm}}{$^{\\text \\dagger}$CAGR = compound annual growth rate.}\\\\ \\end{tabular}",Fcst_tab1, fixed = T)
 
 sink("tables/Fcst_tab1.tex")
 cat(Fcst_tab1)
@@ -632,15 +776,20 @@ Fcst_sum_key <- Fcst %>%
   data.frame() %>%
   filter(Year == End_year & !Country %in% c("All") & substr(Country, 1, 5) != "Other") %>%  
   group_by(Country) %>%
-  summarise( Visitors = sum(TotalVisitorArrivals),
+  summarise( Visits = sum(TotalVisitorArrivals),
              "Spend ($m)" = format(round(sum(TotalVisitorSpend[Year == End_year]) / 10^6, 0), big.mark = ",")
   ) %>%
-  top_n(Key_Market_Fcst, Visitors) %>%
-  arrange(-Visitors) %>%
-  mutate(Visitors = format(Visitors, big.mark = ",")) %>%
-  rename('Key overseas markets' = Country)
+  top_n(Key_Market_Fcst, Visits) %>%
+  arrange(-Visits) %>%
+  mutate(Visits = format(round(Visits/1000, 0)*1000, big.mark = ","),
+         Country = ifelse(Country == 'US', 'USA', as.character(Country))) 
 
-Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{5.1cm}p{1.1cm}p{1.3cm}", 
+names(Fcst_sum_key)[names(Fcst_sum_key) == 'Country'] <- paste("Key international markets in", End_year)
+
+
+text_title <- paste('"', 'Key international markets in', End_year, '"')
+
+Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{4.7cm}p{1.1cm}p{1.7cm}", 
                           caption = NULL, digits = 0,label = NULL, type = "latex"), 
                    floating = FALSE, 
                    hline.after = NULL,
@@ -649,12 +798,14 @@ Fcst_tab2 <- print(xtable(Fcst_sum_key, align = "lp{5.1cm}p{1.1cm}p{1.3cm}",
 
 Fcst_tab2 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Fcst_tab2, fixed = T)
 Fcst_tab2 <- gsub("}p{", "}>{\\hfill}p{", Fcst_tab2, fixed = T)
-Fcst_tab2 <- gsub("Key international markets","\\textbf{Key international markets}", Fcst_tab2, fixed = T)
+# Fcst_tab2 <- gsub("Key international markets", "text_title", Fcst_tab2, fixed = T)
+Fcst_tab2 <- gsub(substr(Fcst_tab2, str_locate(Fcst_tab2, "Key international markets in")[1], str_locate(Fcst_tab2, "Key international markets in")[2] + 5),
+                  paste0("\\textbf{", substr(Fcst_tab2, str_locate(Fcst_tab2, "Key international markets in")[1], str_locate(Fcst_tab2, "Key international markets in")[2] + 5), "}"), Fcst_tab2, fixed = T)
 sink("tables/Fcst_tab2.tex")
 cat(Fcst_tab2)
 sink()
 
-
+    
 # ================================== Economic Contribution ==================================
 
 # --------- Tourism Export ---------
@@ -665,7 +816,7 @@ EC_exp <- ImportTS(TRED, "Summary of Tourism Expenditure by type of tourist (ANZ
 ec_end_date <- max(EC_exp$TimePeriod)
 ec_year <- year(ec_end_date)
 
-ec_title <- paste0("\\small Economic Contribution$^7$ (Year ended March ", ec_year, ")")
+ec_title <- paste0("\\small Economic Contribution$^4$ (year ending March ", ec_year, ")")
 sink("outputs/ec_title.txt")
 cat(ec_title)
 sink()
@@ -707,7 +858,7 @@ inter_exp <- EC_exp_total %>%
 EC_exp_total <- EC_exp_total %>%
   rename("Tourism market" = Class)
 
-EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{4.2cm}p{1.9cm}p{1.4cm}", 
+EC_exp_tab1 <- print(xtable(EC_exp_total, align = "lp{4.45cm}p{1.7cm}p{1.35cm}", 
                             caption = NULL, digits = 0,label = NULL, type = "latex"), 
                      floating = FALSE, 
                      hline.after = NULL,
@@ -725,7 +876,7 @@ sink("tables/EC_exp_tab1.tex")
 cat(EC_exp_tab1)
 sink()
 
-EC_comment_1 <- paste("International tourist expenditure accounted for", paste0("\\$", inter_exp), "billion or ", paste0(EC_exp_share, "\\%"), "of New Zealand total export earnings.")
+EC_comment_1 <- paste("International tourist expenditure accounted for", paste0("\\$", inter_exp), "billions or ", paste0(EC_exp_share, "\\%"), "of New Zealand total export earnings.")
 sink("outputs/EC_comment_1.txt")
 cat(EC_comment_1)
 sink()
@@ -741,23 +892,27 @@ inter_gdp1 <- EC_GDP %>%
 
 inter_gdp1 <-  round(inter_gdp1/1000, 1)
   
-inter_gdp2 <- EC_GDP %>% 
+inter_gdp2_0 <- EC_GDP %>% 
   filter(TimePeriod == max(TimePeriod) & ClassificationValue %in% c('Direct tourism value added as a percentage of total industry contribution to GDP')) %>%
   select(Value)
-  
+
+inter_gdp2 <- sprintf("%.01f", inter_gdp2_0)
+
+
 inter_gdp3 <- EC_GDP %>% 
   filter(TimePeriod == max(TimePeriod) & ClassificationValue %in% c('Indirect tourism value added')) %>%
   select(Value)
   
 inter_gdp3 <-  round(inter_gdp3/1000, 1)
 
-inter_gdp4 <- EC_GDP %>% 
+inter_gdp4_0 <- EC_GDP %>% 
   filter(TimePeriod == max(TimePeriod) & ClassificationValue %in% c('Indirect tourism value added as a percentage of total industry contribution to GDP')) %>%
   select(Value)
 
+inter_gdp4 <- sprintf("%.01f", inter_gdp4_0)
 
-EC_comment_2 <- paste0("Tourism directly contributes ", "\\$", inter_gdp1, " billion (or ", inter_gdp2, "\\%",
-                      ") to New Zealand total GDP. A further ", "\\$", inter_gdp3, " billion (or ", inter_gdp4, "\\%",
+EC_comment_2 <- paste0("Tourism directly contributes ", "\\$", inter_gdp1, " billions (or ", inter_gdp2, "\\%",
+                      ") to New Zealand total GDP. A further ", "\\$", round(inter_gdp3, 1), " billions (or ", inter_gdp4, "\\%",
                       ") is indirectly contributed. When comparing tourism to other industries, the direct contribution should be used.")
 
 sink("outputs/EC_comment_2.txt")
@@ -774,9 +929,11 @@ inter_emp1 <- EC_emp %>%
   select(Value)
 inter_emp1 <-  format(inter_emp1, big.mark = ",")
 
-inter_emp2 <- EC_emp %>% 
+inter_emp2_0 <- EC_emp %>% 
   filter(TimePeriod == max(TimePeriod) & ClassificationValue %in% c('FTE persons directly employed in tourism as a percentage of total employment in New Zealand')) %>%
   select(Value)
+
+inter_emp2 <- sprintf("%.01f", inter_emp2_0)
 
 EC_comment_3 <- paste("Tourism directly supports",inter_emp1, "full-time equivalent jobs", paste0("(", inter_emp2, "\\%"),
                       "of the total workforce in New Zealand).")
@@ -792,12 +949,12 @@ sink()
 ACCOM <- ImportTS(TRED, "Actual by Accommodation by Type by Variable (Monthly)",
                   where = paste("TimePeriod > '", qry_starting_date, "'"))
 
-ACCOM$ClassificationValue <- factor(ACCOM$ClassificationValue,
-                                    levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total'))
+# ACCOM$ClassificationValue <- factor(ACCOM$ClassificationValue,
+#                                     levels = c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total'))
 
 accom_report_end_date <- max(ACCOM$TimePeriod)
 
-accom_title <- paste0("\\small Commercial Accommodation$^3$ (Year ended ", 
+accom_title <- paste0("\\small Commercial Accommodation$^3$ (year ending ", 
                      months(accom_report_end_date), " ", year(accom_report_end_date), ")")
 sink("outputs/accom_title.txt")
 cat(accom_title)
@@ -805,8 +962,7 @@ sink()
 
 # --------- Guest Nights Summary ---------
 
-
-ACCOM_type_sum <- ACCOM %>%
+ACCOM_type_sum_0 <- ACCOM %>%
   filter(ClassificationValue %in% c('Hotels', 'Motels', 'Backpackers', 'Holiday parks', 'Total') & 
            ClassificationValue.1 %in% c('Number of guest nights')) %>%
   mutate(Year_Period = ifelse(TimePeriod > accom_report_end_date-years(1), "Current", 
@@ -814,12 +970,29 @@ ACCOM_type_sum <- ACCOM %>%
   group_by(ClassificationValue) %>%
   summarise(
      Nights = sum(Value[Year_Period == "Current"]),
-    "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%")) %>%
-  mutate(Nights = format(Nights, big.mark = ",")) %>%
-  rename('Accommodation Type' = ClassificationValue) %>%
-  clean_names()
+    "Growth (pa)" = paste0(round((Nights / sum(Value[Year_Period == "Last"]) - 1) * 100), "%"))
+
+ACCOM_type_sum_1 <- ACCOM_type_sum_0 %>%
+  filter(!ClassificationValue %in% c('Total')) %>%
+  arrange(-Nights) 
   
-Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
+ACCOM_type_sum_total <- ACCOM_type_sum_0 %>% 
+  filter(ClassificationValue %in% c('Total'))
+
+ACCOM_type_sum <- rbind(ACCOM_type_sum_1, ACCOM_type_sum_total) %>%
+  mutate(Nights = format(round(Nights/1000, 0)*1000, big.mark = ",")) %>%
+  rename('Accom_Type' = ClassificationValue) 
+
+
+ACCOM_type_list <- ACCOM_type_sum %>%
+  select(1) %>%
+  unique() %>%
+  data.frame()
+  
+ACCOM_type_sum <- ACCOM_type_sum %>%
+  clean_names()
+
+Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{4.5cm}p{1.3cm}p{1.7cm}", 
                            caption = NULL, digits = 0,label = NULL, latex.environments = ""), 
                     floating = FALSE, 
                     hline.after = NULL,
@@ -828,10 +1001,11 @@ Accom_tab1 <- print(xtable(ACCOM_type_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}",
 
 Accom_tab1 <- gsub("\\begin{tabular}","\\begin{tabular}[t]",Accom_tab1, fixed = T)
 Accom_tab1 <- gsub("}p{", "}>{\\hfill}p{", Accom_tab1, fixed = T)
-Accom_tab1 <- gsub("Accommodation Type","\\textbf{Accommodation Type}", Accom_tab1, fixed = T)
+Accom_tab1 <- gsub("Accom Type","\\textbf{Accommodation Type}", Accom_tab1, fixed = T)
 sink("tables/Accom_tab1.tex")
 cat(Accom_tab1)
 sink()
+
 
 # --------- Occupancy Rates Summary ---------
 
@@ -846,13 +1020,14 @@ ACCOM_p_sum <- ACCOM %>%
   select(2, 4, 5) %>%
   group_by(Accom_Type) %>% 
   summarise(
-    This_Month = paste0(sum(Num_of_Stay[Year_Period == "Current"]), "%"),
-    Month_Last_Yr = paste0(sum(Num_of_Stay[Year_Period == "Last"]), "%")) %>%
-  rename('Occupancy Rates' = Accom_Type) %>%
-  clean_names()
+    'This Month' = paste0(sum(Num_of_Stay[Year_Period == "Current"]), "%"),
+    'Month Last Year' = paste0(sum(Num_of_Stay[Year_Period == "Last"]), "%")) 
+
+ACCOM_p_sum_1 <- left_join(ACCOM_type_list, ACCOM_p_sum, by = "Accom_Type") %>%
+  rename('Occupancy Rates' = Accom_Type)
   
 
-Accom_tab2 <- print(xtable(ACCOM_p_sum, align = "lp{4.8cm}p{1.3cm}p{1.4cm}", 
+Accom_tab2 <- print(xtable(ACCOM_p_sum_1, align = "lp{4.5cm}p{1.3cm}p{1.7cm}", 
                            caption = NULL, digits = 0,label = NULL, type = "latex"), 
                     floating = FALSE, 
                     hline.after = NULL,
@@ -897,35 +1072,55 @@ RTE <- sqlQuery(TRED, RTE_query)
 
 rte_end_date <- max(RTE$YearEndMarch)
 
-rte_title <- paste0("\\small Regional Tourism Estimates$^6$ (Year ended March ", rte_end_date, ")")
+rte_title <- paste0("\\small Regional Tourism Estimates$^6$ (year ending March ", rte_end_date, ")")
 sink("outputs/rte_title.txt")
 cat(rte_title)
 sink()
 
-
-
 RTE_1 <- reshape(RTE, idvar = 'RTO', v.names = 'Spend', timevar = 'Type', direction = 'wide')
 RTE_1 <-data.table(RTE_1)
 
-RTE_1[RTO == "Auckland RTO", RTO := "Auckland"]
-RTE_1[RTO == "Wellington RTO", RTO := "Wellington"]
-RTE_1[RTO == "Queenstown RTO", RTO := "Queenstown"]
-RTE_1[RTO == "Waikato RTO", RTO := "Waikato"]
-RTE_1[RTO == "Northland RTO", RTO := "Northland"]
+
+RTE_Data <- RTE_1 %>%
+  mutate(RTO = ifelse(str_detect(RTO, "RTO"), substr(RTO, 1, str_length(RTO)-4), as.character(RTO))) %>%
+  mutate("Total" = (Spend.Domestic + Spend.International))
+
+RTE_Total_Spend <- RTE_Data %>%
+  select(Total) %>%
+  sum()
+
+RTE_sum <- RTE_Data %>%
+  group_by(RTO, YearEndMarch) %>%
+  summarise("International" = sum(Spend.International),
+            "Domestic" = sum(Spend.Domestic),
+            "Total_0" = sum(Total)
+            ) %>%
+  data.frame()
+
+Top_RTO <- RTE_sum %>%
+  top_n(Key_region, Total_0) %>%
+  arrange(-Total_0) %>%
+  select(RTO) %>%
+  unique()
+
+Top_RTO_list <- rbind(Top_RTO, c("Other"))
+
+RTE_sum_temp <- RTE_sum %>%
+  mutate(RTO = ifelse(RTO %in% Top_RTO$RTO, RTO, "Other")) %>%
+  group_by(RTO, YearEndMarch) %>%
+  summarise("International" = format(round(sum(International), digits = 0), big.mark = ","),
+            "Domestic" = format(round(sum(Domestic), digits = 0), big.mark = ","),
+            "Total" = format(round(sum(Total_0), digits = 0), big.mark = ","),
+            "Market Share" = percent(round(sum(Total_0)/RTE_Total_Spend, digits = 2))
+  )
 
 
+RTE_sum_final <- left_join(Top_RTO_list, RTE_sum_temp, by = "RTO") %>%
+  select(-YearEndMarch) %>%
+  rename("RTO ($millions)" = RTO)
 
-sum_spend <- sum(RTE_1$Spend.Domestic, RTE_1$Spend.International)
-RTE_sum <-RTE_1[, list ("RTO ($million)" = RTE_1$RTO, 
-#                        "YearEndMarch" = RTE_1$YearEndMarch,
-                        "International" = format(round(RTE_1$Spend.International, digits = 0),big.mark = ","),
-                        "Domestic" = format(round(RTE_1$Spend.Domestic, digits = 0),big.mark = ","),
-                        "Total" = format(round(RTE_1$Spend.Domestic+RTE_1$Spend.International, 0), big.mark = ","),
-                        "%" = percent(round((RTE_1$Spend.Domestic+RTE_1$Spend.International)/sum_spend, digits = 2)))]
 
-RTE_sum_1 <- data.table(RTE_sum[order(RTE_sum$Total, decreasing = TRUE), ])[1:Key_region]
-
-RTE_tab1 <- print(xtable(RTE_sum_1, align = "lp{2cm}p{1.5cm}p{1cm}p{0.9cm}p{1.3cm}", 
+RTE_tab1 <- print(xtable(RTE_sum_final, align = "lp{2cm}p{1.45cm}p{1cm}p{0.9cm}p{1.35cm}", 
                          caption = NULL, digits = 0,label = NULL, type = "latex"), 
                   floating = FALSE, 
                   hline.after = NULL,
@@ -934,6 +1129,7 @@ RTE_tab1 <- print(xtable(RTE_sum_1, align = "lp{2cm}p{1.5cm}p{1cm}p{0.9cm}p{1.3c
 
 RTE_tab1 <- gsub("\\begin{tabular}", "\\begin{tabular}[t]", RTE_tab1, fixed = T)
 RTE_tab1 <- gsub("}p{", "}>{\\hfill}p{", RTE_tab1, fixed = T)
+RTE_tab1 <- gsub("RTO (\\$millions)","\\textbf{RTO (\\$millions)}", RTE_tab1, fixed = T)
 sink("tables/RTE_tab1.tex")
 cat(RTE_tab1)
 sink()
@@ -957,10 +1153,13 @@ sink("outputs/Data_S_3.txt")
 cat(Data_S_3)
 sink()
 
-Data_S_4 <- paste0("$^4$New Zealand's Tourism Sector Outlook: Forecasts for ", Fcst_year, " to ", End_year, ".")
+# Data_S_4 <- paste0("$^4$New Zealand's Tourism Sector Outlook: Forecasts for ", Fcst_year, " to ", End_year, ".")
+
+Data_S_4 <- paste("$^4$Tourism Satellite Account.")
 sink("outputs/Data_S_4.txt")
 cat(Data_S_4)
 sink()
+
 
 Data_S_5 <- paste("$^5$International Travel and Migration.")
 sink("outputs/Data_S_5.txt")
@@ -972,7 +1171,12 @@ sink("outputs/Data_S_6.txt")
 cat(Data_S_6)
 sink()
 
-Data_S_7 <- paste("$^7$Tourism Satellite Account.")
+# Data_S_7 <- paste("$^7$Tourism Satellite Account.")
+# sink("outputs/Data_S_7.txt")
+# cat(Data_S_7)
+# sink()
+
+Data_S_7 <- paste0("$^7$New Zealand Tourism Forecasts ", Fcst_year, " to ", End_year, ".")
 sink("outputs/Data_S_7.txt")
 cat(Data_S_7)
 sink()
