@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 $^7$New Zealand Tourism Forecasts 2015 to 2021.
-=======
-$^7$New Zealand's Tourism Sector Outlook: Forecasts for 2015 to 2021.
->>>>>>> f6451ec7dc575d1c7baddd04fe80232a36a6db97
