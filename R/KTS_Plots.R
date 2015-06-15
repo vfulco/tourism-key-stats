@@ -127,11 +127,6 @@ SQL_qry_ive <- paste("SELECT SurveyResponseID, CORNextYr, Year, Qtr, RIGHT(Qtr, 
 ive <- sqlQuery(TRED, SQL_qry_ive)
 
 
-test <- ive %>%
-  filter(Year == 2015) %>%
-  select(Qtr_Num) %>%
-  max()
-
 Latest_date_Spend <- ifelse(max(ive$Qtr_Num[ive$Year == max(ive$Year)]) < 4, max(ive$Year)-1, max(ive$Year))
 
 
@@ -205,53 +200,35 @@ ivs_exp_plot <- ggplot(ive_sum, aes(x = Year, y = TotalVisitorSpend, color = Cou
   ggtitle(paste0("Total spend by country (year ending Dec ", Latest_date_Spend, ")", "\n(blue shaded area is forecast)"))
 
 
-# ============================ Arrival Plot ================================
-
-iv_pov_0 <- ImportTS(TRED, "Visitor arrivals by country of residence, purpose and length of stay (Monthly)")
-
-Latest_Date_Arr <- max(iv_pov_0$TimePeriod)
+# ============================ Arrival vs POV with forecats Plot ================================
 
 
-ive_arrival_POV <- iv_pov_0 %>%
-  filter(ClassificationValue.2 %in% c("TOTAL ALL LENGTHS OF STAY")) %>%
-  rename('POV' = ClassificationValue.1)
+arr_pov_with_fcst <- sqlQuery(TRED, paste0("select 
+                                 VisitorType, 
+                                 NoOfVisitors, 
+                                 Year, 
+                                 Country
+                              from vw_NZTFVisitorNumbers v,
+                                 vw_NZTFSurveyMainHeader m
+                              where v.SurveyResponseID = m.SurveyResponseID
+                                 and m.ForecastYear =",Fcst_year)) %>%
+  filter(Country == 'All') %>%
+  mutate(VisitorType = ifelse(VisitorType == "Holiday", "Holiday/Vacation", 
+                              ifelse(VisitorType == "VFR", "Visit Friends/Relatives", as.character(VisitorType))))
 
-
-ive_arrival_3 <- ive_arrival_POV %>%
-  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
-  mutate(POV = "Other") %>%
-  group_by(TimePeriod, POV) %>%
-  summarise(Value1 = sum(Value))
-
-ive_arrival_All <- ive_arrival_POV %>%
-  filter(POV == "TOTAL ALL TRAVEL PURPOSES") %>%
-  rename('POV1' = POV, 'Value2'= Value)
-
-ive_arrival_other <- left_join(ive_arrival_3, ive_arrival_All, by = "TimePeriod") %>%
-  mutate(Value = Value2 - Value1) %>%
-  select(-Value1, -Value2, -POV1)
-
-ive_arrival_POV_sum <- bind_rows(ive_arrival_POV, ive_arrival_other) %>%
-  filter(POV != "TOTAL ALL TRAVEL PURPOSES") %>%
-  select(TimePeriod, POV, Value) 
-
-ive_arr_POV_sum <- ive_arrival_POV_sum %>%
-  arrange(POV, TimePeriod) %>%
-  group_by(POV) %>%
-  mutate(Value = rollapplyr(Value, width = 12, FUN = mean, fill = NA)) %>%
-  filter(!is.na(Value)) %>% 
-  data.frame() %>%
-  arrange(TimePeriod, POV)
 
 # order countries by total spend highest to lowest in maximum forecast year
-ive_arr_POV_sum$POV <- factor(ive_arr_POV_sum$POV,
-                                  levels = rev(ive_arr_POV_sum$POV[order(ive_arr_POV_sum$Value[ive_arr_POV_sum$TimePeriod == Latest_Date_Arr])]))
+arr_pov_with_fcst$VisitorType <- factor(arr_pov_with_fcst$VisitorType,
+                              levels = rev(arr_pov_with_fcst$VisitorType[order(arr_pov_with_fcst$NoOfVisitors[arr_pov_with_fcst$Year == Fcst_year - 1])]))
 
-ivs_arrival_plot <- ggplot(ive_arr_POV_sum, aes(x = TimePeriod, y = Value/1000, color = POV)) +
+
+arr_pov_with_fcst_plot <- ggplot(arr_pov_with_fcst, aes(x = Year, y = NoOfVisitors/1000, color = VisitorType)) +
+  theme_minimal() +
+  annotate("rect", xmin = Fcst_start_Year, xmax = Fcst_End_Year, ymin = 0, ymax = Inf, fill = "lightblue") +
   geom_line() +
   theme_light(6, base_family = TheFont) +
   scale_colour_manual("Purpose\nof visit", values = tourism.cols("Alternating")) + 
-#   scale_x_continuous(breaks=pretty_breaks(n=10)) + 
+  #   scale_x_continuous(breaks=pretty_breaks(n=10)) + 
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) + 
   #scale_size("Visitors\nper year\n('000s)", label = comma) +
   scale_y_continuous("Total arrivals ('000s)\n", label = comma) +
@@ -259,23 +236,7 @@ ivs_arrival_plot <- ggplot(ive_arr_POV_sum, aes(x = TimePeriod, y = Value/1000, 
   theme(legend.key = element_blank()) + 
   theme(axis.title.x = element_blank()) +
   guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
-  ggtitle(paste0("Total arrivals by purpose of visit (month ending ", substr(months(Latest_Date_Arr), 1, 3), " ", year(Latest_Date_Arr), ")"))
- 
-
-#-------------------------- forecats vs POV
-
-# forecasts2 <- sqlQuery(TRED, paste0("select 
-#                                  VisitorType, 
-#                                  NoOfVisitors, 
-#                                     Year, 
-#                                     Country
-#                                     from vw_NZTFVisitorNumbers v,
-#                                     vw_NZTFSurveyMainHeader m
-#                                     where v.SurveyResponseID = m.SurveyResponseID
-#                                     and m.ForecastYear = 2015"))
-
-
-#-------------------------
+  ggtitle(paste0("Total arrivals by purpose of visit (year ending Dec ", Latest_date_Spend, ")", "\n(blue shaded area is forecast)"))
 
 
 #=================================== 4 TSA Plot ==============================================
@@ -386,8 +347,8 @@ grid.text("Source: International Visitor Survey(IVS) and NZIER", x = 0.25, y = 0
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp3 <- viewport(x = 0.75, y = 0.51, width = 0.4, height = 0.3)
-print(ivs_arrival_plot, vp=vp3)
-grid.text("Source: International Travel and Migration(ITM)", x = 0.7, y = 0.365, just = "left",
+print(arr_pov_with_fcst_plot, vp=vp3)
+grid.text("Source: International Travel and Migration(ITM) and NZIER", x = 0.65, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp4 <- viewport(x = 0.3, y = 0.2, width = 0.5, height = 0.3)

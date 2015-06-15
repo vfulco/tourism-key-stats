@@ -1133,12 +1133,12 @@ sink()
 
 # ==================== Data Sources ==========================
 
-Data_S_1 <- paste("$^1$International Travel and Migration - 'Business' excludes conferences.")
+Data_S_1 <- paste("$^1$International Travel and Migration. 'Business' excludes conferences.")
 sink("outputs/Data_S_1.txt")
 cat(Data_S_1)
 sink() 
 
-Data_S_2 <- paste("$^2$International Visitor Survey - figures in grey are not statistically significant. 'Business' excludes conferences.")
+Data_S_2 <- paste("$^2$International Visitor Survey. 'Business' excludes conferences.")
 sink("outputs/Data_S_2.txt")
 cat(Data_S_2)
 sink()
