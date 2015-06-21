@@ -1,0 +1,265 @@
+Product,Year,Demand_Type,Value,Unit
+Accommodation services,2011,Business and government demand,295.9836665,million
+Food and beverage serving services,2011,Business and government demand,108.6870878,million
+Air passenger transport,2011,Business and government demand,1212.915924,million
+Other passenger transport,2011,Business and government demand,479.5885599,million
+Retail sales - fuel and other automotive products ,2011,Business and government demand,366.2590676,million
+Retail sales - other ,2011,Business and government demand,0,million
+Education services,2011,Business and government demand,0,million
+Other tourism products,2011,Business and government demand,102.0978578,million
+Total tourism demand by type of tourist excluding GST,2011,Business and government demand,2565.532163,million
+GST paid on purchases by tourists,2011,Business and government demand,2.659521617,million
+Total tourism expenditure by type of tourist,2011,Business and government demand,2568.191685,million
+Accommodation services,2011,Household demand,663.9119276,million
+Food and beverage serving services,2011,Household demand,956.1647676,million
+Air passenger transport,2011,Household demand,759.7524157,million
+Other passenger transport,2011,Household demand,566.1699277,million
+Retail sales - fuel and other automotive products ,2011,Household demand,1615.22417,million
+Retail sales - other ,2011,Household demand,2920.66365,million
+Education services,2011,Household demand,34.20508688,million
+Other tourism products,2011,Household demand,1097.09271,million
+Total tourism demand by type of tourist excluding GST,2011,Household demand,8613.184656,million
+GST paid on purchases by tourists,2011,Household demand,945.4111698,million
+Total tourism expenditure by type of tourist,2011,Household demand,9558.595825,million
+Accommodation services,2011,International demand,1040.273778,million
+Food and beverage serving services,2011,International demand,1559.100889,million
+Air passenger transport,2011,International demand,1961.365792,million
+Other passenger transport,2011,International demand,1114.52389,million
+Retail sales - fuel and other automotive products ,2011,International demand,545.4715556,million
+Retail sales - other ,2011,International demand,1820.042389,million
+Education services,2011,International demand,388.7764445,million
+Other tourism products,2011,International demand,671.0769002,million
+Total tourism demand by type of tourist excluding GST,2011,International demand,9100.631637,million
+GST paid on purchases by tourists,2011,International demand,661.477212,million
+Total tourism expenditure by type of tourist,2011,International demand,9762.108849,million
+Accommodation services,2011,"Total 
+demand",2000.169372,million
+Food and beverage serving services,2011,"Total 
+demand",2623.952744,million
+Air passenger transport,2011,"Total 
+demand",3934.034131,million
+Other passenger transport,2011,"Total 
+demand",2160.282377,million
+Retail sales - fuel and other automotive products ,2011,"Total 
+demand",2526.954793,million
+Retail sales - other ,2011,"Total 
+demand",4740.706039,million
+Education services,2011,"Total 
+demand",422.9815313,million
+Other tourism products,2011,"Total 
+demand",1870.267468,million
+Total tourism demand by type of tourist excluding GST,2011,"Total 
+demand",20279.34846,million
+GST paid on purchases by tourists,2011,"Total 
+demand",1609.547903,million
+Total tourism expenditure by type of tourist,2011,"Total 
+demand",21888.89636,million
+Accommodation services,2011,Domestic demand,959.895594,million
+Food and beverage serving services,2011,Domestic demand,1064.851855,million
+Air passenger transport,2011,Domestic demand,1972.668339,million
+Other passenger transport,2011,Domestic demand,1045.758488,million
+Retail sales - fuel and other automotive products ,2011,Domestic demand,1981.483237,million
+Retail sales - other ,2011,Domestic demand,2920.66365,million
+Education services,2011,Domestic demand,34.20508688,million
+Other tourism products,2011,Domestic demand,1199.190568,million
+Total tourism demand by type of tourist excluding GST,2011,Domestic demand,11178.71682,million
+GST paid on purchases by tourists,2011,Domestic demand,948.0706914,million
+Total tourism expenditure by type of tourist,2011,Domestic demand,12126.78751,million
+Accommodation services,2012,Business and government demand,307.6711313,million
+Food and beverage serving services,2012,Business and government demand,116.4164896,million
+Air passenger transport,2012,Business and government demand,1252.236329,million
+Other passenger transport,2012,Business and government demand,487.9489752,million
+Retail sales - fuel and other automotive products ,2012,Business and government demand,433.8286513,million
+Retail sales - other ,2012,Business and government demand,0,million
+Education services,2012,Business and government demand,0,million
+Other tourism products,2012,Business and government demand,103.862819,million
+Total tourism demand by type of tourist excluding GST,2012,Business and government demand,2701.964395,million
+GST paid on purchases by tourists,2012,Business and government demand,2.830214572,million
+Total tourism expenditure by type of tourist,2012,Business and government demand,2704.79461,million
+Accommodation services,2012,Household demand,723.4055656,million
+Food and beverage serving services,2012,Household demand,1006.811757,million
+Air passenger transport,2012,Household demand,840.2861717,million
+Other passenger transport,2012,Household demand,557.5862254,million
+Retail sales - fuel and other automotive products ,2012,Household demand,1725.004966,million
+Retail sales - other ,2012,Household demand,3031.84123,million
+Education services,2012,Household demand,33.38590418,million
+Other tourism products,2012,Household demand,1156.830432,million
+Total tourism demand by type of tourist excluding GST,2012,Household demand,9075.152252,million
+GST paid on purchases by tourists,2012,Household demand,997.8272873,million
+Total tourism expenditure by type of tourist,2012,Household demand,10072.97954,million
+Accommodation services,2012,International demand,1015.458667,million
+Food and beverage serving services,2012,International demand,1561.767556,million
+Air passenger transport,2012,International demand,1936.881116,million
+Other passenger transport,2012,International demand,1130.209681,million
+Retail sales - fuel and other automotive products ,2012,International demand,556.9697778,million
+Retail sales - other ,2012,International demand,1851.665389,million
+Education services,2012,International demand,387.5814445,million
+Other tourism products,2012,International demand,678.4316755,million
+Total tourism demand by type of tourist excluding GST,2012,International demand,9118.965305,million
+GST paid on purchases by tourists,2012,International demand,662.2179851,million
+Total tourism expenditure by type of tourist,2012,International demand,9781.18329,million
+Accommodation services,2012,"Total 
+demand",2046.535364,million
+Food and beverage serving services,2012,"Total 
+demand",2684.995802,million
+Air passenger transport,2012,"Total 
+demand",4029.403616,million
+Other passenger transport,2012,"Total 
+demand",2175.744881,million
+Retail sales - fuel and other automotive products ,2012,"Total 
+demand",2715.803395,million
+Retail sales - other ,2012,"Total 
+demand",4883.506619,million
+Education services,2012,"Total 
+demand",420.9673486,million
+Other tourism products,2012,"Total 
+demand",1939.124926,million
+Total tourism demand by type of tourist excluding GST,2012,"Total 
+demand",20896.08195,million
+GST paid on purchases by tourists,2012,"Total 
+demand",1662.875487,million
+Total tourism expenditure by type of tourist,2012,"Total 
+demand",22558.95744,million
+Accommodation services,2012,Domestic demand,1031.076697,million
+Food and beverage serving services,2012,Domestic demand,1123.228247,million
+Air passenger transport,2012,Domestic demand,2092.5225,million
+Other passenger transport,2012,Domestic demand,1045.535201,million
+Retail sales - fuel and other automotive products ,2012,Domestic demand,2158.833617,million
+Retail sales - other ,2012,Domestic demand,3031.84123,million
+Education services,2012,Domestic demand,33.38590418,million
+Other tourism products,2012,Domestic demand,1260.693251,million
+Total tourism demand by type of tourist excluding GST,2012,Domestic demand,11777.11665,million
+GST paid on purchases by tourists,2012,Domestic demand,1000.657502,million
+Total tourism expenditure by type of tourist,2012,Domestic demand,12777.77415,million
+Accommodation services,2013,Business and government demand,313.3063044,million
+Food and beverage serving services,2013,Business and government demand,125.0235556,million
+Air passenger transport,2013,Business and government demand,1286.163078,million
+Other passenger transport,2013,Business and government demand,503.4136615,million
+Retail sales - fuel and other automotive products ,2013,Business and government demand,441.5161934,million
+Retail sales - other ,2013,Business and government demand,0,million
+Education services,2013,Business and government demand,0,million
+Other tourism products,2013,Business and government demand,107.4326878,million
+Total tourism demand by type of tourist excluding GST,2013,Business and government demand,2776.85548,million
+GST paid on purchases by tourists,2013,Business and government demand,3.557306528,million
+Total tourism expenditure by type of tourist,2013,Business and government demand,2780.412787,million
+Accommodation services,2013,Household demand,754.777239,million
+Food and beverage serving services,2013,Household demand,1042.709398,million
+Air passenger transport,2013,Household demand,863.8141845,million
+Other passenger transport,2013,Household demand,557.3751877,million
+Retail sales - fuel and other automotive products ,2013,Household demand,1741.533026,million
+Retail sales - other ,2013,Household demand,3076.081331,million
+Education services,2013,Household demand,35.63707606,million
+Other tourism products,2013,Household demand,1150.250084,million
+Total tourism demand by type of tourist excluding GST,2013,Household demand,9222.177525,million
+GST paid on purchases by tourists,2013,Household demand,1020.291341,million
+Total tourism expenditure by type of tourist,2013,Household demand,10242.46887,million
+Accommodation services,2013,International demand,1016.200313,million
+Food and beverage serving services,2013,International demand,1530.816543,million
+Air passenger transport,2013,International demand,1990.333786,million
+Other passenger transport,2013,International demand,1111.295078,million
+Retail sales - fuel and other automotive products ,2013,International demand,507.048,million
+Retail sales - other ,2013,International demand,1738.566389,million
+Education services,2013,International demand,405.2226667,million
+Other tourism products,2013,International demand,657.9255403,million
+Total tourism demand by type of tourist excluding GST,2013,International demand,8957.408315,million
+GST paid on purchases by tourists,2013,International demand,644.5511269,million
+Total tourism expenditure by type of tourist,2013,International demand,9601.959441,million
+Accommodation services,2013,"Total 
+demand",2084.283856,million
+Food and beverage serving services,2013,"Total 
+demand",2698.549496,million
+Air passenger transport,2013,"Total 
+demand",4140.311048,million
+Other passenger transport,2013,"Total 
+demand",2172.083927,million
+Retail sales - fuel and other automotive products ,2013,"Total 
+demand",2690.097219,million
+Retail sales - other ,2013,"Total 
+demand",4814.64772,million
+Education services,2013,"Total 
+demand",440.8597427,million
+Other tourism products,2013,"Total 
+demand",1915.608312,million
+Total tourism demand by type of tourist excluding GST,2013,"Total 
+demand",20956.44132,million
+GST paid on purchases by tourists,2013,"Total 
+demand",1668.399774,million
+Total tourism expenditure by type of tourist,2013,"Total 
+demand",22624.84109,million
+Accommodation services,2013,Domestic demand,1068.083543,million
+Food and beverage serving services,2013,Domestic demand,1167.732953,million
+Air passenger transport,2013,Domestic demand,2149.977262,million
+Other passenger transport,2013,Domestic demand,1060.788849,million
+Retail sales - fuel and other automotive products ,2013,Domestic demand,2183.049219,million
+Retail sales - other ,2013,Domestic demand,3076.081331,million
+Education services,2013,Domestic demand,35.63707606,million
+Other tourism products,2013,Domestic demand,1257.682771,million
+Total tourism demand by type of tourist excluding GST,2013,Domestic demand,11999.03301,million
+GST paid on purchases by tourists,2013,Domestic demand,1023.848647,million
+Total tourism expenditure by type of tourist,2013,Domestic demand,13022.88165,million
+Accommodation services,2014,Business and government demand,314.4717021,million
+Food and beverage serving services,2014,Business and government demand,129.1407581,million
+Air passenger transport,2014,Business and government demand,1309.61133,million
+Other passenger transport,2014,Business and government demand,516.072426,million
+Retail sales - fuel and other automotive products ,2014,Business and government demand,448.0730253,million
+Retail sales - other ,2014,Business and government demand,0,million
+Education services,2014,Business and government demand,0,million
+Other tourism products,2014,Business and government demand,103.6946558,million
+Total tourism demand by type of tourist excluding GST,2014,Business and government demand,2821.063897,million
+GST paid on purchases by tourists,2014,Business and government demand,3.359137443,million
+Total tourism expenditure by type of tourist,2014,Business and government demand,2824.423035,million
+Accommodation services,2014,Household demand,769.6087958,million
+Food and beverage serving services,2014,Household demand,1065.843461,million
+Air passenger transport,2014,Household demand,903.549637,million
+Other passenger transport,2014,Household demand,575.6549465,million
+Retail sales - fuel and other automotive products ,2014,Household demand,1842.194472,million
+Retail sales - other ,2014,Household demand,3158.570689,million
+Education services,2014,Household demand,36.58300377,million
+Other tourism products,2014,Household demand,1210.893969,million
+Total tourism demand by type of tourist excluding GST,2014,Household demand,9562.898975,million
+GST paid on purchases by tourists,2014,Household demand,1054.463518,million
+Total tourism expenditure by type of tourist,2014,Household demand,10617.36249,million
+Accommodation services,2014,International demand,1089.328463,million
+Food and beverage serving services,2014,International demand,1644.154371,million
+Air passenger transport,2014,International demand,2008.674859,million
+Other passenger transport,2014,International demand,1214.20548,million
+Retail sales - fuel and other automotive products ,2014,International demand,597.1496209,million
+Retail sales - other ,2014,International demand,1910.135227,million
+Education services,2014,International demand,444.9137306,million
+Other tourism products,2014,International demand,704.2737446,million
+Total tourism demand by type of tourist excluding GST,2014,International demand,9612.835496,million
+GST paid on purchases by tourists,2014,International demand,698.4264867,million
+Total tourism expenditure by type of tourist,2014,International demand,10311.26198,million
+Accommodation services,2014,"Total 
+demand",2173.408961,million
+Food and beverage serving services,2014,"Total 
+demand",2839.13859,million
+Air passenger transport,2014,"Total 
+demand",4221.835826,million
+Other passenger transport,2014,"Total 
+demand",2305.932852,million
+Retail sales - fuel and other automotive products ,2014,"Total 
+demand",2887.417119,million
+Retail sales - other ,2014,"Total 
+demand",5068.705917,million
+Education services,2014,"Total 
+demand",481.4967344,million
+Other tourism products,2014,"Total 
+demand",2018.86237,million
+Total tourism demand by type of tourist excluding GST,2014,"Total 
+demand",21996.79837,million
+GST paid on purchases by tourists,2014,"Total 
+demand",1756.249142,million
+Total tourism expenditure by type of tourist,2014,"Total 
+demand",23753.04751,million
+Accommodation services,2014,Domestic demand,1084.080498,million
+Food and beverage serving services,2014,Domestic demand,1194.984219,million
+Air passenger transport,2014,Domestic demand,2213.160967,million
+Other passenger transport,2014,Domestic demand,1091.727373,million
+Retail sales - fuel and other automotive products ,2014,Domestic demand,2290.267498,million
+Retail sales - other ,2014,Domestic demand,3158.570689,million
+Education services,2014,Domestic demand,36.58300377,million
+Other tourism products,2014,Domestic demand,1314.588625,million
+Total tourism demand by type of tourist excluding GST,2014,Domestic demand,12383.96287,million
+GST paid on purchases by tourists,2014,Domestic demand,1057.822655,million
+Total tourism expenditure by type of tourist,2014,Domestic demand,13441.78553,million

@@ -1133,38 +1133,38 @@ sink()
 
 # ==================== Data Sources ==========================
 
-Data_S_1 <- paste("$^1$International Travel and Migration. 'Business' excludes conferences.")
+Data_S_1 <- paste("$^1$Statistics New Zealand: International Travel and Migration. 'Business' excludes conferences.")
 sink("outputs/Data_S_1.txt")
 cat(Data_S_1)
 sink() 
 
-Data_S_2 <- paste("$^2$International Visitor Survey. 'Business' excludes conferences.")
+Data_S_2 <- paste("$^2$Statistics New Zealand: International Visitor Survey. 'Business' excludes conferences.")
 sink("outputs/Data_S_2.txt")
 cat(Data_S_2)
 sink()
 
-Data_S_3 <- paste("$^3$Accommodation Survey.")
+Data_S_3 <- paste("$^3$Statistics New Zealand: Accommodation Survey.")
 sink("outputs/Data_S_3.txt")
 cat(Data_S_3)
 sink()
 
-Data_S_4 <- paste("$^4$Tourism Satellite Account.")
+Data_S_4 <- paste("$^4$Statistics New Zealand: Tourism Satellite Account.")
 sink("outputs/Data_S_4.txt")
 cat(Data_S_4)
 sink()
 
 
-Data_S_5 <- paste("$^5$International Travel and Migration.")
+Data_S_5 <- paste("$^5$Statistics New Zealand: International Travel and Migration.")
 sink("outputs/Data_S_5.txt")
 cat(Data_S_5)
 sink()
 
-Data_S_6 <- paste("$^6$Regional Tourism Estimates (RTO = Regional Tourism Organisation).")
+Data_S_6 <- paste("$^6$Statistics New Zealand: Regional Tourism Estimates (RTO = Regional Tourism Organisation).")
 sink("outputs/Data_S_6.txt")
 cat(Data_S_6)
 sink()
 
-Data_S_7 <- paste0("$^7$New Zealand Tourism Forecasts ", Fcst_year, " to ", End_year, ".")
+Data_S_7 <- paste0("$^7$MBIE and NZIER: New Zealand Tourism Forecasts ", Fcst_year, " to ", End_year, ".")
 sink("outputs/Data_S_7.txt")
 cat(Data_S_7)
 sink()
