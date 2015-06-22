@@ -411,28 +411,32 @@ accom_plot <- ggplot(Guest_nights_Monthly_ra, aes(x = TimePeriod, y = Guest_Nigh
 
 #===================== 6 Place on page===========================
 
+# paste0("$^7$MBIE: New Zealand Tourism Forecasts ", Fcst_year, " to ", End_year, ".")
+
+
+
 
 CairoPDF("figures/KTS_Page2_Plot.pdf", 7, 10, bg = "transparent")
 grid.newpage()
 
 vp1 <- viewport(x = 0.45, y = 0.81, width = 0.7, height = 0.6)
 print(RTEMap, vp = vp1)
-grid.text("Source: Statistics New Zealand - Regional Tourism Estimates", x = 0.65, y = 0.67, just = "left",
+grid.text("Source: MBIE - Regional Tourism Estimates", x = 0.65, y = 0.67, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp2 <- viewport(x = 0.3, y= 0.51, width = 0.55, height = 0.3)
 print(ivs_exp_plot, vp = vp2)
-grid.text("Source: Statistics New Zealand - International Visitor Survey, \nMBIE and NZIER - Tourism Forecasts", x = 0.15, y = 0.365, just = "left",
+grid.text(paste0("Source: MBIE - International Visitor Survey, \nMBIE - New Zealand Tourism Forecasts ", Fcst_year, " to ", Fcst_End_Year), x = 0.2, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp3 <- viewport(x = 0.75, y = 0.51, width = 0.4, height = 0.3)
 print(arr_pov_with_fcst_plot, vp=vp3)
-grid.text("Source: Statistics New Zealand - International Travel and Migration,\nMBIE and NZIER - Tourism Forecasts", x = 0.6, y = 0.365, just = "left",
+grid.text(paste0("Source: Statistics New Zealand - International Travel and Migration, \nMBIE - New Zealand Tourism Forecasts ", Fcst_year, " to ", Fcst_End_Year), x = 0.6, y = 0.365, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp4 <- viewport(x = 0.3, y = 0.2, width = 0.5, height = 0.3)
 print(TSAPlot, vp = vp4)
-grid.text("Source: Statistics New Zealand - Tourism Satellite Account", x = 0.15, y = 0.05, just = "left",
+grid.text("Source: Statistics New Zealand - Tourism Satellite Account", x = 0.2, y = 0.05, just = "left",
           gp = gpar(fontfamily = TheFont, fontface = "italic", cex = 0.5))
 
 vp5 <- viewport(x = 0.75, y = 0.2, width = 0.45, height = 0.3)
