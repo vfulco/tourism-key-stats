@@ -260,13 +260,14 @@ EC_exp_sum_plot <- EC_exp_plot %>%
 Year_TSA <- max(EC_exp_sum_plot$Year)
 
 # wrap product levels so plot is legible
-EC_exp_sum_plot$Product = str_wrap(EC_exp_sum_plot$Product, width = 20)
+# Note, this preserves an annoying trailing blank for the 'retail sales - fuel\nand other...', so ensure retained in factor level ordering, below.
+EC_exp_sum_plot$Product = wrap(EC_exp_sum_plot$Product, n = 20)
 
 # force Product factor level to align with published TSA convention
 EC_exp_sum_plot$Product <- factor(EC_exp_sum_plot$Product, levels = c("Other tourism\nproducts",
                                                                       "Education services",
-                                                                      "Retail sales -\nother",
-                                                                      "Retail sales - fuel\nand other\nautomotive products",
+                                                                      "Retail sales - other",
+                                                                      "Retail sales - fuel\nand other automotive\nproducts ",
                                                                       "Other passenger\ntransport",
                                                                       "Air passenger\ntransport",
                                                                       "Food and beverage\nserving services",
@@ -314,14 +315,15 @@ TSAPlot <- EC_exp_sum_plot %>%
 # 
 # Year_TSA <- max(EC_exp_plot$Year)
 # 
-# # wrap product levels so plot is legible
-# EC_exp_sum_plot$Product = str_wrap(EC_exp_sum_plot$Product, width = 20)
+# wrap product levels so plot is legible
+# Note, this preserves an annoying trailing blank for the 'retail sales - fuel\nand other...', so ensure retained in factor level ordering, below.
+# EC_exp_sum_plot$Product = wrap(EC_exp_sum_plot$Product, n = 20)
 # 
 # # force Product factor level to align with published TSA convention
 # EC_exp_sum_plot$Product <- factor(EC_exp_sum_plot$Product, levels = c("Other tourism\nproducts",
 #                                                                       "Education services",
-#                                                                       "Retail sales -\nother",
-#                                                                       "Retail sales - fuel\nand other\nautomotive products",
+#                                                                       "Retail sales - other",
+#                                                                       "Retail sales - fuel\nand other automotive\nproducts ",
 #                                                                       "Other passenger\ntransport",
 #                                                                       "Air passenger\ntransport",
 #                                                                       "Food and beverage\nserving services",
