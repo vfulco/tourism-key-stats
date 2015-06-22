@@ -19,9 +19,9 @@
 ## Document history:  
 ##    Created by George Fan on 20 April 2015
 ##     
-##    Reviewed by 
-##       1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, removed redundant blanks, reordered source footnotes to reflect page order.
-##       2) 
+## Reviewed by 
+##  1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, removed redundant blanks, reordered source footnotes to reflect page order.
+##  2)  Pete McMillen, 22 June 2015 - final review of final changes, confirmed OK
 ##
 ## Note: 
 ##

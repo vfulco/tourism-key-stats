@@ -17,9 +17,9 @@
 ## Document history:  
 ##    Created by George Fan on 29 April 2015
 ##     
-##    Reviewed by 
-##       1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, specified legend titles, $ format relevant y-axes.
-##       2) 
+## Reviewed by 
+##  1)  Pete McMillen, 11 May 2015 - corrected grammar/typos, specified legend titles, $ format relevant y-axes.
+##  2)  Pete McMillen, 22 June 2015 - final review of final changes, confirmed OK
 ##
 ## Note: For TSA plot, given its latest date is not available in TRED, Manual Option has been deployed. Once the data is available in TRED, 
 ##       this option should be switched to the Automatic Option, which is currently commented out.
@@ -259,7 +259,18 @@ EC_exp_sum_plot <- EC_exp_plot %>%
   
 Year_TSA <- max(EC_exp_sum_plot$Year)
 
+# wrap product levels so plot is legible
 EC_exp_sum_plot$Product = str_wrap(EC_exp_sum_plot$Product, width = 20)
+
+# force Product factor level to align with published TSA convention
+EC_exp_sum_plot$Product <- factor(EC_exp_sum_plot$Product, levels = c("Other tourism\nproducts",
+                                                                      "Education services",
+                                                                      "Retail sales -\nother",
+                                                                      "Retail sales - fuel\nand other\nautomotive products",
+                                                                      "Other passenger\ntransport",
+                                                                      "Air passenger\ntransport",
+                                                                      "Food and beverage\nserving services",
+                                                                      "Accommodation\nservices"))
 
 TSAPlot <- EC_exp_sum_plot %>%
   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
@@ -303,7 +314,18 @@ TSAPlot <- EC_exp_sum_plot %>%
 # 
 # Year_TSA <- max(EC_exp_plot$Year)
 # 
-# EC_exp_plot$Product = str_wrap(EC_exp_plot$Product, width = 20)
+# # wrap product levels so plot is legible
+# EC_exp_sum_plot$Product = str_wrap(EC_exp_sum_plot$Product, width = 20)
+# 
+# # force Product factor level to align with published TSA convention
+# EC_exp_sum_plot$Product <- factor(EC_exp_sum_plot$Product, levels = c("Other tourism\nproducts",
+#                                                                       "Education services",
+#                                                                       "Retail sales -\nother",
+#                                                                       "Retail sales - fuel\nand other\nautomotive products",
+#                                                                       "Other passenger\ntransport",
+#                                                                       "Air passenger\ntransport",
+#                                                                       "Food and beverage\nserving services",
+#                                                                       "Accommodation\nservices"))
 # 
 # TSAPlot <- EC_exp_plot %>%
 #   ggplot(aes(x = Demand_Type, weight = Expenditure, fill = Product), size = 1) +
