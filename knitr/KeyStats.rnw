@@ -200,9 +200,9 @@
 \cellcolor{lightgray}{\textbf{\input{../outputs/fcst_title.txt} }} 
 &
 &
-% {\small Data Sources}\\
-\cellcolor{lightgray}{\textbf{\small Data Sources}} \\
-% \textbf{\small Data Sources}
+% {\small Data sources}\\
+\cellcolor{lightgray}{\textbf{\small Data sources}} \\
+% \textbf{\small Data sources}
 \input{../outputs/line_space.txt}
 \
 

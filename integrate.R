@@ -17,9 +17,10 @@ source("R/KTS_Plots.r")
 #==============compile the latex document=============
 setwd("knitr")
 
-knit2pdf(input="KeyStats.rnw", 
+knit2pdf(input = "KeyStats.rnw", 
+         output = paste0("KeyStats_", today(), ".tex"),
          compiler = 'xelatex', 
-         quiet=TRUE, 
+         quiet = TRUE, 
          clean = TRUE)
 
 setwd(project_dir)

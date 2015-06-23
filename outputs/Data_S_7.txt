@@ -1,1 +1,2 @@
-$^7$MBIE: New Zealand Tourism Forecasts 2015 to 2021.
+$^7$MBIE: New Zealand Tourism Forecasts 2015 to 2021. Expenditure forecasts
+                    based on International Visitor Survey data.
