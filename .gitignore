@@ -8,3 +8,4 @@
 *[Tt]humbs.db
 *.html
 knitr/KeyStats.log
+outputs/*.txt
