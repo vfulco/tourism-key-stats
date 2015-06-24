@@ -18,7 +18,6 @@ source("R/KTS_Plots.r")
 setwd("knitr")
 
 knit2pdf(input = "KeyStats.rnw", 
-         output = paste0("KeyStats_", today(), ".tex"),
          compiler = 'xelatex', 
          quiet = TRUE, 
          clean = TRUE)
